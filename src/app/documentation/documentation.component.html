@@ -1,0 +1,94 @@
+<div>
+    <p>
+        <b>1.6 Requirements</b><br>
+        The requirements of this project are to develop software to run a web-based machine learning toolkit that
+        includes:<br>
+        • a front-end instance that provides the user interface including a map-application for choosing the area (and
+        date) of interest, an interface for uploading training data (e.g., labeled polygons), and the option to choose
+        the machine learning algorithm and define the hyperparameters<br>
+        • a back-end instance that performs the actual computations, i.e., the training of the defined machine learning
+        algorithm, the prediction in the area of interest, the computation of the AOA, and the definition of new
+        sampling locations<br>
+        The front-end visualizes and provides access to the results of the prediction, the AOA and locations in which
+        collection of additional training data is recommended. The back-end instance with some exemplary data and the
+        front-end instance should be running at time of project delivery; one or multiple Dockerfile(s) that, when built
+        and started, run(s) an instance of the service shall be made available using trimmed-down data sets.<br>
+        <br>
+        <b>1.6.1 Functional requirements</b><br>
+        The following functional requirements extend and clarify the above overall require- ments, but they may not
+        cover all features needed to realise the project goals.<br>
+        Data ingest<br>
+        • support loading training data via direct file upload to the server<br>
+        • support at least file formats GeoJSON and GeoPackage<br>
+        • the server automatically discovers and processes (accesses, or downloads) the satellite imagery from other
+        sources as required for model training and pre- diction based on the locations and extents of the area of
+        interest and training data<br>
+        • example satellite data for demonstration purposes is being kept available on the server<br>
+        <br>
+        <b>Processes</b><br>
+        • implement at least one standard machine learning algorithm for LULC classifi- cation supporting training and
+        prediction on Sentinel-2 satellite image data<br>
+        • implement the computation of the AOA<br>
+        • implement the automatic calculation of suggested sampling locations<br>
+        • allow the user to specify the target area (rectangular)<br>
+        • BONUS feature: enable the choice between different established machine learn- ing algorithms and/or the
+        definition of hyperparameters controlling the be- haviour of an algorithm<br>
+        • BONUS feature: allow the user to specify a lower resolution to compute predic- tions and AOA on than the
+        native resolution of the satellite imagery used<br>
+        • BONUS feature: allow the user to specify the target area by means of polygon data (e.g. by file upload, or
+        on-screen digitizing)<br>
+        <br>
+        Visualization<br>
+        • visualize the training locations (if applicable) and area of interest on a map<br>
+        • visualize the resulting prediction on a map<br>
+        • visualize the AOA on a map<br>
+        • visualize locations where additional training data collection is recommended<br>
+        <b>Data Download</b><br>
+        • enable the download of the prediction map in a standard raster data format<br>
+        • enable the download of the AOA in a standard raster data format<br>
+        • enable the download of recommended locations for training data collection in a standard vector data format<br>
+        • enable download of the trained model (if applicable) Deployment<br>
+        <br>
+        <b>1.6.2 Non-functional requirements</b><br>
+        Docker/docker-compose configurations are used for packaging and deployment
+        the developed back-end can be deployed to at least one cloud provider, chosen in coordination with the customer
+        Non-functional requirements<br>
+        Training and Demonstration For training and demonstration purposes, a one- click set-up to deploy a test
+        scenario must be provided. The scenario must include a data set and process that allows a quick evaluation,
+        i.e., processing times less than 20 seconds. These small datasets may be included within the software
+        containers. The contractor provides a test script or test suite to execute demo process and validate its
+        response with a single command or click.<br>
+        <br>
+        <b>Maintainability</b><br>
+        The developed software must be published as open source software under an OSI-approved license
+        according to the license requirements. The contractor must ensure license compatibility of other used or
+        extended software.<br>
+        An established build and packaging workflow as well as dependency management must be applied, e.g., R packages
+        for R, npm for JavaScript, or PyPI packages for Python. If more than one programming language is used in a
+        component then different build and packaging steps must be scripted with a Makefile.<br>
+        Documentation on building, installing, testing, and configuring the system must be provided in
+        Markdown-formatted documentation files using the appropriate markup for lists, links, etc. The documentation
+        must be rendered to an online website.<br>
+        A common test software, e.g., testthat for R, must be used to realise unit and integration tests for all
+        requirements.<br>
+        <br>
+        <b>User friendliness </b><br>
+        The system must support intuitive use to the extent that the targeted group can use its
+        features without further documentation. Common practices for web-based user interfaces and interaction paradigms
+        should be applied. The user interface and visualisation must be suitable for color-blind users. The system must
+        be tested and fully functional with browsers representing at least 80% of current users.
+        <br>
+        <b>Performance</b><br>
+        In general, a user interaction must result in a display change within 1 second to allow users to
+        stay focused on their current train of thought; complex page contents may be loaded asynchronously; interactive
+        visualisations must react within 0.1 seconds to give a user the impression of direct manipulation.4
+        <br>
+        <b>Deployment</b><br>
+        Docker must be used to ensure easy deployment. Used images must be based on Dockerfiles published as
+        part of the source code, and all base images should be hosted on Docker Hub (or comparable).
+        <br>
+        <b>Project management</b><br>
+        The customer must be given access to the contractor’s on- line task management to observe the
+        progress.
+    </p>
+</div>

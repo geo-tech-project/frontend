@@ -1,1 +1,28 @@
-/* You can add global styles to this file, and also import other style files */
+@import "~node_modules/bulma/bulma";
+
+.navbar {
+  min-height: 5rem;
+}
+
+.footer {
+  padding: 2rem 1.5rem 2rem;
+  background-color: #363636;
+}
+
+// .hero {
+//   background-color: #b3ffb3;
+// }
+
+a,
+a:active,
+a:visited {
+  color: white;
+}
+
+a:hover {
+  color: #b3ffb3;
+}
+
+#map {
+  height: 400px;
+}

@@ -20,16 +20,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'geosoft2-project'`, () => {
+  it(`should have as title 'geosoft2-project-frontend'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('geosoft2-project');
+    expect(app.title).toEqual('geosoft2-project-frontend');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('.content span').textContent).toContain('geosoft2-project app is running!');
+    expect(compiled.querySelector('.content span').textContent).toContain('geosoft2-project-frontend app is running!');
   });
 });
