@@ -9,9 +9,13 @@
   background-color: #363636;
 }
 
-// .hero {
-//   background-color: #b3ffb3;
-// }
+.column {
+  display: flex;
+}
+
+.navbar {
+  z-index: 9999 !important;
+}
 
 a,
 a:active,
@@ -26,3 +30,6 @@ a:hover {
 #map {
   height: 400px;
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

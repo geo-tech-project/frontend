@@ -47,7 +47,7 @@ import { Component, OnInit } from '@angular/core';
           </div>
           <div class="navbar-end">
             <span class="navbar-item">
-              <a href="https://github.com/Geosoft2-WiSe21-22" target="_blank">
+              <a href="https://github.com/geo-tech-project" target="_blank">
                 <span class="icon">
                   <i class="fa fa-code"></i>
                 </span>
