@@ -5,12 +5,11 @@ import {
   FormBuilder,
   FormControl,
   FormGroup,
-  ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { FileUploader } from 'ng2-file-upload';
-import { ToastrService } from 'ngx-toastr';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-map',
@@ -21,17 +20,17 @@ export class MapComponent implements AfterViewInit {
   submitForm: FormGroup;
   currentFileName = '';
   formSubmitted = false;
+  APIURL = environment.api_url;
   data;
 
   public uploader: FileUploader = new FileUploader({
-    url: 'http://localhost:3000/upload',
+    url: this.APIURL + '/upload',
     itemAlias: 'file',
   });
 
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
-    private toastr: ToastrService
   ) {}
 
   ngOnInit() {
@@ -49,8 +48,6 @@ export class MapComponent implements AfterViewInit {
     };
 
     this.uploader.onCompleteItem = (item: any, status: any) => {
-      console.log('Uploaded File Details:', item);
-      this.toastr.success('File successfully uploaded!');
       //generate json
       var jsonData = {
         topleftlat: this.submitForm.value.aoi[0][0].lat,
@@ -67,7 +64,7 @@ export class MapComponent implements AfterViewInit {
         filename: item._file.name,
       };
       // send POST to start calculations
-      this.http.post('http://localhost:3000/start', jsonData).subscribe({
+      this.http.post(this.APIURL + '/start', jsonData).subscribe({
         next: (data) => {
           console.log(data);
           this.data = data;
@@ -86,7 +83,7 @@ export class MapComponent implements AfterViewInit {
     this.map = L.map('map', {
       center: [51.9606649, 7.6261347],
       zoom: 12,
-      zoomControl: false,
+      zoomControl: false
     });
 
     // position zoom controls bottom right
@@ -173,7 +170,6 @@ export class MapComponent implements AfterViewInit {
   onSubmit() {
     this.formSubmitted = true;
     if (this.submitForm.valid) {
-      document.getElementsByClassName('modal')[0].classList.add('is-active');
       this.uploader.uploadAll();
     } else {
       console.log('invalid');
@@ -181,7 +177,7 @@ export class MapComponent implements AfterViewInit {
   }
 
   onDemoButton() {
-    document.getElementsByClassName('modal')[0].classList.add('is-active');
+    alert('Demo button clicked')
   }
 
   ngAfterViewInit(): void {

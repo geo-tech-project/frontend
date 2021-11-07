@@ -1,19 +1,38 @@
 <div class="hero is-fullheight-with-navbar">
     <section class="section">
-        <div class="container">
-            <!-- instructions // how to use this app -->
-            <section class="section">
-                <div class="notification is-primary">Hier könnte eine Gebrauchsanweisung stehen</div>
-            </section>
+        <div class="container is-fluid">
+            <div class="columns is-centered">
+                <div class="column is-three-quarters">
+                    <!-- instructions // how to use this app -->
+                    <div class="notification is-primary is-fullwidth has-text-centered">
+                        Lorem ipsum dolor sit amet, consetetur sadipscing
+                        elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
+                        voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no
+                        sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
+                        sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
+                        erat, sed diam voluptua. At vero eos et accusam et</div>
+                </div>
+                <!-- run demo column -->
+                <div class="column">
+                    <div class="notification is-link is-light has-text-centered">
+                        <label class="label">Click here to run the demo</label>
+                        <button class="button is-large" (click)="onDemoButton()">
+                            <span class="icon">
+                                <i class="fa fa-play fa-lg"></i>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
             <!-- map -->
-            <section class="section">
+            <div class="notification is-white">
                 <div id="map"></div>
                 <!-- message if invalid input -->
                 <span class="has-text-danger" *ngIf="formSubmitted && submitForm.controls.aoi.errors?.required">Please
                     select the area of interest</span>
-            </section>
+            </div>
             <!-- popup if data is submitted and calculation is going on -->
-            <div class="modal">
+            <div class="modal is-active" *ngIf="this.data">
                 <div class="modal-background"></div>
                 <div class="modal-content">
                     <pre>{{data | json}}</pre>
@@ -23,30 +42,29 @@
             <!-- section below map -->
             <section class="section">
                 <form [formGroup]="submitForm" (ngSubmit)="onSubmit()">
-                    <div class="columns">
+                    <div class="columns is-centered">
                         <!-- select column -->
                         <div class="column">
-                            <div class="notification is-warning is-light">
+                            <div class="notification is-success is-light has-text-centered">
+                                <label class="label" for="option">Do you have a trained model or just some training
+                                    data?</label>
                                 <div class="control">
                                     <label class="radio">
-                                        <input type="radio" [value]="1" name="option" formControlName="option">
-                                        Option1
+                                        <input type="radio" [value]="'model'" name="option" formControlName="option">
+                                        Trained model
                                     </label>
                                     <label class="radio">
-                                        <input type="radio" [value]="2" name="option" formControlName="option">
-                                        Option2
+                                        <input type="radio" [value]="'data'" name="option" formControlName="option">
+                                        Training data
                                     </label>
+                                    <br>
                                     <!-- message if invalid input -->
                                     <span class="has-text-danger"
                                         *ngIf="formSubmitted && submitForm.controls.option.errors?.required">Please
                                         select a option</span>
                                 </div>
-                            </div>
-                        </div>
-                        <!-- upload column -->
-                        <div class="column">
-                            <div class="notification is-success is-light">
-                                <div class="file has-name is-boxed">
+                                <!-- upload file -->
+                                <div class="file has-name is-boxed is-centered" *ngIf="this.submitForm.value.option">
                                     <label class="file-label">
                                         <input class="file-input" type="file" (change)="fileSelected($event)"
                                             name="file" ng2FileSelect [uploader]="uploader"
@@ -72,45 +90,33 @@
                         </div>
                         <!-- datepicker column -->
                         <div class="column">
-                            <div class="notification is-warning is-light">
-                                <div>
-                                    <mat-form-field appearance="fill">
-                                        <mat-label>Enter a date range</mat-label>
-                                        <mat-date-range-input [rangePicker]="picker">
-                                            <input matStartDate placeholder="Start date" formControlName="startDate">
-                                            <input matEndDate placeholder="End date" formControlName="endDate">
-                                        </mat-date-range-input>
-                                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                                        <mat-date-range-picker #picker></mat-date-range-picker>
-                                    </mat-form-field>
-                                    <!-- message if invalid input -->
-                                    <span class="has-text-danger"
-                                        *ngIf="(formSubmitted && submitForm.controls.startDate.errors?.required) || (formSubmitted && submitForm.controls.endDate.errors?.required)">Please
-                                        select a valid range</span>
-                                </div>
+                            <div class="notification is-warning is-light has-text-centered">
+                                <label class="label">
+                                    Enter a date for the satelite images:
+                                </label>
+                                <mat-form-field appearance="fill">
+                                    <mat-label>MM/DD/YYYY - MM/DD/YYYY</mat-label>
+                                    <mat-date-range-input [rangePicker]="picker">
+                                        <input matStartDate placeholder="Start date" formControlName="startDate">
+                                        <input matEndDate placeholder="End date" formControlName="endDate">
+                                    </mat-date-range-input>
+                                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                    <mat-date-range-picker touchUi #picker></mat-date-range-picker>
+                                </mat-form-field>
+                                <br>
+                                <!-- message if invalid input -->
+                                <span class="has-text-danger"
+                                    *ngIf="(formSubmitted && submitForm.controls.startDate.errors?.required) || (formSubmitted && submitForm.controls.endDate.errors?.required)">Please
+                                    select a valid range</span>
                             </div>
                         </div>
                         <div class="column">
-                            <div class="notification is-info is-light">
-                                <button class="button is-large" (click)="onSubmit()">
-                                    <span class="icon">
-                                        <i class="fa fa-play fa-lg"></i>
-                                    </span>
-                                    <p>Calculate AOA</p>
-                                </button>
+                            <div class="notification is-info is-light has-text-centered">
+                                <label class="label">Click the Logo to run the calculations</label>
+                                <img src="/assets/logo.png" alt="Logo" (click)="onSubmit()">
                             </div>
                         </div>
-                        <!-- run demo column -->
-                        <div class="column">
-                            <div class="notification is-link is-light">
-                                <button class="button is-large" (click)="onDemoButton()">
-                                    <span class="icon">
-                                        <i class="fa fa-play fa-lg"></i>
-                                    </span>
-                                    <p>Run Demo</p>
-                                </button>
-                            </div>
-                        </div>
+
                     </div>
                 </form>
             </section>
