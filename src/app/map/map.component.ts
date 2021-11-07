@@ -1,9 +1,16 @@
 import { Component, AfterViewInit } from '@angular/core';
 import * as L from 'leaflet';
 import { NgModule } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { BrowserModule } from '@angular/platform-browser';
-import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+import { FileUploader } from 'ng2-file-upload';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-map',
@@ -11,14 +18,66 @@ import { MatDatepickerInputEvent } from '@angular/material/datepicker';
   styleUrls: ['./map.component.scss'],
 })
 export class MapComponent implements AfterViewInit {
+  submitForm: FormGroup;
   currentFileName = '';
+  formSubmitted = false;
+  data;
 
-  constructor() {}
-
-  userForm = new FormGroup({
-    name: new FormControl(),
-    age: new FormControl('20'),
+  public uploader: FileUploader = new FileUploader({
+    url: 'http://localhost:3000/upload',
+    itemAlias: 'file',
   });
+
+  constructor(
+    private fb: FormBuilder,
+    private http: HttpClient,
+    private toastr: ToastrService
+  ) {}
+
+  ngOnInit() {
+    this.submitForm = new FormGroup({
+      aoi: new FormControl(null, [Validators.required]),
+      option: new FormControl(null, [Validators.required]),
+      file: new FormControl(null, [Validators.required]),
+      startDate: new FormControl(null, [Validators.required]),
+      endDate: new FormControl(null, [Validators.required]),
+    });
+
+    this.uploader.onAfterAddingFile = (file) => {
+      console.log(file);
+      file.withCredentials = false;
+    };
+
+    this.uploader.onCompleteItem = (item: any, status: any) => {
+      console.log('Uploaded File Details:', item);
+      this.toastr.success('File successfully uploaded!');
+      //generate json
+      var jsonData = {
+        topleftlat: this.submitForm.value.aoi[0][0].lat,
+        topleftlng: this.submitForm.value.aoi[0][0].lng,
+        bottomleftlat: this.submitForm.value.aoi[0][1].lat,
+        bottomleftlng: this.submitForm.value.aoi[0][1].lng,
+        bottomrightlat: this.submitForm.value.aoi[0][2].lat,
+        bottomrightlng: this.submitForm.value.aoi[0][2].lng,
+        toprightlat: this.submitForm.value.aoi[0][3].lat,
+        toprightlng: this.submitForm.value.aoi[0][3].lng,
+        option: this.submitForm.value.option,
+        startDate: this.submitForm.value.startDate,
+        endDate: this.submitForm.value.endDate,
+        filename: item._file.name,
+      };
+      // send POST to start calculations
+      this.http.post('http://localhost:3000/start', jsonData).subscribe({
+        next: (data) => {
+          console.log(data);
+          this.data = data;
+        },
+        error: (error) => {
+          console.error('There was an error!', error);
+        },
+      });
+    };
+  }
 
   // init map
   private map: any;
@@ -57,49 +116,72 @@ export class MapComponent implements AfterViewInit {
         circle: false,
         circlemarker: false,
       },
-      edit: {
-        featureGroup: drawnItems,
-        //edit: false
-      },
     });
     this.map.addControl(drawControl);
+    var editControl = new L.Control.Draw({
+      draw: {
+        polygon: false,
+        marker: false,
+        polyline: false,
+        circle: false,
+        circlemarker: false,
+        rectangle: false,
+      },
+      edit: {
+        featureGroup: drawnItems,
+        edit: false
+      },
+    });
+    this.map.addControl(editControl);
 
     drawnItems = new L.FeatureGroup();
     this.map.addLayer(drawnItems);
-    this.map.on('draw:created', function (e) {
+    // event when something is drawn on map
+    this.map.on('draw:created', (e) => {
       var type = e.layerType,
         layer = e.layer;
-
+      this.map.removeControl(drawControl);
+      // rectagle drawn?
       if (type === 'rectangle') {
-        layer.on('mouseover', function () {
-          alert(layer.getLatLngs());
-        });
+        //call function to set aoi
+        this.setAoi(layer.getLatLngs());
       }
+      //add drawn layer to map
       drawnItems.addLayer(layer);
     });
-
   }
 
+  //display name after file selected and pass to form
   fileSelected(event) {
+    this.submitForm.patchValue({
+      file: event.target.files[0],
+    });
     this.currentFileName = event.target.value.split('fakepath')[1].substring(1);
   }
 
+  // function to set the area of interest
+  setAoi(coords) {
+    this.submitForm.patchValue({
+      aoi: coords,
+    });
+  }
+
+  closeModal() {
+    document.getElementsByClassName('modal')[0].classList.remove('is-active');
+  }
+
   onSubmit() {
-    alert('submit button clicked');
+    this.formSubmitted = true;
+    if (this.submitForm.valid) {
+      document.getElementsByClassName('modal')[0].classList.add('is-active');
+      this.uploader.uploadAll();
+    } else {
+      console.log('invalid');
+    }
   }
 
   onDemoButton() {
-    alert('Demo button clicked');
-  }
-
-  startDate(type: string, event: MatDatepickerInputEvent<Date>) {
-    console.log(type);
-    console.log(event);
-  }
-
-  endDate(type: string, event: MatDatepickerInputEvent<Date>) {
-    console.log(type);
-    console.log(event);
+    document.getElementsByClassName('modal')[0].classList.add('is-active');
   }
 
   ngAfterViewInit(): void {
