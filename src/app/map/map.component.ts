@@ -10,6 +10,7 @@ import {
 import { HttpClient } from '@angular/common/http';
 import { FileUploader } from 'ng2-file-upload';
 import { environment } from 'src/environments/environment';
+import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-map',
@@ -28,10 +29,7 @@ export class MapComponent implements AfterViewInit {
     itemAlias: 'file',
   });
 
-  constructor(
-    private fb: FormBuilder,
-    private http: HttpClient,
-  ) {}
+  constructor(private fb: FormBuilder, private http: HttpClient) {}
 
   ngOnInit() {
     this.submitForm = new FormGroup({
@@ -83,7 +81,7 @@ export class MapComponent implements AfterViewInit {
     this.map = L.map('map', {
       center: [51.9606649, 7.6261347],
       zoom: 12,
-      zoomControl: false
+      zoomControl: false,
     });
 
     // position zoom controls bottom right
@@ -126,13 +124,10 @@ export class MapComponent implements AfterViewInit {
       },
       edit: {
         featureGroup: drawnItems,
-        edit: false
+        edit: false,
       },
     });
     this.map.addControl(editControl);
-
-    drawnItems = new L.FeatureGroup();
-    this.map.addLayer(drawnItems);
     // event when something is drawn on map
     this.map.on('draw:created', (e) => {
       var type = e.layerType,
@@ -145,6 +140,14 @@ export class MapComponent implements AfterViewInit {
       }
       //add drawn layer to map
       drawnItems.addLayer(layer);
+    });
+
+    // event when something was deleted from map
+    this.map.on('draw:deleted', (e) => {
+      console.log(e);
+      this.submitForm.patchValue({
+        aoi: null
+      });
     });
   }
 
@@ -177,7 +180,12 @@ export class MapComponent implements AfterViewInit {
   }
 
   onDemoButton() {
-    alert('Demo button clicked')
+    this.http
+      .get(this.APIURL + '/test', { responseType: 'text' })
+      .subscribe((data) => {
+        console.log(data);
+        alert(data);
+      });
   }
 
   ngAfterViewInit(): void {

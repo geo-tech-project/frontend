@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
       <nav id="navbar" class="navbar is-dark is-fixed-top">
         <div class="navbar-brand">
           <a class="navbar-item" routerLink="/" routerLinkActive="active">
-            <h2><b>Geosoft2</b></h2>
+          <img src="/assets/logo.png" width="112" height="28">
           </a>
         </div>
         <div class="navbar-menu">
