@@ -1,128 +1,105 @@
 <div class="hero is-fullheight-with-navbar">
     <section class="section">
-        <div class="container is-fluid">
-            <div class="columns is-centered is-vcentered">
-                <div class="column is-three-quarters">
-                    <!-- instructions // how to use this app -->
-                    <div class="notification is-primary is-fullwidth has-text-centered">
-                        Lorem ipsum dolor sit amet, consetetur sadipscing
-                        elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
-                        voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no
-                        sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
-                        sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
-                        erat, sed diam voluptua. At vero eos et accusam et</div>
-                </div>
-                <!-- run demo column -->
-                <div class="column">
-                    <div class="notification is-link is-light has-text-centered">
-                        <label class="label">Click here to run the demo</label>
-                        <button class="button is-large" (click)="onDemoButton()">
-                            <span class="icon">
-                                <i class="fa fa-play fa-lg"></i>
-                            </span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <!-- map -->
-            <div class="notification is-white">
-                <div id="map"></div>
-                <!-- message if invalid input -->
-                <span class="has-text-danger" *ngIf="formSubmitted && submitForm.controls.aoi.errors?.required">Please
-                    select the area of interest</span>
-            </div>
-            <!-- popup if data is submitted and calculation is going on -->
-            <div class="modal is-active" *ngIf="this.data">
-                <div class="modal-background"></div>
-                <div class="modal-content">
-                    <pre>{{data | json}}</pre>
-                </div>
-                <button class="modal-close is-large" aria-label="close" (click)="closeModal()"></button>
-            </div>
-            <!-- section below map -->
-            <section class="section">
-                <form [formGroup]="submitForm" (ngSubmit)="onSubmit()">
-                    <div class="columns is-centered">
-                        <!-- select column -->
-                        <div class="column">
-                            <div class="notification is-success is-light has-text-centered">
-                                <label class="label" for="option">Do you have a trained model or just some training
-                                    data?</label>
-                                <div class="control">
-                                    <label class="radio">
-                                        <input type="radio" [value]="'model'" name="option" formControlName="option">
-                                        Trained model
-                                    </label>
-                                    <label class="radio">
-                                        <input type="radio" [value]="'data'" name="option" formControlName="option">
-                                        Training data
-                                    </label>
+        <div id="container" class="container is-fluid">
+            <div class="columns is-centered">
+                <div class="column is-one-third">
+                    <div>
+                        <form [formGroup]="submitForm">
+                            <mat-stepper formArrayName="formArray" orientation="vertical" linear #stepper>
+                                <mat-step formGroupName="1" [stepControl]="formArray?.get([1])">
+                                    <ng-template matStepLabel>Do you have a trained model or just some training
+                                        data?
+                                    </ng-template>
+                                    <div class="control">
+                                        <label class="radio">
+                                            <input type="radio" [value]="'model'" name="option"
+                                                formControlName="option">
+                                            Trained model
+                                        </label>
+                                        <label class="radio">
+                                            <input type="radio" [value]="'data'" name="option" formControlName="option">
+                                            Training data
+                                        </label>
+                                        <br>
+                                    </div>
                                     <br>
-                                    <!-- message if invalid input -->
-                                    <span class="has-text-danger"
-                                        *ngIf="formSubmitted && submitForm.controls.option.errors?.required">Please
-                                        select a option</span>
-                                </div>
-                                <!-- upload file -->
-                                <div class="file has-name is-boxed is-centered" *ngIf="this.submitForm.value.option">
-                                    <label class="file-label">
-                                        <input class="file-input" type="file" (change)="fileSelected($event)"
-                                            name="file" ng2FileSelect [uploader]="uploader"
-                                            accept=".geojson,.rdfs,.json,.gpkg">
-                                        <span class="file-cta">
-                                            <span class="file-icon">
-                                                <i class="fa fa-upload"></i>
+                                    <div class="container">
+                                        <div class="field">
+                                            <button mat-button matStepperNext
+                                                class="button has-background-info-light is-pulled-right">Next</button>
+                                        </div>
+                                    </div>
+                                </mat-step>
+                                <mat-step formGroupName="2" [stepControl]="formArray?.get([2])">
+                                    <ng-template *ngIf="formArray?.get([1]).value.option == 'model'" matStepLabel>Choose
+                                        your model:</ng-template>
+                                    <ng-template *ngIf="formArray?.get([1]).value.option == 'data'" matStepLabel>Choose your
+                                        data:</ng-template>
+                                    <div class="file has-name is-boxed is-centered">
+                                        <label class="file-label">
+                                            <input class="file-input" type="file" (change)="fileSelected($event)"
+                                                name="file" ng2FileSelect [uploader]="uploader"
+                                                accept=".geojson,.rdfs,.json,.gpkg" formControlName="file">
+                                            <span class="file-cta">
+                                                <span class="file-icon">
+                                                    <i class="fa fa-upload"></i>
+                                                </span>
                                             </span>
-                                            <span class="file-label" *ngIf="this.submitForm.value.option == 'model'">
-                                                Select a trained model..
+                                            <span class="file-name" *ngIf="this.currentFileName != ''">
+                                                {{currentFileName}}
                                             </span>
-                                            <span class="file-label" *ngIf="this.submitForm.value.option == 'data'">
-                                                Select a training data..
-                                            </span>
-                                        </span>
-                                        <!-- message if invalid input -->
-                                        <span class="has-text-danger"
-                                            *ngIf="formSubmitted && submitForm.controls.file.errors?.required">Please
-                                            select a file</span>
-                                        <span class="file-name" *ngIf="this.currentFileName != ''">
-                                            {{currentFileName}}
-                                        </span>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- datepicker column -->
-                        <div class="column">
-                            <div class="notification is-warning is-light has-text-centered">
-                                <label class="label">
-                                    Enter a date for the satelite images:
-                                </label>
-                                <mat-form-field appearance="fill">
-                                    <mat-label>MM/DD/YYYY - MM/DD/YYYY</mat-label>
-                                    <mat-date-range-input [rangePicker]="picker">
-                                        <input matStartDate placeholder="Start date" formControlName="startDate">
-                                        <input matEndDate placeholder="End date" formControlName="endDate">
-                                    </mat-date-range-input>
-                                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                                    <mat-date-range-picker touchUi #picker></mat-date-range-picker>
-                                </mat-form-field>
-                                <br>
-                                <!-- message if invalid input -->
-                                <span class="has-text-danger"
-                                    *ngIf="(formSubmitted && submitForm.controls.startDate.errors?.required) || (formSubmitted && submitForm.controls.endDate.errors?.required)">Please
-                                    select a valid range</span>
-                            </div>
-                        </div>
-                        <div class="column">
-                            <div class="notification is-info is-light has-text-centered">
-                                <label class="label">Click the Logo to run the calculations</label>
-                                <img src="/assets/logo.png" alt="Logo" (click)="onSubmit()">
-                            </div>
-                        </div>
-
+                                        </label>
+                                    </div>
+                                    <div class="container">
+                                        <div class="field">
+                                            <button mat-button matStepperPrevious
+                                                class="button has-background-warning-light is-pulled-left">Back</button>
+                                            <button mat-button matStepperNext
+                                                class="button has-background-info-light is-pulled-right">Next</button>
+                                        </div>
+                                    </div>
+                                </mat-step>
+                                <mat-step formGroupName="3" [stepControl]="formArray?.get([3])">
+                                    <ng-template matStepLabel>Enter a timeframe for the satelite images:</ng-template>
+                                    <mat-form-field appearance="fill">
+                                        <mat-label>MM/DD/YYYY - MM/DD/YYYY</mat-label>
+                                        <mat-date-range-input [rangePicker]="picker">
+                                            <input matStartDate placeholder="Start date" formControlName="startDate">
+                                            <input matEndDate placeholder="End date" formControlName="endDate">
+                                        </mat-date-range-input>
+                                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                        <mat-date-range-picker touchUi #picker></mat-date-range-picker>
+                                    </mat-form-field>
+                                    <div class="container">
+                                        <div class="field">
+                                            <button mat-button matStepperPrevious
+                                                class="button has-background-warning-light is-pulled-left">Back</button>
+                                            <button mat-button matStepperNext
+                                                class="button has-background-info-light is-pulled-right">Next</button>
+                                        </div>
+                                    </div>
+                                </mat-step>
+                                <mat-step>
+                                    <ng-template matStepLabel>Done</ng-template>
+                                    <p>Do you want to submit your data?</p>
+                                    <div class="field">
+                                        <button mat-button matStepperPrevious
+                                            class="button has-background-warning-light is-pulled-left">Back</button>
+                                        <button mat-button (click)="onSubmit()"
+                                            class="button is-success is-pulled-right">Submit</button>
+                                    </div>
+                                </mat-step>
+                            </mat-stepper>
+                        </form>
                     </div>
-                </form>
-            </section>
+                </div>
+                <div class="column">
+                    <!-- map -->
+                    <div class="notification is-white">
+                        <div id="map"></div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 </div>

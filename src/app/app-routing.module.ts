@@ -1,18 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { DocumentationComponent } from './documentation/documentation.component';
+import { MapComponent } from './map/map.component';
 
 import { LandingpageComponent } from './landingpage/landingpage.component';
-import { MapComponent } from './map/map.component';
 
 const routes: Routes = [
   {
     path: '',
     component: LandingpageComponent,
-  },
-  {
-    path: 'documentation',
-    component: DocumentationComponent,
   },
   {
     path: 'map',

@@ -22,18 +22,6 @@ import { Component, OnInit } from '@angular/core';
             </span>
             <span
               class="navbar-item"
-              routerLink="/documentation"
-              routerLinkActive="active"
-            >
-              <a>
-                <span class="icon">
-                  <i class="fa fa-book"></i>
-                </span>
-                <span>Documentation</span>
-              </a>
-            </span>
-            <span
-              class="navbar-item"
               routerLink="/map"
               routerLinkActive="active"
             >

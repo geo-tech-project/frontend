@@ -1,7 +1,8 @@
 import { Component, AfterViewInit } from '@angular/core';
 import * as L from 'leaflet';
-import { NgModule } from '@angular/core';
 import {
+  AbstractControl,
+  FormArray,
   FormBuilder,
   FormControl,
   FormGroup,
@@ -10,7 +11,6 @@ import {
 import { HttpClient } from '@angular/common/http';
 import { FileUploader } from 'ng2-file-upload';
 import { environment } from 'src/environments/environment';
-import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-map',
@@ -18,12 +18,18 @@ import { ThrowStmt } from '@angular/compiler';
   styleUrls: ['./map.component.scss'],
 })
 export class MapComponent implements AfterViewInit {
+  // form for all inputs
   submitForm: FormGroup;
+  // filename to display after choosing a file
   currentFileName = '';
+  // to check if file was submitted before
   formSubmitted = false;
+  // url to run on -> localhost or ip
   APIURL = environment.api_url;
+  // dont know
   data;
 
+  // uploader for training data or trained model
   public uploader: FileUploader = new FileUploader({
     url: this.APIURL + '/upload',
     itemAlias: 'file',
@@ -32,33 +38,50 @@ export class MapComponent implements AfterViewInit {
   constructor(private fb: FormBuilder, private http: HttpClient) {}
 
   ngOnInit() {
-    this.submitForm = new FormGroup({
-      aoi: new FormControl(null, [Validators.required]),
-      option: new FormControl(null, [Validators.required]),
-      file: new FormControl(null, [Validators.required]),
-      startDate: new FormControl(null, [Validators.required]),
-      endDate: new FormControl(null, [Validators.required]),
+    // initialize form group for validation and form stepper
+    this.submitForm = this.fb.group({
+      formArray: this.fb.array([
+        // area of interest
+        this.fb.group({
+          aoi: [null, Validators.required],
+        }),
+        // trained model or training data
+        this.fb.group({
+          option: [null, Validators.required],
+        }),
+        // file
+        this.fb.group({
+          file: [null, Validators.required],
+        }),
+        // timeframe for satelite images
+        this.fb.group({
+          startDate: [null, Validators.required],
+          endDate: [null, Validators.required],
+        }),
+      ]),
     });
 
+    //  what sould happen after a file was selected
     this.uploader.onAfterAddingFile = (file) => {
       console.log(file);
       file.withCredentials = false;
     };
 
+    // what should happen after the file was succsessfully uploaded
     this.uploader.onCompleteItem = (item: any, status: any) => {
-      //generate json
+      //convert to json file
       var jsonData = {
-        topleftlat: this.submitForm.value.aoi[0][0].lat,
-        topleftlng: this.submitForm.value.aoi[0][0].lng,
-        bottomleftlat: this.submitForm.value.aoi[0][1].lat,
-        bottomleftlng: this.submitForm.value.aoi[0][1].lng,
-        bottomrightlat: this.submitForm.value.aoi[0][2].lat,
-        bottomrightlng: this.submitForm.value.aoi[0][2].lng,
-        toprightlat: this.submitForm.value.aoi[0][3].lat,
-        toprightlng: this.submitForm.value.aoi[0][3].lng,
-        option: this.submitForm.value.option,
-        startDate: this.submitForm.value.startDate,
-        endDate: this.submitForm.value.endDate,
+        topleftlat: this.formArray?.get([0]).value.aoi[0][0].lat,
+        topleftlng: this.formArray?.get([0]).value.aoi[0][0].lng,
+        bottomleftlat: this.formArray?.get([0]).value.aoi[0][1].lat,
+        bottomleftlng: this.formArray?.get([0]).value.aoi[0][1].lng,
+        bottomrightlat: this.formArray?.get([0]).value.aoi[0][2].lat,
+        bottomrightlng: this.formArray?.get([0]).value.aoi[0][2].lng,
+        toprightlat: this.formArray?.get([0]).value.aoi[0][3].lat,
+        toprightlng: this.formArray?.get([0]).value.aoi[0][3].lng,
+        option: this.formArray?.get([1]).value.option,
+        startDate: this.formArray?.get([3]).value.startDate,
+        endDate: this.formArray?.get([3]).value.endDate,
         filename: item._file.name,
       };
       // send POST to start calculations
@@ -103,6 +126,7 @@ export class MapComponent implements AfterViewInit {
     // add draw options to map
     var drawnItems = new L.FeatureGroup();
     this.map.addLayer(drawnItems);
+    // control to draw a rectangle
     var drawControl = new L.Control.Draw({
       draw: {
         polygon: false,
@@ -113,6 +137,7 @@ export class MapComponent implements AfterViewInit {
       },
     });
     this.map.addControl(drawControl);
+    // control to delete drawn item
     var editControl = new L.Control.Draw({
       draw: {
         polygon: false,
@@ -127,12 +152,14 @@ export class MapComponent implements AfterViewInit {
         edit: false,
       },
     });
-    this.map.addControl(editControl);
     // event when something is drawn on map
     this.map.on('draw:created', (e) => {
       var type = e.layerType,
         layer = e.layer;
+      // disable option to draw another item
       this.map.removeControl(drawControl);
+      // add option to delete item
+      this.map.addControl(editControl);
       // rectagle drawn?
       if (type === 'rectangle') {
         //call function to set aoi
@@ -144,30 +171,31 @@ export class MapComponent implements AfterViewInit {
 
     // event when something was deleted from map
     this.map.on('draw:deleted', (e) => {
-      console.log(e);
-      this.submitForm.patchValue({
-        aoi: null
+      this.formArray.get([0]).patchValue({
+        aoi: null,
       });
+      // add option to draw another item
+      this.map.addControl(drawControl);
+      // disable option to delete item that cant be there
+      this.map.removeControl(editControl);
     });
+  }
+
+  get formArray(): AbstractControl | null {
+    return this.submitForm.get('formArray');
   }
 
   //display name after file selected and pass to form
   fileSelected(event) {
-    this.submitForm.patchValue({
-      file: event.target.files[0],
-    });
     this.currentFileName = event.target.value.split('fakepath')[1].substring(1);
+    console.log(this.submitForm);
   }
 
-  // function to set the area of interest
+  // function to set the area of interest in the formarray
   setAoi(coords) {
-    this.submitForm.patchValue({
+    this.formArray.get([0]).patchValue({
       aoi: coords,
     });
-  }
-
-  closeModal() {
-    document.getElementsByClassName('modal')[0].classList.remove('is-active');
   }
 
   onSubmit() {
@@ -175,17 +203,9 @@ export class MapComponent implements AfterViewInit {
     if (this.submitForm.valid) {
       this.uploader.uploadAll();
     } else {
+      console.log(this.submitForm);
       console.log('invalid');
     }
-  }
-
-  onDemoButton() {
-    this.http
-      .get(this.APIURL + '/test', { responseType: 'text' })
-      .subscribe((data) => {
-        console.log(data);
-        alert(data);
-      });
   }
 
   ngAfterViewInit(): void {
