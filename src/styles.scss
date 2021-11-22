@@ -17,10 +17,6 @@
   z-index: 9998 !important;
 }
 
-.modal {
-  z-index: 9999 !important;
-}
-
 .notification {
   width: 100%;
 }
@@ -33,14 +29,6 @@ a:visited {
 
 a:hover {
   color: #b3ffb3;
-}
-
-img {
-  cursor: pointer;
-}
-
-img:hover {
-  transform: scale(1.2, 1.2);
 }
 
 #map {
@@ -56,4 +44,15 @@ body {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+.leaflet-bar a,
+.leaflet-bar {
+  text-decoration: none !important;
+}
+
+ul.leaflet-draw-actions.leaflet-draw-actions-bottom li a[title="Save changes"],
+ul.leaflet-draw-actions.leaflet-draw-actions-bottom
+  li
+  a[title="Cancel editing, discards all changes"] {
+  display: none;
 }
