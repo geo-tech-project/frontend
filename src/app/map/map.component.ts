@@ -11,6 +11,7 @@ import {
 import { HttpClient } from '@angular/common/http';
 import { FileUploader } from 'ng2-file-upload';
 import { environment } from 'src/environments/environment';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-map',
@@ -84,6 +85,16 @@ export class MapComponent implements AfterViewInit {
         endDate: this.formArray?.get([3]).value.endDate,
         filename: item._file.name,
       };
+
+      // show training locations
+      //TODO cover geopackage input
+      if (jsonData.option == 'data') {
+        this.getJSON(jsonData.filename).subscribe((data) => {
+          console.log(data);
+          L.geoJSON(data).addTo(this.map);
+        });
+      }
+
       // send POST to start calculations
       this.http.post(this.APIURL + '/start', jsonData).subscribe({
         next: (data) => {
@@ -196,6 +207,10 @@ export class MapComponent implements AfterViewInit {
     this.formArray.get([0]).patchValue({
       aoi: coords,
     });
+  }
+
+  getJSON(path): Observable<any> {
+    return this.http.get('http://localhost:3000/image/' + path);
   }
 
   onSubmit() {
