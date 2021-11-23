@@ -28,7 +28,7 @@ a:visited {
 }
 
 a:hover {
-  color: #b3ffb3;
+  color: #8bf08b;
 }
 
 #map {
@@ -55,4 +55,18 @@ ul.leaflet-draw-actions.leaflet-draw-actions-bottom
   li
   a[title="Cancel editing, discards all changes"] {
   display: none;
+}
+
+.modal {
+  z-index: 9999 !important;
+}
+
+.mat-step-header .mat-step-icon-selected {
+  background-color: #a8eda8 !important;
+  color: black !important;
+}
+
+.mat-step-header .mat-step-icon-state-edit {
+  background-color: rgba(0, 0, 0, 0.54);
+  color: #fff;
 }

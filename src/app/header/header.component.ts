@@ -7,13 +7,16 @@ import { Component, OnInit } from '@angular/core';
       <nav id="navbar" class="navbar is-dark is-fixed-top">
         <div class="navbar-brand">
           <a class="navbar-item" routerLink="/" routerLinkActive="active">
-          <img src="/assets/logo.png" width="112" height="28">
+            <span>GeoTech</span>
+            <span class="icon">
+              <i class="fa fa-globe"></i>
+            </span>
           </a>
         </div>
         <div class="navbar-menu">
           <div class="navbar-start">
             <span class="navbar-item" routerLink="/" routerLinkActive="active">
-              <a>
+              <a class="is-tab">
                 <span class="icon">
                   <i class="fa fa-home"></i>
                 </span>

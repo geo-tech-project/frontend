@@ -54,7 +54,7 @@ export class MapComponent implements AfterViewInit {
         this.fb.group({
           file: [null, Validators.required],
         }),
-        // timeframe for satelite images
+        // timeframe for satellite images
         this.fb.group({
           startDate: [null, Validators.required],
           endDate: [null, Validators.required],
@@ -64,7 +64,6 @@ export class MapComponent implements AfterViewInit {
 
     //  what sould happen after a file was selected
     this.uploader.onAfterAddingFile = (file) => {
-      console.log(file);
       file.withCredentials = false;
     };
 
@@ -86,20 +85,10 @@ export class MapComponent implements AfterViewInit {
         filename: item._file.name,
       };
 
-      // show training locations
-      //TODO cover geopackage input
-      if (jsonData.option == 'data') {
-        this.getJSON(jsonData.filename).subscribe((data) => {
-          console.log(data);
-          L.geoJSON(data).addTo(this.map);
-        });
-      }
-
       // send POST to start calculations
-      this.http.post(this.APIURL + '/start', jsonData).subscribe({
+      this.http.post(this.APIURL + '/calculateaoi', jsonData).subscribe({
         next: (data) => {
           console.log(data);
-          this.data = data;
         },
         error: (error) => {
           console.error('There was an error!', error);
@@ -199,7 +188,6 @@ export class MapComponent implements AfterViewInit {
   //display name after file selected and pass to form
   fileSelected(event) {
     this.currentFileName = event.target.value.split('fakepath')[1].substring(1);
-    console.log(this.submitForm);
   }
 
   // function to set the area of interest in the formarray
@@ -210,12 +198,13 @@ export class MapComponent implements AfterViewInit {
   }
 
   getJSON(path): Observable<any> {
-    return this.http.get('http://localhost:3000/image/' + path);
+    return this.http.get('http://localhost:3000/file/' + path);
   }
 
   onSubmit() {
     this.formSubmitted = true;
     if (this.submitForm.valid) {
+      document.getElementById('progressModal').classList.add('is-active');
       this.uploader.uploadAll();
     } else {
       console.log(this.submitForm);

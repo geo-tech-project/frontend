@@ -26,6 +26,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FileUploadModule } from 'ng2-file-upload';
 
 import {MatStepperModule} from '@angular/material/stepper';
+import {MatIconModule} from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import {MatStepperModule} from '@angular/material/stepper';
     ReactiveFormsModule,
     HttpClientModule,
     FileUploadModule,
-    MatStepperModule
+    MatStepperModule,
+    MatIconModule
   ],
   providers: [],
   bootstrap: [AppComponent],

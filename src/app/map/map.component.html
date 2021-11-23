@@ -6,7 +6,11 @@
                     <div>
                         <form [formGroup]="submitForm">
                             <mat-stepper formArrayName="formArray" orientation="vertical" linear #stepper>
-                                <mat-step formGroupName="1" [stepControl]="formArray?.get([1])">
+                                <!-- Icon overrides. -->
+                                <ng-template matStepperIcon="option">
+                                    <mat-icon>call_end</mat-icon>
+                                </ng-template>
+                                <mat-step formGroupName="1" [stepControl]="formArray?.get([1])" state="option">
                                     <ng-template matStepLabel>Do you have a trained model or just some training
                                         data?
                                     </ng-template>
@@ -30,16 +34,14 @@
                                         </div>
                                     </div>
                                 </mat-step>
-                                <mat-step formGroupName="2" [stepControl]="formArray?.get([2])">
-                                    <ng-template *ngIf="formArray?.get([1]).value.option == 'model'" matStepLabel>Choose
-                                        your model:</ng-template>
-                                    <ng-template *ngIf="formArray?.get([1]).value.option == 'data'" matStepLabel>Choose your
-                                        data:</ng-template>
+                                <mat-step formGroupName="2" [stepControl]="formArray?.get([2])" state="upload">
+                                    <ng-template matStepLabel>Select a file (trained model or training data)
+                                    </ng-template>
                                     <div class="file has-name is-boxed is-centered">
                                         <label class="file-label">
                                             <input class="file-input" type="file" (change)="fileSelected($event)"
                                                 name="file" ng2FileSelect [uploader]="uploader"
-                                                accept=".geojson,.rdfs,.json,.gpkg" formControlName="file">
+                                                accept=".geojson,.json,.gpkg" formControlName="file">
                                             <span class="file-cta">
                                                 <span class="file-icon">
                                                     <i class="fa fa-upload"></i>
@@ -59,7 +61,7 @@
                                         </div>
                                     </div>
                                 </mat-step>
-                                <mat-step formGroupName="3" [stepControl]="formArray?.get([3])">
+                                <mat-step formGroupName="3" [stepControl]="formArray?.get([3])" state="timeframe">
                                     <ng-template matStepLabel>Enter a timeframe for the satelite images:</ng-template>
                                     <mat-form-field appearance="fill">
                                         <mat-label>MM/DD/YYYY - MM/DD/YYYY</mat-label>
@@ -102,4 +104,13 @@
             </div>
         </div>
     </section>
+</div>
+<div id="progressModal" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+        <div class="box">
+            This could take some time, please wait...
+        </div>
+        <progress class="progress is-large is-info" max="100">60%</progress>
+    </div>
 </div>
