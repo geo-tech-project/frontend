@@ -33,6 +33,8 @@
     "font-awesome": "^4.7.0",
     "leaflet": "^1.7.1",
     "leaflet-draw": "^1.0.4",
+    "leaflet-geotiff": "^0.2.0",
+    "leaflet-geotiff-2": "^1.1.0",
     "ng2-file-upload": "^1.4.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.2.0",

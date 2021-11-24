@@ -13,6 +13,10 @@ import { FileUploader } from 'ng2-file-upload';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 
+import * as LeafletGeotiff from 'leaflet-geotiff';
+import 'leaflet-geotiff/leaflet-geotiff-plotty';
+import 'leaflet-geotiff/leaflet-geotiff-vector-arrows';
+
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
@@ -89,7 +93,7 @@ export class MapComponent implements AfterViewInit {
       this.http.post(this.APIURL + '/calculateaoi', jsonData).subscribe({
         next: (data) => {
           console.log(data);
-          window.location.href = "http://localhost:3000/stack/AOA_MS.tif"
+          window.location.href = 'http://localhost:3000/stack/AOA_MS.tif';
         },
         error: (error) => {
           console.error('There was an error!', error);
@@ -123,6 +127,15 @@ export class MapComponent implements AfterViewInit {
     );
     // add tiles to map
     tiles.addTo(this.map);
+
+    var layer = LeafletGeotiff.leafletGeotiff("http://localhost:3000/stack/test.tif", {
+      band: 1,
+      name: 'AOA',
+      opacity: 0.3,
+      renderer: new LeafletGeotiff.LeafletGeotiff.Plotty({
+          colorScale: "blackbody"
+      })
+  }).addTo(this.map);
 
     // add draw options to map
     var drawnItems = new L.FeatureGroup();
