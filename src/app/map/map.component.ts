@@ -89,6 +89,7 @@ export class MapComponent implements AfterViewInit {
       this.http.post(this.APIURL + '/calculateaoi', jsonData).subscribe({
         next: (data) => {
           console.log(data);
+          window.location.href = "http://localhost:3000/stack/AOA_MS.tif"
         },
         error: (error) => {
           console.error('There was an error!', error);
