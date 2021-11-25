@@ -93,7 +93,17 @@ export class MapComponent implements AfterViewInit {
       this.http.post(this.APIURL + '/calculateaoi', jsonData).subscribe({
         next: (data) => {
           console.log(data);
-          window.location.href = 'http://localhost:3000/stack/AOA_MS.tif';
+          document.getElementById('progressModal').classList.remove('is-active');
+          var layer = LeafletGeotiff.leafletGeotiff(
+            this.APIURL + '/stack/test.tif',
+            {
+              band: 1,
+              name: 'AOA',
+              renderer: new LeafletGeotiff.LeafletGeotiff.Plotty({
+                colorScale: 'blackbody',
+              }),
+            }
+          ).addTo(this.map);
         },
         error: (error) => {
           console.error('There was an error!', error);
@@ -127,15 +137,6 @@ export class MapComponent implements AfterViewInit {
     );
     // add tiles to map
     tiles.addTo(this.map);
-
-    var layer = LeafletGeotiff.leafletGeotiff("http://localhost:3000/stack/test.tif", {
-      band: 1,
-      name: 'AOA',
-      opacity: 0.3,
-      renderer: new LeafletGeotiff.LeafletGeotiff.Plotty({
-          colorScale: "blackbody"
-      })
-  }).addTo(this.map);
 
     // add draw options to map
     var drawnItems = new L.FeatureGroup();
@@ -212,7 +213,7 @@ export class MapComponent implements AfterViewInit {
   }
 
   getJSON(path): Observable<any> {
-    return this.http.get('http://localhost:3000/file/' + path);
+    return this.http.get(this.APIURL + '/file/' + path);
   }
 
   onSubmit() {
