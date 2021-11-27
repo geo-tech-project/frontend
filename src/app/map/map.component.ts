@@ -35,6 +35,8 @@ export class MapComponent implements AfterViewInit {
   data;
   // drawn rectangle
   drawnItems;
+  // stepper index
+  stepperIndex;
 
   // uploader for training data or trained model
   public uploader: FileUploader = new FileUploader({
@@ -96,7 +98,9 @@ export class MapComponent implements AfterViewInit {
         next: (data) => {
           this.map.removeLayer(this.drawnItems);
           console.log(data);
-          document.getElementById('progressModal').classList.remove('is-active');
+          document
+            .getElementById('progressModal')
+            .classList.remove('is-active');
           var layer = LeafletGeotiff.leafletGeotiff(
             this.APIURL + '/stack/test.tif',
             {
@@ -192,6 +196,8 @@ export class MapComponent implements AfterViewInit {
       this.formArray.get([0]).patchValue({
         aoi: null,
       });
+      // jump back so the user has to select a aoi again
+      this.stepperIndex = 0;
       // add option to draw another item
       this.map.addControl(drawControl);
       // disable option to delete item that cant be there
@@ -213,6 +219,8 @@ export class MapComponent implements AfterViewInit {
     this.formArray.get([0]).patchValue({
       aoi: coords,
     });
+    // go to next step in stepper form when aoi was selected
+    this.stepperIndex = 1;
   }
 
   getJSON(path): Observable<any> {
