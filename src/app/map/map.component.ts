@@ -33,6 +33,8 @@ export class MapComponent implements AfterViewInit {
   APIURL = environment.api_url;
   // dont know
   data;
+  // drawn rectangle
+  drawnItems;
 
   // uploader for training data or trained model
   public uploader: FileUploader = new FileUploader({
@@ -92,6 +94,7 @@ export class MapComponent implements AfterViewInit {
       // send POST to start calculations
       this.http.post(this.APIURL + '/calculateaoi', jsonData).subscribe({
         next: (data) => {
+          this.map.removeLayer(this.drawnItems);
           console.log(data);
           document.getElementById('progressModal').classList.remove('is-active');
           var layer = LeafletGeotiff.leafletGeotiff(
@@ -139,8 +142,8 @@ export class MapComponent implements AfterViewInit {
     tiles.addTo(this.map);
 
     // add draw options to map
-    var drawnItems = new L.FeatureGroup();
-    this.map.addLayer(drawnItems);
+    this.drawnItems = new L.FeatureGroup();
+    this.map.addLayer(this.drawnItems);
     // control to draw a rectangle
     var drawControl = new L.Control.Draw({
       draw: {
@@ -163,7 +166,7 @@ export class MapComponent implements AfterViewInit {
         rectangle: false,
       },
       edit: {
-        featureGroup: drawnItems,
+        featureGroup: this.drawnItems,
         edit: false,
       },
     });
@@ -181,7 +184,7 @@ export class MapComponent implements AfterViewInit {
         this.setAoi(layer.getLatLngs());
       }
       //add drawn layer to map
-      drawnItems.addLayer(layer);
+      this.drawnItems.addLayer(layer);
     });
 
     // event when something was deleted from map
