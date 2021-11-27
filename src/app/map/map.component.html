@@ -71,7 +71,6 @@
                                 <mat-step formGroupName="3" [stepControl]="formArray?.get([3])" state="timeframe">
                                     <ng-template matStepLabel>Enter a timeframe for the satelite images:</ng-template>
                                     <mat-form-field appearance="fill">
-                                        <mat-label>MM/DD/YYYY - MM/DD/YYYY</mat-label>
                                         <mat-date-range-input [rangePicker]="picker">
                                             <input matStartDate placeholder="Start date" formControlName="startDate">
                                             <input matEndDate placeholder="End date" formControlName="endDate">
