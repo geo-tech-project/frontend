@@ -53,6 +53,7 @@ export class MapComponent implements AfterViewInit {
         // area of interest
         this.fb.group({
           aoi: [null, Validators.required],
+          selected: [null, Validators.required],
         }),
         // trained model or training data
         this.fb.group({
@@ -186,6 +187,10 @@ export class MapComponent implements AfterViewInit {
       if (type === 'rectangle') {
         //call function to set aoi
         this.setAoi(layer.getLatLngs());
+        // check checkbox
+        document.getElementById('checkbox').click();
+        // go to next step in stepper form when aoi was selected
+        this.stepperIndex = 1;
       }
       //add drawn layer to map
       this.drawnItems.addLayer(layer);
@@ -219,8 +224,6 @@ export class MapComponent implements AfterViewInit {
     this.formArray.get([0]).patchValue({
       aoi: coords,
     });
-    // go to next step in stepper form when aoi was selected
-    this.stepperIndex = 1;
   }
 
   getJSON(path): Observable<any> {

@@ -5,14 +5,17 @@
                 <div class="column is-one-third">
                     <div>
                         <form [formGroup]="submitForm">
-                            <mat-stepper id="stepper" formArrayName="formArray" orientation="vertical" [selectedIndex]="stepperIndex" linear #stepper>
-                                <!-- Icon overrides. -->
-                                <ng-template matStepperIcon="option">
-                                    <mat-icon>call_end</mat-icon>
-                                </ng-template>
-                                <mat-step>
+                            <mat-stepper id="stepper" formArrayName="formArray" orientation="vertical"
+                                [selectedIndex]="stepperIndex" linear #stepper>
+                                <mat-step formGroupName="0" [stepControl]="formArray?.get([0])">
                                     <ng-template matStepLabel>Please select your area of interest on the map.
                                     </ng-template>
+                                    <div>
+                                        <label class="checkbox" style="visibility: hidden;">
+                                            <input id="checkbox" type="checkbox" formControlName="selected">
+                                            Choose are of interest
+                                        </label>
+                                    </div>
                                 </mat-step>
                                 <mat-step formGroupName="1" [stepControl]="formArray?.get([1])" state="option">
                                     <ng-template matStepLabel>Do you have a trained model or just some training
