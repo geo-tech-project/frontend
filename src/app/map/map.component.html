@@ -11,6 +11,9 @@
                                     <ng-template matStepLabel>Please select your area of interest on the map.
                                     </ng-template>
                                     <div>
+                                        <p>Click the black rectangle in the top left corner on the map and draw your area of interest.
+                                            You can edit this anytime by clicking the delete button after the rectangle was drawn.
+                                        </p>
                                         <label class="checkbox" style="visibility: hidden;">
                                             <input id="checkbox" type="checkbox" formControlName="selected">
                                             Choose are of interest
@@ -77,6 +80,57 @@
                                         </mat-date-range-input>
                                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                         <mat-date-range-picker touchUi #picker></mat-date-range-picker>
+                                    </mat-form-field>
+                                    <div class="container">
+                                        <div class="field">
+                                            <button mat-button matStepperPrevious
+                                                class="button has-background-warning-light is-pulled-left">Back</button>
+                                            <button mat-button matStepperNext
+                                                class="button has-background-info-light is-pulled-right">Next</button>
+                                        </div>
+                                    </div>
+                                </mat-step>
+                                <mat-step formGroupName="5" [stepControl]="formArray?.get([5])">
+                                    <ng-template matStepLabel>Desired channels satellite images</ng-template>
+                                    <mat-form-field appearance="fill">
+                                        <mat-label>Desired channels</mat-label>
+                                        <mat-select formControlName="channels" multiple>
+                                            <mat-option value=1>B01</mat-option>
+                                            <mat-option value=2>B02</mat-option>
+                                            <mat-option value=3>B03</mat-option>
+                                            <mat-option value=4>B04</mat-option>
+                                            <mat-option value=5>B05</mat-option>
+                                            <mat-option value=6>B06</mat-option>
+                                            <mat-option value=7>B07</mat-option>
+                                            <mat-option value=8>B08</mat-option>
+                                            <mat-option value=9>B09</mat-option>
+                                            <mat-option value=10>B10</mat-option>
+                                            <mat-option value=11>B11</mat-option>
+                                            <mat-option value=12>B12</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                    <div class="container">
+                                        <div class="field">
+                                            <button mat-button matStepperPrevious
+                                                class="button has-background-warning-light is-pulled-left">Back</button>
+                                            <button mat-button matStepperNext
+                                                class="button has-background-info-light is-pulled-right">Next</button>
+                                        </div>
+                                    </div>
+                                </mat-step>
+                                <mat-step formGroupName="4" [stepControl]="formArray?.get([4])">
+                                    <ng-template matStepLabel>Resolution of satellite images</ng-template>
+                                    <mat-form-field appearance="fill">
+                                        <mat-label>Select an option</mat-label>
+                                        <mat-select formControlName="resolution">
+                                            <mat-option>None</mat-option>
+                                            <mat-option value="10x10">10x10m</mat-option>
+                                            <mat-option value="20x20">20x20m</mat-option>
+                                            <mat-option value="60x60">60x60m</mat-option>
+                                            <mat-option value="100x100">100x100m</mat-option>
+                                            <mat-option value="200x200">200x200m</mat-option>
+                                            <mat-option value="400x400">400x400m</mat-option>
+                                        </mat-select>
                                     </mat-form-field>
                                     <div class="container">
                                         <div class="field">

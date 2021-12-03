@@ -27,6 +27,7 @@ import { FileUploadModule } from 'ng2-file-upload';
 
 import {MatStepperModule} from '@angular/material/stepper';
 import {MatIconModule} from '@angular/material/icon';
+import {MatSelectModule} from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import {MatIconModule} from '@angular/material/icon';
     HttpClientModule,
     FileUploadModule,
     MatStepperModule,
-    MatIconModule
+    MatIconModule,
+    MatSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent],

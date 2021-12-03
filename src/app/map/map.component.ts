@@ -68,6 +68,14 @@ export class MapComponent implements AfterViewInit {
           startDate: [null, Validators.required],
           endDate: [null, Validators.required],
         }),
+        // resolution
+        this.fb.group({
+          resolution: [null, Validators.required],
+        }),
+        // desired channels
+        this.fb.group({
+          channels: [null, Validators.required],
+        }),
       ]),
     });
 
@@ -92,13 +100,15 @@ export class MapComponent implements AfterViewInit {
         startDate: this.formArray?.get([3]).value.startDate,
         endDate: this.formArray?.get([3]).value.endDate,
         filename: item._file.name,
+        resolution: this.formArray?.get([4]).value.resolution,
+        channels: this.formArray?.get([5]).value.channels
       };
 
       // send POST to start calculations
       this.http.post(this.APIURL + '/calculateaoi', jsonData).subscribe({
         next: (data) => {
           this.map.removeLayer(this.drawnItems);
-          console.log(data);
+          //console.log(data);
           document
             .getElementById('progressModal')
             .classList.remove('is-active');
@@ -231,6 +241,8 @@ export class MapComponent implements AfterViewInit {
   }
 
   onSubmit() {
+    console.log(this.submitForm);
+    
     this.formSubmitted = true;
     if (this.submitForm.valid) {
       document.getElementById('progressModal').classList.add('is-active');
