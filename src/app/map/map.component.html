@@ -2,7 +2,7 @@
     <section class="section">
         <div id="container" class="container is-fluid">
             <div class="columns is-centered">
-                <div class="column is-one-third">
+                <div id="formdiv" class="column is-one-third">
                     <div>
                         <form [formGroup]="submitForm">
                             <mat-stepper id="stepper" formArrayName="formArray" orientation="vertical"
@@ -124,12 +124,12 @@
                                         <mat-label>Select an option</mat-label>
                                         <mat-select formControlName="resolution">
                                             <mat-option>None</mat-option>
-                                            <mat-option value="10x10">10x10m</mat-option>
-                                            <mat-option value="20x20">20x20m</mat-option>
-                                            <mat-option value="60x60">60x60m</mat-option>
-                                            <mat-option value="100x100">100x100m</mat-option>
-                                            <mat-option value="200x200">200x200m</mat-option>
-                                            <mat-option value="400x400">400x400m</mat-option>
+                                            <mat-option value=10>10x10m</mat-option>
+                                            <mat-option value=20>20x20m</mat-option>
+                                            <mat-option value=60>60x60m</mat-option>
+                                            <mat-option value=100>100x100m</mat-option>
+                                            <mat-option value=200>200x200m</mat-option>
+                                            <mat-option value=400>400x400m</mat-option>
                                         </mat-select>
                                     </mat-form-field>
                                     <div class="container">
@@ -155,7 +155,7 @@
                         </form>
                     </div>
                 </div>
-                <div class="column">
+                <div id="mapdiv" class="column">
                     <!-- map -->
                     <div class="notification is-white">
                         <div id="map"></div>
