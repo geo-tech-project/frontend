@@ -2,7 +2,7 @@
     <section class="section">
         <div id="container" class="container is-fluid">
             <div class="columns is-centered">
-                <div class="column is-one-third">
+                <div id="formdiv" class="column is-one-third">
                     <div>
                         <form [formGroup]="submitForm">
                             <mat-stepper id="stepper" formArrayName="formArray" orientation="vertical"
@@ -11,6 +11,11 @@
                                     <ng-template matStepLabel>Please select your area of interest on the map.
                                     </ng-template>
                                     <div>
+                                        <p>Click the black rectangle in the top left corner on the map and draw your
+                                            area of interest.
+                                            You can edit this anytime by clicking the delete button after the rectangle
+                                            was drawn.
+                                        </p>
                                         <label class="checkbox" style="visibility: hidden;">
                                             <input id="checkbox" type="checkbox" formControlName="selected">
                                             Choose are of interest
@@ -87,6 +92,77 @@
                                         </div>
                                     </div>
                                 </mat-step>
+                                <mat-step formGroupName="5" [stepControl]="formArray?.get([5])">
+                                    <ng-template matStepLabel>Desired channels satellite images</ng-template>
+                                    <mat-form-field appearance="fill">
+                                        <mat-label>Desired channels</mat-label>
+                                        <mat-select formControlName="channels" multiple>
+                                            <mat-option value=1>B01</mat-option>
+                                            <mat-option value=2>B02</mat-option>
+                                            <mat-option value=3>B03</mat-option>
+                                            <mat-option value=4>B04</mat-option>
+                                            <mat-option value=5>B05</mat-option>
+                                            <mat-option value=6>B06</mat-option>
+                                            <mat-option value=7>B07</mat-option>
+                                            <mat-option value=8>B08</mat-option>
+                                            <mat-option value=9>B09</mat-option>
+                                            <mat-option value=10>B10</mat-option>
+                                            <mat-option value=11>B11</mat-option>
+                                            <mat-option value=12>B12</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                    <div class="container">
+                                        <div class="field">
+                                            <button mat-button matStepperPrevious
+                                                class="button has-background-warning-light is-pulled-left">Back</button>
+                                            <button mat-button matStepperNext
+                                                class="button has-background-info-light is-pulled-right">Next</button>
+                                        </div>
+                                    </div>
+                                </mat-step>
+                                <mat-step formGroupName="4" [stepControl]="formArray?.get([4])">
+                                    <ng-template matStepLabel>Resolution of satellite images</ng-template>
+                                    <mat-form-field appearance="fill">
+                                        <mat-label>Select an option</mat-label>
+                                        <mat-select formControlName="resolution">
+                                            <mat-option>None</mat-option>
+                                            <mat-option value=10>10x10m</mat-option>
+                                            <mat-option value=20>20x20m</mat-option>
+                                            <mat-option value=60>60x60m</mat-option>
+                                            <mat-option value=100>100x100m</mat-option>
+                                            <mat-option value=200>200x200m</mat-option>
+                                            <mat-option value=400>400x400m</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                    <div class="container">
+                                        <div class="field">
+                                            <button mat-button matStepperPrevious
+                                                class="button has-background-warning-light is-pulled-left">Back</button>
+                                            <button mat-button matStepperNext
+                                                class="button has-background-info-light is-pulled-right">Next</button>
+                                        </div>
+                                    </div>
+                                </mat-step>
+                                <mat-step formGroupName="6" [stepControl]="formArray?.get([6])">
+                                    <br>
+                                    <ng-template matStepLabel>Cloud coverage on satellite images</ng-template>
+                                    <div class="columns is-mobile is-centered">
+                                        <div class="column is-half">
+                                            <p class="bd-notification is-primary">
+                                                <mat-slider thumbLabel tickInterval="1" step="1" min="0" max="100"
+                                                    aria-label="units" formControlName="coverage"></mat-slider>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="container">
+                                        <div class="field">
+                                            <button mat-button matStepperPrevious
+                                                class="button has-background-warning-light is-pulled-left">Back</button>
+                                            <button mat-button matStepperNext
+                                                class="button has-background-info-light is-pulled-right">Next</button>
+                                        </div>
+                                    </div>
+                                </mat-step>
                                 <mat-step>
                                     <ng-template matStepLabel>Done</ng-template>
                                     <p>Do you want to submit your data?</p>
@@ -101,7 +177,7 @@
                         </form>
                     </div>
                 </div>
-                <div class="column">
+                <div id="mapdiv" class="column">
                     <!-- map -->
                     <div class="notification is-white">
                         <div id="map"></div>
