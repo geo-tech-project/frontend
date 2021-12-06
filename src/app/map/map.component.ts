@@ -76,6 +76,10 @@ export class MapComponent implements AfterViewInit {
         this.fb.group({
           channels: [null, Validators.required],
         }),
+        // cloud coverage
+        this.fb.group({
+          coverage: [null, Validators.required],
+        }),
       ]),
     });
 
@@ -101,7 +105,8 @@ export class MapComponent implements AfterViewInit {
         endDate: this.formArray?.get([3]).value.endDate,
         filename: item._file.name,
         resolution: this.formArray?.get([4]).value.resolution,
-        channels: this.formArray?.get([5]).value.channels
+        channels: this.formArray?.get([5]).value.channels,
+        coverage: this.formArray?.get([6]).value.coverage
       };
 
       // send POST to start calculations

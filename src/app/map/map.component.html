@@ -11,8 +11,10 @@
                                     <ng-template matStepLabel>Please select your area of interest on the map.
                                     </ng-template>
                                     <div>
-                                        <p>Click the black rectangle in the top left corner on the map and draw your area of interest.
-                                            You can edit this anytime by clicking the delete button after the rectangle was drawn.
+                                        <p>Click the black rectangle in the top left corner on the map and draw your
+                                            area of interest.
+                                            You can edit this anytime by clicking the delete button after the rectangle
+                                            was drawn.
                                         </p>
                                         <label class="checkbox" style="visibility: hidden;">
                                             <input id="checkbox" type="checkbox" formControlName="selected">
@@ -132,6 +134,26 @@
                                             <mat-option value=400>400x400m</mat-option>
                                         </mat-select>
                                     </mat-form-field>
+                                    <div class="container">
+                                        <div class="field">
+                                            <button mat-button matStepperPrevious
+                                                class="button has-background-warning-light is-pulled-left">Back</button>
+                                            <button mat-button matStepperNext
+                                                class="button has-background-info-light is-pulled-right">Next</button>
+                                        </div>
+                                    </div>
+                                </mat-step>
+                                <mat-step formGroupName="6" [stepControl]="formArray?.get([6])">
+                                    <br>
+                                    <ng-template matStepLabel>Cloud coverage on satellite images</ng-template>
+                                    <div class="columns is-mobile is-centered">
+                                        <div class="column is-half">
+                                            <p class="bd-notification is-primary">
+                                                <mat-slider thumbLabel tickInterval="1" step="1" min="0" max="100"
+                                                    aria-label="units" formControlName="coverage"></mat-slider>
+                                            </p>
+                                        </div>
+                                    </div>
                                     <div class="container">
                                         <div class="field">
                                             <button mat-button matStepperPrevious
