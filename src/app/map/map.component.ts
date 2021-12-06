@@ -246,8 +246,6 @@ export class MapComponent implements AfterViewInit {
   }
 
   onSubmit() {
-    console.log(this.submitForm);
-    
     this.formSubmitted = true;
     if (this.submitForm.valid) {
       document.getElementById('progressModal').classList.add('is-active');
