@@ -110,7 +110,7 @@ export class MapComponent implements AfterViewInit {
       };
 
       // send POST to start calculations
-      this.http.post(this.APIURL + '/calculateaoi', jsonData).subscribe({
+      this.http.post(this.APIURL + '/start', jsonData).subscribe({
         next: (data) => {
           this.map.removeLayer(this.drawnItems);
           //console.log(data);
