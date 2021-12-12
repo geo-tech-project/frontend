@@ -2,9 +2,7 @@ import { Component, AfterViewInit } from '@angular/core';
 import * as L from 'leaflet';
 import {
   AbstractControl,
-  FormArray,
   FormBuilder,
-  FormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
@@ -12,10 +10,6 @@ import { HttpClient } from '@angular/common/http';
 import { FileUploader } from 'ng2-file-upload';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
-
-import * as LeafletGeotiff from 'leaflet-geotiff';
-import 'leaflet-geotiff/leaflet-geotiff-plotty';
-import 'leaflet-geotiff/leaflet-geotiff-vector-arrows';
 
 @Component({
   selector: 'app-map',
