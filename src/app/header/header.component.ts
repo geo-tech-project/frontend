@@ -35,6 +35,18 @@ import { Component, OnInit } from '@angular/core';
                 <span>Map</span>
               </a>
             </span>
+            <span
+              class="navbar-item"
+              routerLink="/demo"
+              routerLinkActive="active"
+            >
+              <a>
+                <span class="icon">
+                  <i class="fa fa-map"></i>
+                </span>
+                <span>Demo</span>
+              </a>
+            </span>
           </div>
           <div class="navbar-end">
             <span class="navbar-item">

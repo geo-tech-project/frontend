@@ -29,6 +29,8 @@ import {MatStepperModule} from '@angular/material/stepper';
 import {MatIconModule} from '@angular/material/icon';
 import {MatSelectModule} from '@angular/material/select';
 import {MatSliderModule} from '@angular/material/slider';
+import { DemoComponent } from './demo/demo.component';
+import { ResultComponent } from './result/result.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,9 @@ import {MatSliderModule} from '@angular/material/slider';
     LandingpageComponent,
     HeaderComponent,
     FooterComponent,
-    MapComponent
+    MapComponent,
+    DemoComponent,
+    ResultComponent
   ],
   imports: [
     BrowserModule,

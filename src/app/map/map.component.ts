@@ -117,16 +117,8 @@ export class MapComponent implements AfterViewInit {
           document
             .getElementById('progressModal')
             .classList.remove('is-active');
-          var layer = LeafletGeotiff.leafletGeotiff(
-            this.APIURL + '/stack/test.tif',
-            {
-              band: 1,
-              name: 'AOA',
-              renderer: new LeafletGeotiff.LeafletGeotiff.Plotty({
-                colorScale: 'blackbody',
-              }),
-            }
-          ).addTo(this.map);
+          console.log("feddich");
+          
         },
         error: (error) => {
           console.error('There was an error!', error);

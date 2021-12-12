@@ -3,6 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { MapComponent } from './map/map.component';
 
 import { LandingpageComponent } from './landingpage/landingpage.component';
+import { DemoComponent } from './demo/demo.component';
+import { ResultComponent } from './result/result.component';
 
 const routes: Routes = [
   {
@@ -12,6 +14,14 @@ const routes: Routes = [
   {
     path: 'map',
     component: MapComponent,
+  },
+  {
+    path: 'demo',
+    component: DemoComponent,
+  },
+  {
+    path: 'result',
+    component: ResultComponent,
   },
 ];
 
