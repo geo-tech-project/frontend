@@ -52,6 +52,10 @@ export class MapComponent implements AfterViewInit {
         // trained model or training data
         this.fb.group({
           option: [null, Validators.required],
+          algorithm: [null, Validators.required],
+          mtry: [null],
+          sigma: [null],
+          cost: [null]
         }),
         // file
         this.fb.group({
@@ -79,6 +83,8 @@ export class MapComponent implements AfterViewInit {
 
     //  what sould happen after a file was selected
     this.uploader.onAfterAddingFile = (file) => {
+      console.log(this.formArray);
+      
       file.withCredentials = false;
     };
 
@@ -95,6 +101,7 @@ export class MapComponent implements AfterViewInit {
         toprightlat: this.formArray?.get([0]).value.aoi[0][3].lat,
         toprightlng: this.formArray?.get([0]).value.aoi[0][3].lng,
         option: this.formArray?.get([1]).value.option,
+        algorithm: this.formArray?.get([1]).value.algorithm,
         startDate: this.formArray?.get([3]).value.startDate,
         endDate: this.formArray?.get([3]).value.endDate,
         filename: item._file.name,
@@ -102,6 +109,15 @@ export class MapComponent implements AfterViewInit {
         channels: this.formArray?.get([5]).value.channels,
         coverage: this.formArray?.get([6]).value.coverage
       };
+
+      if(jsonData.algorithm == 'sf') {
+        jsonData['mtry'] = this.formArray?.get([1]).value.mtry;
+      }
+
+      else if(jsonData.algorithm == 'smvRadial') {
+        jsonData['sigma'] = this.formArray?.get([1]).value.sigma;
+        jsonData['cost'] = this.formArray?.get([1]).value.cost;
+      }
 
       // send POST to start calculations
       this.http.post(this.APIURL + '/start', jsonData).subscribe({
@@ -225,6 +241,14 @@ export class MapComponent implements AfterViewInit {
     this.formArray.get([0]).patchValue({
       aoi: coords,
     });
+  }
+
+  getOptionValue() {
+    return this.formArray?.get([1]).value.option;
+  }
+
+  getAlgorithmValue() {
+    return this.formArray?.get([1]).value.algorithm;
   }
 
   getJSON(path): Observable<any> {
