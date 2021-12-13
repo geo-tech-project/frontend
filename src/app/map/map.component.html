@@ -30,15 +30,34 @@
                                         <label class="radio">
                                             <input type="radio" [value]="'model'" name="option"
                                                 formControlName="option">
-                                            Trained model
+                                            <b>Trained model</b>
                                         </label>
                                         <label class="radio">
                                             <input type="radio" [value]="'data'" name="option" formControlName="option">
-                                            Training data
+                                            <b>Training data</b>
                                         </label>
-                                        <br>
                                     </div>
-                                    <br>
+                                    <div *ngIf="getOptionValue() == 'data'">
+                                        <mat-form-field appearance="fill">
+                                            <mat-label>Select a training algorithm</mat-label>
+                                            <mat-select formControlName="algorithm">
+                                                <mat-option value='rf'>Random Forest</mat-option>
+                                                <mat-option value='smvRadial'>Support Vector Machines</mat-option>
+                                                <mat-option value='xgbTree'>eXtreme Gradient Boosting</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                        <div *ngIf="getAlgorithmValue() == 'rf'">
+                                            <label class="label">Number of Randomly Selected Predictors</label>
+                                            <input formControlName="mtry" class="input" type="number">
+                                        </div>
+                                        <div *ngIf="getAlgorithmValue() == 'smvRadial'">
+                                            <label class="label">Standard Deviation</label>
+                                            <input formControlName="sigma" class="input" type="number">
+                                            <br>
+                                            <label class="label">Cost</label>
+                                            <input formControlName="cost" class="input" type="number">
+                                        </div>
+                                    </div>
                                     <div class="container">
                                         <div class="field">
                                             <button mat-button matStepperNext
@@ -125,7 +144,6 @@
                                     <mat-form-field appearance="fill">
                                         <mat-label>Select an option</mat-label>
                                         <mat-select formControlName="resolution">
-                                            <mat-option>None</mat-option>
                                             <mat-option value=10>10x10m</mat-option>
                                             <mat-option value=20>20x20m</mat-option>
                                             <mat-option value=60>60x60m</mat-option>
