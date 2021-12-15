@@ -56,6 +56,8 @@ export class ResultComponent implements AfterViewInit {
           var layer = new GeoRasterLayer({
             georaster: georaster,
             opacity: 0.7,
+            pixelValuesToColorFn: (values) =>
+              values[0] === 42 ? '#ffffff' : '#000000',
             resolution: 64, // optional parameter for adjusting display resolution
           });
           layer.addTo(this.map);
@@ -70,7 +72,10 @@ export class ResultComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     this.initMap();
     this.addRaster('http://localhost:8781/stack/aoa.tif', 'AOA');
-    this.addRaster('http://localhost:8781/stack/prediction.tif', 'Classification');
+    this.addRaster(
+      'http://localhost:8781/stack/prediction.tif',
+      'Classification'
+    );
     this.getQueryParams();
   }
 }
