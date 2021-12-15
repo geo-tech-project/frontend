@@ -55,7 +55,7 @@ export class MapComponent implements AfterViewInit {
           algorithm: [null, Validators.required],
           mtry: [null],
           sigma: [null],
-          cost: [null]
+          cost: [null],
         }),
         // file
         this.fb.group({
@@ -84,7 +84,7 @@ export class MapComponent implements AfterViewInit {
     //  what sould happen after a file was selected
     this.uploader.onAfterAddingFile = (file) => {
       console.log(this.formArray);
-      
+
       file.withCredentials = false;
     };
 
@@ -107,14 +107,12 @@ export class MapComponent implements AfterViewInit {
         filename: item._file.name,
         resolution: this.formArray?.get([4]).value.resolution,
         channels: this.formArray?.get([5]).value.channels,
-        coverage: this.formArray?.get([6]).value.coverage
+        coverage: this.formArray?.get([6]).value.coverage,
       };
 
-      if(jsonData.algorithm == 'sf') {
+      if (jsonData.algorithm == 'rf') {
         jsonData['mtry'] = this.formArray?.get([1]).value.mtry;
-      }
-
-      else if(jsonData.algorithm == 'smvRadial') {
+      } else if (jsonData.algorithm == 'smvRadial') {
         jsonData['sigma'] = this.formArray?.get([1]).value.sigma;
         jsonData['cost'] = this.formArray?.get([1]).value.cost;
       }
@@ -127,8 +125,6 @@ export class MapComponent implements AfterViewInit {
           document
             .getElementById('progressModal')
             .classList.remove('is-active');
-          console.log("feddich");
-          
         },
         error: (error) => {
           console.error('There was an error!', error);
