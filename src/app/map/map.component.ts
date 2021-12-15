@@ -110,7 +110,7 @@ export class MapComponent implements AfterViewInit {
         coverage: this.formArray?.get([6]).value.coverage
       };
 
-      if(jsonData.algorithm == 'sf') {
+      if(jsonData.algorithm == 'rf') {
         jsonData['mtry'] = this.formArray?.get([1]).value.mtry;
       }
 
