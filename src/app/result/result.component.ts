@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
 import geoblaze from 'geoblaze';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-result',
@@ -18,6 +19,8 @@ export class ResultComponent implements AfterViewInit {
   private layerGroup;
   private layerControl;
   private classes = [];
+  // url to run on -> localhost or ip
+  APIURL = environment.api_url;
 
   private initMap(): void {
     this.map = L.map('resultmap', {
@@ -96,7 +99,7 @@ export class ResultComponent implements AfterViewInit {
   }
 
   private getJSON(): Observable<any> {
-    return this.http.get('http://localhost:8781/json');
+    return this.http.get(this.APIURL + '/json');
   }
 
   private getHexColor(cl) {
@@ -126,7 +129,7 @@ export class ResultComponent implements AfterViewInit {
     this.initMap();
     //this.addRaster('http://localhost:8781/stack/aoa.tif', 'AOA');
     this.addRaster(
-      'http://localhost:8781/stack/prediction.tif',
+      this.APIURL +'/stack/prediction.tif',
       'Classification'
     );
     this.getQueryParams();
