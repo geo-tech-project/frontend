@@ -129,7 +129,7 @@ export class ResultComponent implements AfterViewInit {
     this.initMap();
     //this.addRaster('http://localhost:8781/stack/aoa.tif', 'AOA');
     this.addRaster(
-      this.APIURL +'/stack/prediction.tif',
+      this.APIURL +'/stack/reprojectedPrediction.tif',
       'Classification'
     );
     this.getQueryParams();
