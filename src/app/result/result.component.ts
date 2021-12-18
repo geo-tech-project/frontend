@@ -20,7 +20,7 @@ export class ResultComponent implements AfterViewInit {
   private classes = [];
 
   private initMap(): void {
-    this.map = L.map('map', {
+    this.map = L.map('resultmap', {
       center: [51.9606649, 7.6261347],
       zoom: 12,
       zoomControl: false,
@@ -61,6 +61,7 @@ export class ResultComponent implements AfterViewInit {
 
           var layer = new GeoRasterLayer({
             georaster: georaster,
+            debugLevel: 1,
             opacity: 0.7,
             pixelValuesToColorFn: (values) =>
               values[0] === 1
