@@ -76,7 +76,7 @@ export class ResultComponent implements AfterViewInit {
                 : values[0] === 6
                 ? '#296400'
                 : values[0] === 7
-                ? '#FF5C5C'
+                ? '#FF3737'
                 : null,
             resolution: 64, // optional parameter for adjusting display resolution
           });
