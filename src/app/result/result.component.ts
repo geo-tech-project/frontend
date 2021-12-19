@@ -63,20 +63,20 @@ export class ResultComponent implements AfterViewInit {
             debugLevel: 1,
             opacity: 0.7,
             pixelValuesToColorFn: (values) =>
-              values[0] === 1
-                ? '#13821d'
+                  values[0] === 1
+                ? '#0EB700 '
                 : values[0] === 2
-                ? '#9c8217'
+                ? '#C1BE00 '
                 : values[0] === 3
-                ? '#0312c8'
+                ? '#CBCBCB'
                 : values[0] === 4
-                ? '#593db5'
+                ? '#002372'
                 : values[0] === 5
                 ? '#6b6f3a'
                 : values[0] === 6
-                ? '#641061'
+                ? '#296400'
                 : values[0] === 7
-                ? '#87b2e8'
+                ? '#FF5C5C'
                 : null,
             resolution: 64, // optional parameter for adjusting display resolution
           });
