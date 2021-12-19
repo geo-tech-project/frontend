@@ -18,7 +18,6 @@ export class ResultComponent implements AfterViewInit {
   private map;
   private layerGroup;
   private layerControl;
-  private classes = [];
   // url to run on -> localhost or ip
   APIURL = environment.api_url;
 
@@ -53,9 +52,6 @@ export class ResultComponent implements AfterViewInit {
   }
 
   private addRaster(tiffUrl, name): void {
-    this.getJSON().subscribe((data) => {
-      this.classes = data;
-    });
     fetch(tiffUrl)
       .then((response) => response.arrayBuffer())
       .then((arrayBuffer) => {
@@ -68,17 +64,17 @@ export class ResultComponent implements AfterViewInit {
             opacity: 0.7,
             pixelValuesToColorFn: (values) =>
               values[0] === 1
-                ? this.getHexColor(this.classes[0])
+                ? '#FF5733'
                 : values[0] === 2
-                ? this.getHexColor(this.classes[1])
+                ? '#FF5733'
                 : values[0] === 3
-                ? this.getHexColor(this.classes[2])
+                ? '#FF5733'
                 : values[0] === 4
-                ? this.getHexColor(this.classes[3])
+                ? '#FF5733'
                 : values[0] === 5
-                ? this.getHexColor(this.classes[4])
+                ? '#FF5733'
                 : values[0] === 6
-                ? this.getHexColor(this.classes[5])
+                ? '#FF5733'
                 : values[0] === 7
                 ? '#656661'
                 : null,
@@ -102,34 +98,13 @@ export class ResultComponent implements AfterViewInit {
     return this.http.get(this.APIURL + '/json');
   }
 
-  private getHexColor(cl) {
-    switch (cl) {
-      case 'Fallow field':
-        return '#eab676';
-      case 'Grassland':
-        return '#76b364';
-      case 'Industrial':
-        return '#000000';
-      case 'Inland water':
-        return '#6372d4';
-      case 'Mixed forest':
-        return '#1f4f11';
-      case 'Planted field':
-        return '#8d9931';
-      case 'Urban':
-        return '#656661';
-      default:
-        return null;
-    }
-  }
-
   constructor(private route: ActivatedRoute, private http: HttpClient) {}
 
   ngAfterViewInit(): void {
     this.initMap();
     //this.addRaster('http://localhost:8781/stack/aoa.tif', 'AOA');
     this.addRaster(
-      this.APIURL +'/stack/reprojectedPrediction.tif',
+      this.APIURL +'/stack/prediction.tif',
       'Classification'
     );
     this.getQueryParams();
