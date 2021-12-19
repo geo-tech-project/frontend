@@ -64,19 +64,19 @@ export class ResultComponent implements AfterViewInit {
             opacity: 0.7,
             pixelValuesToColorFn: (values) =>
               values[0] === 1
-                ? '#FF5733'
+                ? '#13821d'
                 : values[0] === 2
-                ? '#FF5733'
+                ? '#9c8217'
                 : values[0] === 3
-                ? '#FF5733'
+                ? '#0312c8'
                 : values[0] === 4
-                ? '#FF5733'
+                ? '#593db5'
                 : values[0] === 5
-                ? '#FF5733'
+                ? '#6b6f3a'
                 : values[0] === 6
-                ? '#FF5733'
+                ? '#641061'
                 : values[0] === 7
-                ? '#656661'
+                ? '#87b2e8'
                 : null,
             resolution: 64, // optional parameter for adjusting display resolution
           });
@@ -84,11 +84,10 @@ export class ResultComponent implements AfterViewInit {
           this.layerGroup = L.layerGroup().addLayer(layer);
           this.layerControl.addOverlay(this.layerGroup, name);
           // get class number
-          this.map.on('click', function (evt) {
+          this.map.on('click',async function (evt) {
             console.log(evt);
-            alert(
-              geoblaze.identify(georaster, [evt.latlng.lng, evt.latlng.lat])
-            );
+            var className = await geoblaze.identify(georaster, [0, 0]);
+            alert(className);
           });
         });
       });
@@ -104,7 +103,7 @@ export class ResultComponent implements AfterViewInit {
     this.initMap();
     //this.addRaster('http://localhost:8781/stack/aoa.tif', 'AOA');
     this.addRaster(
-      this.APIURL +'/stack/prediction.tif',
+      this.APIURL +'/predictionaoa/prediction.tif',
       'Classification'
     );
     this.getQueryParams();

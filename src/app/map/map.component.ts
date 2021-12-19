@@ -10,6 +10,7 @@ import { HttpClient } from '@angular/common/http';
 import { FileUploader } from 'ng2-file-upload';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-map',
@@ -38,7 +39,11 @@ export class MapComponent implements AfterViewInit {
     itemAlias: 'file',
   });
 
-  constructor(private fb: FormBuilder, private http: HttpClient) {}
+  constructor(
+    private fb: FormBuilder,
+    private http: HttpClient,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     // initialize form group for validation and form stepper
@@ -125,6 +130,7 @@ export class MapComponent implements AfterViewInit {
           document
             .getElementById('progressModal')
             .classList.remove('is-active');
+          this.router.navigate(['result']);
         },
         error: (error) => {
           console.error('There was an error!', error);
