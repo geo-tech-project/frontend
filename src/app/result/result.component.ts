@@ -5,6 +5,8 @@ import GeoRasterLayer from 'georaster-layer-for-leaflet';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import chroma from 'chroma-js';
+
 
 import geoblaze from 'geoblaze';
 import { environment } from 'src/environments/environment';
@@ -87,26 +89,30 @@ export class ResultComponent implements AfterViewInit {
     const furtherTrainAreasGeoJSON = await responseTrainAreas.json();
     this.trainAreasLayer = L.geoJSON(furtherTrainAreasGeoJSON.features);
 
+    const min = georasterPrediction.mins[0];
+    const max = georasterPrediction.maxs[0];
+    const range = georasterPrediction.ranges[0];
+    
+    console.log(chroma.brewer);
+    var scale = chroma.scale("rdylbu")
     this.predictionLayer = new GeoRasterLayer({
       georaster: georasterPrediction,
       debugLevel: 1,
       opacity: 0.7,
-      pixelValuesToColorFn: (values) =>
-        values[0] === 1
-          ? '#0EB700 '
-          : values[0] === 2
-          ? '#C1BE00 '
-          : values[0] === 3
-          ? '#CBCBCB'
-          : values[0] === 4
-          ? '#002372'
-          : values[0] === 5
-          ? '#6b6f3a'
-          : values[0] === 6
-          ? '#296400'
-          : values[0] === 7
-          ? '#FF3737'
-          : null,
+      pixelValuesToColorFn: function(pixelValues) {
+        var pixelValue = pixelValues[0]; // there's just one band in this raster
+        console.log(pixelValue)
+
+        // if there's zero wind, don't return a color
+        if (pixelValue === 0) return null;
+
+        // scale to 0 - 1 used by chroma
+        var scaledPixelValue = (pixelValue - min) / range;
+
+        var color = scale(scaledPixelValue).hex();
+
+        return color;
+      },
       resolution: 64, // optional parameter for adjusting display resolution
     });
     this.predictionLayer.addTo(this.map);
@@ -150,7 +156,7 @@ export class ResultComponent implements AfterViewInit {
     } else if (name == 'trainingData') {
       window.open(this.APIURL + '/processedsentinelimages/trainingData.tif', '_blank');
     } else if (name == 'model') {
-      window.open(this.APIURL + '/model/model.RDS', '_blank');
+        window.open(this.APIURL + '/file/model.RDS', '_blank')
     }
   }
 
