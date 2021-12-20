@@ -29,7 +29,7 @@ export class ResultComponent implements AfterViewInit {
   aoiUrl = this.APIURL + '/processedsentinelimages/aoi.tif';
   furtherTrainAreasJSONUrl = this.APIURL + '/furthertrainareas/furtherTrainAreas.geojson';
   trainingDataPolygonsJSONUrl = this.APIURL + '/trainingdata/trainingsdaten_muenster_32632.gpkg';
-  
+
   // Initially definining variables for layers
   predictionLayer = null;
   aoaLayer = null;
@@ -74,6 +74,7 @@ export class ResultComponent implements AfterViewInit {
 
     // Fetch aoa url and create georaster object
     const responseAOA = await fetch(this.aoaUrl);
+    console.log(this.aoaUrl);
     const arrayBufferAOA = await responseAOA.arrayBuffer();
     const georasterAOA = await parseGeoRaster(arrayBufferAOA);
 
