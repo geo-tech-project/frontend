@@ -74,7 +74,6 @@ export class ResultComponent implements AfterViewInit {
 
     // Fetch aoa url and create georaster object
     const responseAOA = await fetch(this.aoaUrl);
-    console.log(this.aoaUrl);
     const arrayBufferAOA = await responseAOA.arrayBuffer();
     const georasterAOA = await parseGeoRaster(arrayBufferAOA);
 
@@ -120,7 +119,6 @@ export class ResultComponent implements AfterViewInit {
         values[0] === 0 ? '#000000 ' : values[0] === 1 ? '#FFFFFF ' : null,
       resolution: 64, // optional parameter for adjusting display resolution
     });
-    console.log(georasterAOA);
     // this.aoaLayer.addTo(this.map);
 
     // this.aoiLayer = new GeoRasterLayer({
