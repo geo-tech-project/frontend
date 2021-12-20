@@ -101,7 +101,6 @@ export class ResultComponent implements AfterViewInit {
       opacity: 0.7,
       pixelValuesToColorFn: function(pixelValues) {
         var pixelValue = pixelValues[0]; // there's just one band in this raster
-        console.log(pixelValue)
 
         // if there's zero wind, don't return a color
         if (pixelValue === 0) return null;
