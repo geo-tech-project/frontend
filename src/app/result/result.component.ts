@@ -9,6 +9,8 @@ import { HttpClient } from '@angular/common/http';
 import geoblaze from 'geoblaze';
 import { environment } from 'src/environments/environment';
 
+import { MatSliderModule } from '@angular/material/slider';
+
 @Component({
   selector: 'app-result',
   templateUrl: './result.component.html',
@@ -21,15 +23,24 @@ export class ResultComponent implements AfterViewInit {
   // url to run on -> localhost or ip
   APIURL = environment.api_url;
 
-    // WHAT ARE THE URLS AND WHERE DO I GET THEM FROM?
-  predictionUrl = this.APIURL + "/predictionaoa/prediction.tif";
+  // WHAT ARE THE URLS AND WHERE DO I GET THEM FROM?
+  predictionUrl = this.APIURL + '/predictionaoa/prediction.tif';
   predictionLayer = null;
-  aoaUrl =  this.APIURL + "/predictionaoa/aoa.tif";
+  aoaUrl = this.APIURL + '/predictionaoa/aoa.tif';
   aoaLayer = null;
-  aoiUrl = this.APIURL + "/processedsentinelimages/aoi.tif";
+  aoiUrl = this.APIURL + '/processedsentinelimages/aoi.tif';
   aoiLayer = null;
-  furtherTrainAreasJSONUrl = this.APIURL + "/furthertrainareas/furtherTrainAreas.geojson";
-  trainingDataPolygonsJSONUrl = this.APIURL + "/trainingdata/trainingsdaten_muenster_32632.gpkg";
+  trainAreasLayer = null;
+  furtherTrainAreasJSONUrl =
+    this.APIURL + '/furthertrainareas/furtherTrainAreas.geojson';
+  trainingDataPolygonsJSONUrl =
+    this.APIURL + '/trainingdata/trainingsdaten_muenster_32632.gpkg';
+
+  markerIcon = L.icon({
+    iconUrl: this.APIURL + '/marker',
+  });
+
+
 
   private initMap(): void {
     this.map = L.map('resultmap', {
@@ -53,55 +64,36 @@ export class ResultComponent implements AfterViewInit {
     );
     //add tiles to map
     tiles.addTo(this.map);
-
-    //this.layerControl = L.control.layers().addTo(this.map);
   }
 
   // Load the URLS and transform the tifs to GeoRaster objects with a nice visualization
   async createAllLayersFromTif() {
     // Fetch prediction url and create georaster object
-    const responsePrediction =    await fetch(this.predictionUrl);
+    const responsePrediction = await fetch(this.predictionUrl);
     const arrayBufferPrediction = await responsePrediction.arrayBuffer();
-    const georasterPrediction =   await parseGeoRaster(arrayBufferPrediction);
+    const georasterPrediction = await parseGeoRaster(arrayBufferPrediction);
 
     // Fetch aoa url and create georaster object
-    const responseAOA =    await fetch(this.aoaUrl);
+    const responseAOA = await fetch(this.aoaUrl);
     const arrayBufferAOA = await responseAOA.arrayBuffer();
-    const georasterAOA =   await parseGeoRaster(arrayBufferAOA);
+    const georasterAOA = await parseGeoRaster(arrayBufferAOA);
 
     // Fetch aoi url and create georaster object
-    const responseAOI =    await fetch(this.aoiUrl);
+    const responseAOI = await fetch(this.aoiUrl);
     const arrayBufferAOI = await responseAOI.arrayBuffer();
-    const georasterAOI =   await parseGeoRaster(arrayBufferAOI);
+    const georasterAOI = await parseGeoRaster(arrayBufferAOI);
 
     // Fetch further train areas url and create geojson object
-    const responseTrainAreas =    await fetch(this.furtherTrainAreasJSONUrl);
+    const responseTrainAreas = await fetch(this.furtherTrainAreasJSONUrl);
     const furtherTrainAreasGeoJSON = await responseTrainAreas.json();
-    console.log(furtherTrainAreasGeoJSON);
-    L.geoJSON(furtherTrainAreasGeoJSON.features).addTo(this.map);
-
-    // Fetch training data url and
-  //   const responseTrainingData = await fetch(this.trainingDataPolygonsJSONUrl);
-  //   L.geoPackageTileLayer({
-  //     geoPackageUrl: this.trainingDataPolygonsJSONUrl,
-  //     layerName: 'rivers_tiles'
-  // }).addTo(this.map);
-
-    // }
-    // const trainingDataGeoJSON = await responseTrainingData.gpkg();
-    // console.log(trainingDataGeoJSON);
-    //L.geoJSON(trainingDataGeoJSON.features).addTo(this.map);
-
-  
-
-    // trainAreaJSON = await JSON.parse(responseTrainArea)
+    this.trainAreasLayer = L.geoJSON(furtherTrainAreasGeoJSON.features);
 
     this.predictionLayer = new GeoRasterLayer({
       georaster: georasterPrediction,
       debugLevel: 1,
       opacity: 0.7,
       pixelValuesToColorFn: (values) =>
-            values[0] === 1
+        values[0] === 1
           ? '#0EB700 '
           : values[0] === 2
           ? '#C1BE00 '
@@ -119,32 +111,73 @@ export class ResultComponent implements AfterViewInit {
       resolution: 64, // optional parameter for adjusting display resolution
     });
     this.predictionLayer.addTo(this.map);
-    // Add legend?
-    //var legend = new L.Control({position: "bottomleft"})
-
 
     this.aoaLayer = new GeoRasterLayer({
       georaster: georasterAOA,
       debugLevel: 1,
       opacity: 0.7,
       pixelValuesToColorFn: (values) =>
-            values[1] === 0
-          ? '#000000 '
-          : values[1] === 1
-          ? '#FFFFFF '
-          : null,
+        values[1] === 0 ? '#000000 ' : values[1] === 1 ? '#FFFFFF ' : null,
       resolution: 64, // optional parameter for adjusting display resolution
     });
     this.aoaLayer.addTo(this.map);
 
-    this.aoiLayer = new GeoRasterLayer({
-      georaster: georasterAOI,
-      debugLevel: 1,
-      opacity: 0.7,
-      resolution: 64, // optional parameter for adjusting display resolution
-    });
-    console.log(georasterAOI);
-    this.aoiLayer.addTo(this.map);
+    // this.aoiLayer = new GeoRasterLayer({
+    //   georaster: georasterAOI,
+    //   debugLevel: 1,
+    //   opacity: 0.7,
+    //   resolution: 64, // optional parameter for adjusting display resolution
+    // });
+    // this.aoiLayer.addTo(this.map);
+  }
+
+  changeOpacity(event, name) {
+    if (name == 'prediction') {
+      this.predictionLayer.setOpacity(event.value);
+    } else if (name == 'aoa') {
+      this.aoaLayer.setOpacity(event.value);
+    }
+  }
+
+  downloadData(name) {
+    if (name == 'prediction') {
+      window.open(this.APIURL + '/predictionaoa/prediction.tif', '_blank');
+    } else if (name == 'aoa') {
+      window.open(this.APIURL + '/predictionaoa/aoa.tif', '_blank');
+    } else if (name == 'trainAreas') {
+      window.open(
+        this.APIURL + '/furthertrainareas/furtherTrainAreas.geojson',
+        '_blank'
+      );
+    }
+  }
+
+  checkboxClicked(name) {
+    if (name == 'prediction') {
+      if (
+        (<HTMLInputElement>document.getElementById('predictionCheckbox'))
+          .checked
+      ) {
+        this.predictionLayer.addTo(this.map);
+      } else {
+        this.map.removeLayer(this.predictionLayer);
+      }
+    } else if (name == 'aoa') {
+      if ((<HTMLInputElement>document.getElementById('aoaCheckbox')).checked) {
+        this.aoaLayer.addTo(this.map);
+      } else {
+        this.map.removeLayer(this.aoaLayer);
+      }
+    } else if (name == 'trainAreas') {
+      if (
+        (<HTMLInputElement>document.getElementById('trainAreasCheckbox'))
+          .checked
+      ) {
+        this.trainAreasLayer.addTo(this.map);
+      } else {
+        this.map.removeLayer(this.trainAreasLayer);
+      }
+    }
   }
 
   private getJSON(): Observable<any> {
@@ -156,15 +189,5 @@ export class ResultComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     this.initMap();
     this.createAllLayersFromTif();
-    //this.addRaster('http://localhost:8781/stack/aoa.tif', 'AOA');
-    // this.addRaster(
-    //   'http://localhost:8781/predictionaoa/prediction.tif',
-    //   'Classification'
-    // );
-    // console.log(this.APIURL);
-    // this.addRaster(
-    //   this.APIURL +'/predictionaoa/aoa.tif',
-    //   'AOA'
-    // );
   }
 }
