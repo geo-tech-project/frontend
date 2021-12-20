@@ -23,25 +23,26 @@ export class ResultComponent implements AfterViewInit {
   // url to run on -> localhost or ip
   APIURL = environment.api_url;
 
-  // WHAT ARE THE URLS AND WHERE DO I GET THEM FROM?
+  // URLs for all layers that have to be created
   predictionUrl = this.APIURL + '/predictionaoa/prediction.tif';
-  predictionLayer = null;
   aoaUrl = this.APIURL + '/predictionaoa/aoa.tif';
-  aoaLayer = null;
   aoiUrl = this.APIURL + '/processedsentinelimages/aoi.tif';
+  furtherTrainAreasJSONUrl = this.APIURL + '/furthertrainareas/furtherTrainAreas.geojson';
+  trainingDataPolygonsJSONUrl = this.APIURL + '/trainingdata/trainingsdaten_muenster_32632.gpkg';
+  
+  // Initially definining variables for layers
+  predictionLayer = null;
+  aoaLayer = null;
   aoiLayer = null;
   trainAreasLayer = null;
-  furtherTrainAreasJSONUrl =
-    this.APIURL + '/furthertrainareas/furtherTrainAreas.geojson';
-  trainingDataPolygonsJSONUrl =
-    this.APIURL + '/trainingdata/trainingsdaten_muenster_32632.gpkg';
+  trainingDataLayer = null;
+  
 
-  markerIcon = L.icon({
-    iconUrl: this.APIURL + '/marker',
-  });
+  // markerIcon = L.icon({
+  //   iconUrl: this.APIURL + '/marker',
+  // });
 
-
-
+  // Set up map 
   private initMap(): void {
     this.map = L.map('resultmap', {
       center: [51.9606649, 7.6261347],
@@ -120,7 +121,7 @@ export class ResultComponent implements AfterViewInit {
         values[1] === 0 ? '#000000 ' : values[1] === 1 ? '#FFFFFF ' : null,
       resolution: 64, // optional parameter for adjusting display resolution
     });
-    this.aoaLayer.addTo(this.map);
+    // this.aoaLayer.addTo(this.map);
 
     // this.aoiLayer = new GeoRasterLayer({
     //   georaster: georasterAOI,
@@ -159,12 +160,15 @@ export class ResultComponent implements AfterViewInit {
           .checked
       ) {
         this.predictionLayer.addTo(this.map);
+        // this.map.fitBounds(this.predictionLayer)
+        this.map.setView(this.predictionLayer.getBounds().getCenter());
       } else {
         this.map.removeLayer(this.predictionLayer);
       }
     } else if (name == 'aoa') {
       if ((<HTMLInputElement>document.getElementById('aoaCheckbox')).checked) {
         this.aoaLayer.addTo(this.map);
+        this.map.setView(this.aoaLayer.getBounds().getCenter());
       } else {
         this.map.removeLayer(this.aoaLayer);
       }
