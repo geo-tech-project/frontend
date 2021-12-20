@@ -152,7 +152,7 @@ export class ResultComponent implements AfterViewInit {
     } else if (name == 'trainingData') {
       window.open(this.APIURL + '/processedsentinelimages/trainingData.tif', '_blank');
     } else if (name == 'model') {
-      window.open(this.APIURL + '/file/model.RDS', '_blank');
+      window.open(this.APIURL + '/model/model.RDS', '_blank');
     }
   }
 
