@@ -117,9 +117,10 @@ export class ResultComponent implements AfterViewInit {
       debugLevel: 1,
       opacity: 0.7,
       pixelValuesToColorFn: (values) =>
-        values[1] === 0 ? '#000000 ' : values[1] === 1 ? '#FFFFFF ' : null,
+        values[0] === 0 ? '#000000 ' : values[0] === 1 ? '#FFFFFF ' : null,
       resolution: 64, // optional parameter for adjusting display resolution
     });
+    console.log(georasterAOA);
     // this.aoaLayer.addTo(this.map);
 
     // this.aoiLayer = new GeoRasterLayer({
@@ -150,6 +151,8 @@ export class ResultComponent implements AfterViewInit {
       window.open(this.APIURL + '/processedsentinelimages/aoi.tif', '_blank');
     } else if (name == 'trainingData') {
       window.open(this.APIURL + '/processedsentinelimages/trainingData.tif', '_blank');
+    } else if (name == 'model') {
+      window.open(this.APIURL + '/file/model.RDS', '_blank');
     }
   }
 
