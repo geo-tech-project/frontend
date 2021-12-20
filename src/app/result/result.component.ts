@@ -35,8 +35,6 @@ export class ResultComponent implements AfterViewInit {
   aoaLayer = null;
   aoiLayer = null;
   trainAreasLayer = null;
-  trainingDataLayer = null;
-  
 
   // markerIcon = L.icon({
   //   iconUrl: this.APIURL + '/marker',
@@ -80,9 +78,9 @@ export class ResultComponent implements AfterViewInit {
     const georasterAOA = await parseGeoRaster(arrayBufferAOA);
 
     // Fetch aoi url and create georaster object
-    const responseAOI = await fetch(this.aoiUrl);
-    const arrayBufferAOI = await responseAOI.arrayBuffer();
-    const georasterAOI = await parseGeoRaster(arrayBufferAOI);
+    // const responseAOI = await fetch(this.aoiUrl);
+    // const arrayBufferAOI = await responseAOI.arrayBuffer();
+    // const georasterAOI = await parseGeoRaster(arrayBufferAOI);
 
     // Fetch further train areas url and create geojson object
     const responseTrainAreas = await fetch(this.furtherTrainAreasJSONUrl);
@@ -146,10 +144,11 @@ export class ResultComponent implements AfterViewInit {
     } else if (name == 'aoa') {
       window.open(this.APIURL + '/predictionaoa/aoa.tif', '_blank');
     } else if (name == 'trainAreas') {
-      window.open(
-        this.APIURL + '/furthertrainareas/furtherTrainAreas.geojson',
-        '_blank'
-      );
+      window.open(this.APIURL + '/furthertrainareas/furtherTrainAreas.geojson', '_blank');
+    } else if (name == 'aoi') {
+      window.open(this.APIURL + '/processedsentinelimages/aoi.tif', '_blank');
+    } else if (name == 'trainingData') {
+      window.open(this.APIURL + '/processedsentinelimages/trainingData.tif', '_blank');
     }
   }
 
