@@ -57,7 +57,7 @@ export class MapComponent implements AfterViewInit {
         // trained model or training data
         this.fb.group({
           option: [null, Validators.required],
-          algorithm: ['rf'],
+          algorithm: ['rf', Validators.required],
           mtry: [null],
           sigma: [null],
           cost: [null],
