@@ -29,7 +29,7 @@ export class ResultComponent implements AfterViewInit {
   aoiUrl = this.APIURL + "/processedsentinelimages/aoi.tif";
   aoiLayer = null;
   furtherTrainAreasJSONUrl = this.APIURL + "/furthertrainareas/furtherTrainAreas.geojson";
-  trainingDataPolygonsJSONUrl = this.APIURL + "/trainingdata/traininsdaten_muenster_32632.gpkg";
+  trainingDataPolygonsJSONUrl = this.APIURL + "/trainingdata/trainingsdaten_muenster_32632.gpkg";
 
   private initMap(): void {
     this.map = L.map('resultmap', {
@@ -59,20 +59,40 @@ export class ResultComponent implements AfterViewInit {
 
   // Load the URLS and transform the tifs to GeoRaster objects with a nice visualization
   async createAllLayersFromTif() {
+    // Fetch prediction url and create georaster object
     const responsePrediction =    await fetch(this.predictionUrl);
     const arrayBufferPrediction = await responsePrediction.arrayBuffer();
     const georasterPrediction =   await parseGeoRaster(arrayBufferPrediction);
 
+    // Fetch aoa url and create georaster object
     const responseAOA =    await fetch(this.aoaUrl);
     const arrayBufferAOA = await responseAOA.arrayBuffer();
     const georasterAOA =   await parseGeoRaster(arrayBufferAOA);
 
+    // Fetch aoi url and create georaster object
     const responseAOI =    await fetch(this.aoiUrl);
     const arrayBufferAOI = await responseAOI.arrayBuffer();
     const georasterAOI =   await parseGeoRaster(arrayBufferAOI);
 
-    // const responseTrainArea =    await fetch(this.furtherTrainAreasJSONUrl)
-    // const responseTrainingData =    await fetch(this.trainingDataPolygonsJSONUrl)
+    // Fetch further train areas url and create geojson object
+    const responseTrainAreas =    await fetch(this.furtherTrainAreasJSONUrl);
+    const furtherTrainAreasGeoJSON = await responseTrainAreas.json();
+    console.log(furtherTrainAreasGeoJSON);
+    L.geoJSON(furtherTrainAreasGeoJSON.features).addTo(this.map);
+
+    // Fetch training data url and
+  //   const responseTrainingData = await fetch(this.trainingDataPolygonsJSONUrl);
+  //   L.geoPackageTileLayer({
+  //     geoPackageUrl: this.trainingDataPolygonsJSONUrl,
+  //     layerName: 'rivers_tiles'
+  // }).addTo(this.map);
+
+    // }
+    // const trainingDataGeoJSON = await responseTrainingData.gpkg();
+    // console.log(trainingDataGeoJSON);
+    //L.geoJSON(trainingDataGeoJSON.features).addTo(this.map);
+
+  
 
     // trainAreaJSON = await JSON.parse(responseTrainArea)
 
@@ -98,7 +118,10 @@ export class ResultComponent implements AfterViewInit {
           : null,
       resolution: 64, // optional parameter for adjusting display resolution
     });
-    // this.predictionLayer.addTo(this.map);
+    this.predictionLayer.addTo(this.map);
+    // Add legend?
+    //var legend = new L.Control({position: "bottomleft"})
+
 
     this.aoaLayer = new GeoRasterLayer({
       georaster: georasterAOA,
@@ -112,7 +135,7 @@ export class ResultComponent implements AfterViewInit {
           : null,
       resolution: 64, // optional parameter for adjusting display resolution
     });
-    // this.aoaLayer.addTo(this.map);
+    this.aoaLayer.addTo(this.map);
 
     this.aoiLayer = new GeoRasterLayer({
       georaster: georasterAOI,
@@ -122,9 +145,6 @@ export class ResultComponent implements AfterViewInit {
     });
     console.log(georasterAOI);
     this.aoiLayer.addTo(this.map);
-
-    //L.geoJSON(this.trainingDataPolygonsJSON).addTo(this.map);
-    //L.geoJSON(this.furtherTrainAreasJSON).addTo(this.map);
   }
 
   private getJSON(): Observable<any> {
