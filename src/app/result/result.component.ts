@@ -91,15 +91,28 @@ export class ResultComponent implements AfterViewInit {
     const furtherTrainAreasGeoJSON = await responseTrainAreas.json();
     this.trainAreasLayer = L.geoJSON(furtherTrainAreasGeoJSON.features);
 
+    // variables for colour setting
     const min = georasterPrediction.mins[0];
     const max = georasterPrediction.maxs[0];
     const range = georasterPrediction.ranges[0];
 
+    // await the file with the used classes
     const classes = await fetch(this.classesUrl);
     const classesArray = await classes.json();
-    console.log(classesArray);
+  
+    // create array with the colours to be used for the classification
     const usedColours = [];
+    var scale = chroma.scale("Spectral") // define which color scheme we want to use
+    for (let index = min; index <= max; index++) {
+      usedColours.push(scale(((index-min)/range)).hex());
+    }
 
+    /**
+     * Function that generates HTML code to dynamically add a legend to the result page
+     * @param colourArray - Array of the colours
+     * @param classesArray - Array of the classes
+     * @returns an HTML String of all necessary elements for the legend and the matching style sheet
+     */
     function makeLegendHTML(colourArray, classesArray) {
       var result = "";
       for (let index = 0; index < colourArray.length; index++) {
@@ -144,38 +157,29 @@ export class ResultComponent implements AfterViewInit {
         color: #777;\
         }\
     </style>"
-      console.log(result);
       return result;
     }
-  
-    var scale = chroma.scale("Spectral")
-    for (let index = min; index <= max; index++) {
-      usedColours.push(scale(((index-min)/range)).hex());
-    }
-    console.log(usedColours);
+
+    // insert the created html code in the right position to display the legend
     document.getElementById("predictionLegend").innerHTML = makeLegendHTML(usedColours, classesArray);
 
+    // creating prediction layer
     this.predictionLayer = new GeoRasterLayer({
       georaster: georasterPrediction,
       debugLevel: 1,
       opacity: 0.7,
       pixelValuesToColorFn: function(pixelValues) {
         var pixelValue = pixelValues[0]; // there's just one band in this raster
-        // if there's zero wind, don't return a color
         if (pixelValue === null) return null;
-
-        // scale to 0 - 1 used by chroma
         var scaledPixelValue = (pixelValue - min) / range;
         var color = scale(scaledPixelValue).hex();
-        // console.log(color)
-        // usedColours.indexOf(color) === -1 ? usedColours.push(color) : console.log("This item already exists");
-        // console.log(usedColours);
         return color;
       },
       resolution: 64, // optional parameter for adjusting display resolution
     });
     this.predictionLayer.addTo(this.map);
 
+    // creating aoa layer
     this.aoaLayer = new GeoRasterLayer({
       georaster: georasterAOA,
       debugLevel: 1,
@@ -184,8 +188,8 @@ export class ResultComponent implements AfterViewInit {
         values[0] === 0 ? '#000000 ' : values[0] === 1 ? '#FFFFFF ' : null,
       resolution: 64, // optional parameter for adjusting display resolution
     });
-    // this.aoaLayer.addTo(this.map);
 
+    // creating aoi layer
     // this.aoiLayer = new GeoRasterLayer({
     //   georaster: georasterAOI,
     //   debugLevel: 1,
@@ -195,6 +199,11 @@ export class ResultComponent implements AfterViewInit {
     // this.aoiLayer.addTo(this.map);
   }
 
+  /**
+   * 
+   * @param event Function that changes the opacity of an layer if someone uses the slidebar
+   * @param name name of layer to be changed
+   */
   changeOpacity(event, name) {
     if (name == 'prediction') {
       this.predictionLayer.setOpacity(event.value);
@@ -203,6 +212,10 @@ export class ResultComponent implements AfterViewInit {
     }
   }
 
+  /**
+   * Function that wil be executed if a download button gets clicked
+   * @param name name of file to be downloaded
+   */
   downloadData(name) {
     if (name == 'prediction') {
       window.open(this.APIURL + '/predictionaoa/prediction.tif', '_blank');
@@ -218,7 +231,11 @@ export class ResultComponent implements AfterViewInit {
         window.open(this.APIURL + '/model/model.RDS', '_blank')
     }
   }
-
+  
+   /**
+   * Function that wil be executed if a checkbox gets clicked
+   * @param name name of the layer to be shown
+   */
   checkboxClicked(name) {
     if (name == 'prediction') {
       if (
@@ -248,10 +265,6 @@ export class ResultComponent implements AfterViewInit {
         this.map.removeLayer(this.trainAreasLayer);
       }
     }
-  }
-
-  private getJSON(): Observable<any> {
-    return this.http.get(this.APIURL + '/json');
   }
 
   constructor(private route: ActivatedRoute, private http: HttpClient) {}
