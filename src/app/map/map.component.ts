@@ -45,6 +45,9 @@ export class MapComponent implements AfterViewInit {
     private router: Router
   ) {}
 
+  trainingDataPolygonsJSONUrl = this.APIURL + '/trainingdata/';
+  trainAreasLayer = null;
+
   ngOnInit() {
     // initialize form group for validation and form stepper
     this.submitForm = this.fb.group({
@@ -86,57 +89,31 @@ export class MapComponent implements AfterViewInit {
       ]),
     });
 
-    //  what sould happen after a file was selected
-    this.uploader.onAfterAddingFile = (file) => {
-      console.log(this.formArray);
+    
 
+
+    //  what sould happen after a file was selected
+    this.uploader.onAfterAddingFile = async (file) => {
+      console.log(this.formArray);
       file.withCredentials = false;
+      await this.uploader.uploadAll();
+
+      this.trainingDataPolygonsJSONUrl += await this.currentFileName;
+      // console.log(this.trainingDataPolygonsJSONUrl);
+      
+      const trainAreas = await fetch(this.trainingDataPolygonsJSONUrl);
+      const trainAreasGeoJSON = await trainAreas.json();
+      console.log(trainAreasGeoJSON);
+      this.trainAreasLayer = L.geoJSON(trainAreasGeoJSON.features);
+      this.trainAreasLayer.addTo(this.map);
+      this.map.setView(this.trainAreasLayer.getBounds());
     };
 
     // what should happen after the file was succsessfully uploaded
-    this.uploader.onCompleteItem = (item: any, status: any) => {
-      //convert to json file
-      var jsonData = {
-        topleftlat: this.formArray?.get([0]).value.aoi[0][0].lat,
-        topleftlng: this.formArray?.get([0]).value.aoi[0][0].lng,
-        bottomleftlat: this.formArray?.get([0]).value.aoi[0][1].lat,
-        bottomleftlng: this.formArray?.get([0]).value.aoi[0][1].lng,
-        bottomrightlat: this.formArray?.get([0]).value.aoi[0][2].lat,
-        bottomrightlng: this.formArray?.get([0]).value.aoi[0][2].lng,
-        toprightlat: this.formArray?.get([0]).value.aoi[0][3].lat,
-        toprightlng: this.formArray?.get([0]).value.aoi[0][3].lng,
-        option: this.formArray?.get([1]).value.option,
-        algorithm: this.formArray?.get([1]).value.algorithm,
-        startDate: this.formArray?.get([3]).value.startDate,
-        endDate: this.formArray?.get([3]).value.endDate,
-        filename: item._file.name,
-        resolution: this.formArray?.get([4]).value.resolution,
-        channels: this.formArray?.get([5]).value.channels,
-        coverage: this.formArray?.get([6]).value.coverage,
-      };
-
-      if (jsonData.algorithm == 'rf') {
-        jsonData['mtry'] = this.formArray?.get([1]).value.mtry;
-      } else if (jsonData.algorithm == 'smvRadial') {
-        jsonData['sigma'] = this.formArray?.get([1]).value.sigma;
-        jsonData['cost'] = this.formArray?.get([1]).value.cost;
-      }
-
-      // send POST to start calculations
-      this.http.post(this.APIURL + '/start', jsonData).subscribe({
-        next: (data) => {
-          this.map.removeLayer(this.drawnItems);
-          //console.log(data);
-          document
-            .getElementById('progressModal')
-            .classList.remove('is-active');
-          this.router.navigate(['result']);
-        },
-        error: (error) => {
-          console.error('There was an error!', error);
-        },
-      });
-    };
+    let fileUploadSuccessfull;
+    this.uploader.onCompleteItem = () => { fileUploadSuccessfull = true}
+    
+      
   }
 
   // init map
@@ -261,7 +238,48 @@ export class MapComponent implements AfterViewInit {
     this.formSubmitted = true;
     if (this.submitForm.valid) {
       document.getElementById('progressModal').classList.add('is-active');
-      this.uploader.uploadAll();
+      // this.uploader.uploadAll();
+      //convert to json file
+      var jsonData = {
+        topleftlat: this.formArray?.get([0]).value.aoi[0][0].lat,
+        topleftlng: this.formArray?.get([0]).value.aoi[0][0].lng,
+        bottomleftlat: this.formArray?.get([0]).value.aoi[0][1].lat,
+        bottomleftlng: this.formArray?.get([0]).value.aoi[0][1].lng,
+        bottomrightlat: this.formArray?.get([0]).value.aoi[0][2].lat,
+        bottomrightlng: this.formArray?.get([0]).value.aoi[0][2].lng,
+        toprightlat: this.formArray?.get([0]).value.aoi[0][3].lat,
+        toprightlng: this.formArray?.get([0]).value.aoi[0][3].lng,
+        option: this.formArray?.get([1]).value.option,
+        algorithm: this.formArray?.get([1]).value.algorithm,
+        startDate: this.formArray?.get([3]).value.startDate,
+        endDate: this.formArray?.get([3]).value.endDate,
+        filename: this.currentFileName,
+        resolution: this.formArray?.get([4]).value.resolution,
+        channels: this.formArray?.get([5]).value.channels,
+        coverage: this.formArray?.get([6]).value.coverage,
+      };
+
+      if (jsonData.algorithm == 'rf') {
+        jsonData['mtry'] = this.formArray?.get([1]).value.mtry;
+      } else if (jsonData.algorithm == 'smvRadial') {
+        jsonData['sigma'] = this.formArray?.get([1]).value.sigma;
+        jsonData['cost'] = this.formArray?.get([1]).value.cost;
+      }
+
+      // send POST to start calculations
+      this.http.post(this.APIURL + '/start', jsonData).subscribe({
+        next: (data) => {
+          this.map.removeLayer(this.drawnItems);
+          //console.log(data);
+          document
+            .getElementById('progressModal')
+            .classList.remove('is-active');
+          this.router.navigate(['result']);
+        },
+        error: (error) => {
+          console.error('There was an error!', error);
+        },
+      });
     } else {
       console.log(this.submitForm);
       console.log('invalid');
