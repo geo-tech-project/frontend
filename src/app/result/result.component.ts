@@ -75,6 +75,7 @@ export class ResultComponent implements AfterViewInit {
     const responsePrediction = await fetch(this.predictionUrl);
     const arrayBufferPrediction = await responsePrediction.arrayBuffer();
     const georasterPrediction = await parseGeoRaster(arrayBufferPrediction);
+    console.log(georasterPrediction)
 
     // Fetch aoa url and create georaster object
     const responseAOA = await fetch(this.aoaUrl);
@@ -92,9 +93,13 @@ export class ResultComponent implements AfterViewInit {
     this.trainAreasLayer = L.geoJSON(furtherTrainAreasGeoJSON.features);
 
     // variables for colour setting
-    const min = georasterPrediction.mins[0];
+    const min = 1
     const max = georasterPrediction.maxs[0];
-    const range = georasterPrediction.ranges[0];
+    const range = max - min
+    // console.log(min);
+    // console.log(max);
+    // console.log(range);
+
 
     // await the file with the used classes
     const classes = await fetch(this.classesUrl);
