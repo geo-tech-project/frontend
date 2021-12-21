@@ -101,6 +101,8 @@ export class MapComponent implements AfterViewInit {
       this.trainingDataPolygonsJSONUrl += await this.currentFileName;
       // console.log(this.trainingDataPolygonsJSONUrl);
       
+      this.map.remove
+
       const trainAreas = await fetch(this.trainingDataPolygonsJSONUrl);
       const trainAreasGeoJSON = await trainAreas.json();
       console.log(trainAreasGeoJSON);
