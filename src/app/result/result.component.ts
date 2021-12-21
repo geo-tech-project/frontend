@@ -12,6 +12,7 @@ import geoblaze from 'geoblaze';
 import { environment } from 'src/environments/environment';
 
 import { MatSliderModule } from '@angular/material/slider';
+//import { ConsoleReporter } from 'jasmine';
 
 @Component({
   selector: 'app-result',
@@ -31,6 +32,7 @@ export class ResultComponent implements AfterViewInit {
   aoiUrl = this.APIURL + '/processedsentinelimages/aoi.tif';
   furtherTrainAreasJSONUrl = this.APIURL + '/furthertrainareas/furtherTrainAreas.geojson';
   trainingDataPolygonsJSONUrl = this.APIURL + '/trainingdata/trainingsdaten_muenster_32632.gpkg';
+  classesUrl = this.APIURL + '/json';
 
   // Initially definining variables for layers
   predictionLayer = null;
@@ -89,33 +91,95 @@ export class ResultComponent implements AfterViewInit {
     const furtherTrainAreasGeoJSON = await responseTrainAreas.json();
     this.trainAreasLayer = L.geoJSON(furtherTrainAreasGeoJSON.features);
 
+    // variables for colour setting
     const min = georasterPrediction.mins[0];
     const max = georasterPrediction.maxs[0];
     const range = georasterPrediction.ranges[0];
-    
-    console.log(chroma.brewer);
-    var scale = chroma.scale("rdylbu")
+
+    // await the file with the used classes
+    const classes = await fetch(this.classesUrl);
+    const classesArray = await classes.json();
+  
+    // create array with the colours to be used for the classification
+    const usedColours = [];
+    var scale = chroma.scale("Spectral") // define which color scheme we want to use
+    for (let index = min; index <= max; index++) {
+      usedColours.push(scale(((index-min)/range)).hex());
+    }
+
+    /**
+     * Function that generates HTML code to dynamically add a legend to the result page
+     * @param colourArray - Array of the colours
+     * @param classesArray - Array of the classes
+     * @returns an HTML String of all necessary elements for the legend and the matching style sheet
+     */
+    function makeLegendHTML(colourArray, classesArray) {
+      var result = "";
+      for (let index = 0; index < colourArray.length; index++) {
+        result += `<li><span style='background: ${colourArray[index]};'></span>${classesArray[index]}</li>`
+      }
+      result += "<style type='text/css'>\
+      .my-legend .legend-title {\
+        text-align: left;\
+        margin-bottom: 5px;\
+        font-weight: bold;\
+        font-size: 90%;\
+        }\
+      .my-legend .legend-scale ul {\
+        margin: 0;\
+        margin-bottom: 5px;\
+        padding: 0;\
+        float: left;\
+        list-style: none;\
+        }\
+      .my-legend .legend-scale ul li {\
+        font-size: 80%;\
+        list-style: none;\
+        margin-left: 0;\
+        line-height: 18px;\
+        margin-bottom: 2px;\
+        }\
+      .my-legend ul.legend-labels li span {\
+        display: block;\
+        float: left;\
+        height: 16px;\
+        width: 30px;\
+        margin-right: 5px;\
+        margin-left: 0;\
+        border: 1px solid #999;\
+        }\
+      .my-legend .legend-source {\
+        font-size: 70%;\
+        color: #999;\
+        clear: both;\
+        }\
+      .my-legend a {\
+        color: #777;\
+        }\
+    </style>"
+      return result;
+    }
+
+    // insert the created html code in the right position to display the legend
+    document.getElementById("predictionLegend").innerHTML = makeLegendHTML(usedColours, classesArray);
+
+    // creating prediction layer
     this.predictionLayer = new GeoRasterLayer({
       georaster: georasterPrediction,
       debugLevel: 1,
       opacity: 0.7,
       pixelValuesToColorFn: function(pixelValues) {
         var pixelValue = pixelValues[0]; // there's just one band in this raster
-
-        // if there's zero wind, don't return a color
-        if (pixelValue === 0) return null;
-
-        // scale to 0 - 1 used by chroma
+        if (pixelValue === null) return null;
         var scaledPixelValue = (pixelValue - min) / range;
-
         var color = scale(scaledPixelValue).hex();
-
         return color;
       },
       resolution: 64, // optional parameter for adjusting display resolution
     });
     this.predictionLayer.addTo(this.map);
 
+    // creating aoa layer
     this.aoaLayer = new GeoRasterLayer({
       georaster: georasterAOA,
       debugLevel: 1,
@@ -124,8 +188,8 @@ export class ResultComponent implements AfterViewInit {
         values[0] === 0 ? '#000000 ' : values[0] === 1 ? '#FFFFFF ' : null,
       resolution: 64, // optional parameter for adjusting display resolution
     });
-    // this.aoaLayer.addTo(this.map);
 
+    // creating aoi layer
     // this.aoiLayer = new GeoRasterLayer({
     //   georaster: georasterAOI,
     //   debugLevel: 1,
@@ -135,6 +199,11 @@ export class ResultComponent implements AfterViewInit {
     // this.aoiLayer.addTo(this.map);
   }
 
+  /**
+   * 
+   * @param event Function that changes the opacity of an layer if someone uses the slidebar
+   * @param name name of layer to be changed
+   */
   changeOpacity(event, name) {
     if (name == 'prediction') {
       this.predictionLayer.setOpacity(event.value);
@@ -143,6 +212,10 @@ export class ResultComponent implements AfterViewInit {
     }
   }
 
+  /**
+   * Function that wil be executed if a download button gets clicked
+   * @param name name of file to be downloaded
+   */
   downloadData(name) {
     if (name == 'prediction') {
       window.open(this.APIURL + '/predictionaoa/prediction.tif', '_blank');
@@ -155,10 +228,14 @@ export class ResultComponent implements AfterViewInit {
     } else if (name == 'trainingData') {
       window.open(this.APIURL + '/processedsentinelimages/trainingData.tif', '_blank');
     } else if (name == 'model') {
-        window.open(this.APIURL + '/file/model.RDS', '_blank')
+        window.open(this.APIURL + '/model/model.RDS', '_blank')
     }
   }
-
+  
+   /**
+   * Function that wil be executed if a checkbox gets clicked
+   * @param name name of the layer to be shown
+   */
   checkboxClicked(name) {
     if (name == 'prediction') {
       if (
@@ -188,10 +265,6 @@ export class ResultComponent implements AfterViewInit {
         this.map.removeLayer(this.trainAreasLayer);
       }
     }
-  }
-
-  private getJSON(): Observable<any> {
-    return this.http.get(this.APIURL + '/json');
   }
 
   constructor(private route: ActivatedRoute, private http: HttpClient) {}
