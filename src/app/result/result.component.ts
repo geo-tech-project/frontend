@@ -12,6 +12,7 @@ import geoblaze from 'geoblaze';
 import { environment } from 'src/environments/environment';
 
 import { MatSliderModule } from '@angular/material/slider';
+//import { ConsoleReporter } from 'jasmine';
 
 @Component({
   selector: 'app-result',
@@ -31,6 +32,7 @@ export class ResultComponent implements AfterViewInit {
   aoiUrl = this.APIURL + '/processedsentinelimages/aoi.tif';
   furtherTrainAreasJSONUrl = this.APIURL + '/furthertrainareas/furtherTrainAreas.geojson';
   trainingDataPolygonsJSONUrl = this.APIURL + '/trainingdata/trainingsdaten_muenster_32632.gpkg';
+  classesUrl = this.APIURL + '/json';
 
   // Initially definining variables for layers
   predictionLayer = null;
@@ -92,24 +94,82 @@ export class ResultComponent implements AfterViewInit {
     const min = georasterPrediction.mins[0];
     const max = georasterPrediction.maxs[0];
     const range = georasterPrediction.ranges[0];
-    
-    console.log(chroma.brewer);
-    var scale = chroma.scale("rdylbu")
+
+    const classes = await fetch(this.classesUrl);
+    const classesArray = await classes.json();
+    console.log(classesArray);
+    const usedColours = [];
+
+    function makeLegendHTML(colourArray, classesArray) {
+      var result = "";
+      for (let index = 0; index < colourArray.length; index++) {
+        result += `<li><span style='background: ${colourArray[index]};'></span>${classesArray[index]}</li>`
+      }
+      result += "<style type='text/css'>\
+      .my-legend .legend-title {\
+        text-align: left;\
+        margin-bottom: 5px;\
+        font-weight: bold;\
+        font-size: 90%;\
+        }\
+      .my-legend .legend-scale ul {\
+        margin: 0;\
+        margin-bottom: 5px;\
+        padding: 0;\
+        float: left;\
+        list-style: none;\
+        }\
+      .my-legend .legend-scale ul li {\
+        font-size: 80%;\
+        list-style: none;\
+        margin-left: 0;\
+        line-height: 18px;\
+        margin-bottom: 2px;\
+        }\
+      .my-legend ul.legend-labels li span {\
+        display: block;\
+        float: left;\
+        height: 16px;\
+        width: 30px;\
+        margin-right: 5px;\
+        margin-left: 0;\
+        border: 1px solid #999;\
+        }\
+      .my-legend .legend-source {\
+        font-size: 70%;\
+        color: #999;\
+        clear: both;\
+        }\
+      .my-legend a {\
+        color: #777;\
+        }\
+    </style>"
+      console.log(result);
+      return result;
+    }
+  
+    var scale = chroma.scale("Spectral")
+    for (let index = min; index <= max; index++) {
+      usedColours.push(scale(((index-min)/range)).hex());
+    }
+    console.log(usedColours);
+    document.getElementById("predictionLegend").innerHTML = makeLegendHTML(usedColours, classesArray);
+
     this.predictionLayer = new GeoRasterLayer({
       georaster: georasterPrediction,
       debugLevel: 1,
       opacity: 0.7,
       pixelValuesToColorFn: function(pixelValues) {
         var pixelValue = pixelValues[0]; // there's just one band in this raster
-
         // if there's zero wind, don't return a color
-        if (pixelValue === 0) return null;
+        if (pixelValue === null) return null;
 
         // scale to 0 - 1 used by chroma
         var scaledPixelValue = (pixelValue - min) / range;
-
         var color = scale(scaledPixelValue).hex();
-
+        // console.log(color)
+        // usedColours.indexOf(color) === -1 ? usedColours.push(color) : console.log("This item already exists");
+        // console.log(usedColours);
         return color;
       },
       resolution: 64, // optional parameter for adjusting display resolution
@@ -155,7 +215,7 @@ export class ResultComponent implements AfterViewInit {
     } else if (name == 'trainingData') {
       window.open(this.APIURL + '/processedsentinelimages/trainingData.tif', '_blank');
     } else if (name == 'model') {
-        window.open(this.APIURL + '/file/model.RDS', '_blank')
+        window.open(this.APIURL + '/model/model.RDS', '_blank')
     }
   }
 
