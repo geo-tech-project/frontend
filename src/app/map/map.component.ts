@@ -96,17 +96,17 @@ export class MapComponent implements AfterViewInit {
     // what should happen after the file was succsessfully uploaded
     this.uploader.onCompleteItem = (item: any, status: any) => {
       //Send post request to server /deleteFiles to delete all files in the server
-      // this.http.post(this.APIURL + '/deleteFiles', {
-      //   file: this.currentFileName
-      //   })
-      //   .subscribe(
-      //     (data) => {
-      //       console.log(data);
-      //     },
-      //     (error) => {
-      //       console.log(error);
-      //     }
-      //   );
+      this.http.post(this.APIURL + '/deleteFiles', {
+        file: this.currentFileName
+        })
+        .subscribe(
+          (data) => {
+            console.log(data);
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
       console.log('Uploaded File Details:', item);
       //convert to json file
       var jsonData = {
