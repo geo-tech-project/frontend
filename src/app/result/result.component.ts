@@ -12,7 +12,6 @@ import geoblaze from 'geoblaze';
 import { environment } from 'src/environments/environment';
 
 import { MatSliderModule } from '@angular/material/slider';
-//import { ConsoleReporter } from 'jasmine';
 
 @Component({
   selector: 'app-result',
@@ -273,7 +272,6 @@ export class ResultComponent implements AfterViewInit {
   }
 
   constructor(private route: ActivatedRoute, private http: HttpClient) {}
-
   ngAfterViewInit(): void {
     this.initMap();
     this.createAllLayersFromTif();
