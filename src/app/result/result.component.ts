@@ -3,10 +3,8 @@ import * as L from 'leaflet';
 import parseGeoRaster from 'georaster';
 import GeoRasterLayer from 'georaster-layer-for-leaflet';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import chroma from 'chroma-js';
-
 
 import geoblaze from 'geoblaze';
 import { environment } from 'src/environments/environment';
@@ -20,8 +18,6 @@ import { MatSliderModule } from '@angular/material/slider';
 })
 export class ResultComponent implements AfterViewInit {
   private map;
-  private layerGroup;
-  private layerControl;
   // url to run on -> localhost or ip
   APIURL = environment.api_url;
 
@@ -29,8 +25,10 @@ export class ResultComponent implements AfterViewInit {
   predictionUrl = this.APIURL + '/predictionaoa/prediction.tif';
   aoaUrl = this.APIURL + '/predictionaoa/aoa.tif';
   aoiUrl = this.APIURL + '/processedsentinelimages/aoi.tif';
-  furtherTrainAreasJSONUrl = this.APIURL + '/furthertrainareas/furtherTrainAreas.geojson';
-  trainingDataPolygonsJSONUrl = this.APIURL + '/trainingdata/trainingsdaten_muenster_32632.gpkg';
+  furtherTrainAreasJSONUrl =
+    this.APIURL + '/furthertrainareas/furtherTrainAreas.geojson';
+  trainingDataPolygonsJSONUrl =
+    this.APIURL + '/trainingdata/trainingsdaten_muenster_32632.gpkg';
   classesUrl = this.APIURL + '/json';
 
   // Initially definining variables for layers
@@ -43,7 +41,7 @@ export class ResultComponent implements AfterViewInit {
   //   iconUrl: this.APIURL + '/marker',
   // });
 
-  // Set up map 
+  // Set up map
   private initMap(): void {
     this.map = L.map('resultmap', {
       center: [51.9606649, 7.6261347],
@@ -74,7 +72,7 @@ export class ResultComponent implements AfterViewInit {
     const responsePrediction = await fetch(this.predictionUrl);
     const arrayBufferPrediction = await responsePrediction.arrayBuffer();
     const georasterPrediction = await parseGeoRaster(arrayBufferPrediction);
-    console.log(georasterPrediction)
+    console.log(georasterPrediction);
 
     // Fetch aoa url and create georaster object
     const responseAOA = await fetch(this.aoaUrl);
@@ -89,26 +87,33 @@ export class ResultComponent implements AfterViewInit {
     // Fetch further train areas url and create geojson object
     const responseTrainAreas = await fetch(this.furtherTrainAreasJSONUrl);
     const furtherTrainAreasGeoJSON = await responseTrainAreas.json();
-    this.trainAreasLayer = L.geoJSON(furtherTrainAreasGeoJSON.features);
+    this.trainAreasLayer = L.geoJSON(furtherTrainAreasGeoJSON.features, {
+      pointToLayer: function (feature, latlng) {
+        var testIcon = new L.Icon({
+          iconUrl: 'http://localhost:8781/marker',
+          iconSize: [27, 27],
+        });
+        return new L.Marker(latlng, { icon: testIcon })
+      },
+    });
 
     // variables for colour setting
-    const min = 1
+    const min = 1;
     const max = georasterPrediction.maxs[0];
-    const range = max - min
+    const range = max - min;
     // console.log(min);
     // console.log(max);
     // console.log(range);
 
-
     // await the file with the used classes
     const classes = await fetch(this.classesUrl);
     const classesArray = await classes.json();
-  
+
     // create array with the colours to be used for the classification
     const usedColours = [];
-    var scale = chroma.scale("Spectral") // define which color scheme we want to use
+    var scale = chroma.scale('Spectral'); // define which color scheme we want to use
     for (let index = min; index <= max; index++) {
-      usedColours.push(scale(((index-min)/range)).hex());
+      usedColours.push(scale((index - min) / range).hex());
     }
 
     /**
@@ -118,11 +123,12 @@ export class ResultComponent implements AfterViewInit {
      * @returns an HTML String of all necessary elements for the legend and the matching style sheet
      */
     function makeLegendHTML(colourArray, classesArray) {
-      var result = "";
+      var result = '';
       for (let index = 0; index < colourArray.length; index++) {
-        result += `<li><span style='background: ${colourArray[index]};'></span>${classesArray[index]}</li>`
+        result += `<li><span style='background: ${colourArray[index]};'></span>${classesArray[index]}</li>`;
       }
-      result += "<style type='text/css'>\
+      result +=
+        "<style type='text/css'>\
       .my-legend .legend-title {\
         text-align: left;\
         margin-bottom: 5px;\
@@ -160,19 +166,22 @@ export class ResultComponent implements AfterViewInit {
       .my-legend a {\
         color: #777;\
         }\
-    </style>"
+    </style>";
       return result;
     }
 
     // insert the created html code in the right position to display the legend
-    document.getElementById("predictionLegend").innerHTML = makeLegendHTML(usedColours, classesArray);
+    document.getElementById('predictionLegend').innerHTML = makeLegendHTML(
+      usedColours,
+      classesArray
+    );
 
     // creating prediction layer
     this.predictionLayer = new GeoRasterLayer({
       georaster: georasterPrediction,
       debugLevel: 1,
       opacity: 0.7,
-      pixelValuesToColorFn: function(pixelValues) {
+      pixelValuesToColorFn: function (pixelValues) {
         var pixelValue = pixelValues[0]; // there's just one band in this raster
         if (pixelValue === null) return null;
         var scaledPixelValue = (pixelValue - min) / range;
@@ -204,7 +213,7 @@ export class ResultComponent implements AfterViewInit {
   }
 
   /**
-   * 
+   *
    * @param event Function that changes the opacity of an layer if someone uses the slidebar
    * @param name name of layer to be changed
    */
@@ -226,17 +235,23 @@ export class ResultComponent implements AfterViewInit {
     } else if (name == 'aoa') {
       window.open(this.APIURL + '/predictionaoa/aoa.tif', '_blank');
     } else if (name == 'trainAreas') {
-      window.open(this.APIURL + '/furthertrainareas/furtherTrainAreas.geojson', '_blank');
+      window.open(
+        this.APIURL + '/furthertrainareas/furtherTrainAreas.geojson',
+        '_blank'
+      );
     } else if (name == 'aoi') {
       window.open(this.APIURL + '/processedsentinelimages/aoi.tif', '_blank');
     } else if (name == 'trainingData') {
-      window.open(this.APIURL + '/processedsentinelimages/trainingData.tif', '_blank');
+      window.open(
+        this.APIURL + '/processedsentinelimages/trainingData.tif',
+        '_blank'
+      );
     } else if (name == 'model') {
-        window.open(this.APIURL + '/model/model.RDS', '_blank')
+      window.open(this.APIURL + '/model/model.RDS', '_blank');
     }
   }
-  
-   /**
+
+  /**
    * Function that wil be executed if a checkbox gets clicked
    * @param name name of the layer to be shown
    */
@@ -264,6 +279,7 @@ export class ResultComponent implements AfterViewInit {
         (<HTMLInputElement>document.getElementById('trainAreasCheckbox'))
           .checked
       ) {
+        this.trainAreasLayer = 
         this.trainAreasLayer.addTo(this.map);
       } else {
         this.map.removeLayer(this.trainAreasLayer);
