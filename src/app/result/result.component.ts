@@ -87,13 +87,13 @@ export class ResultComponent implements AfterViewInit {
     // Fetch further train areas url and create geojson object
     const responseTrainAreas = await fetch(this.furtherTrainAreasJSONUrl);
     const furtherTrainAreasGeoJSON = await responseTrainAreas.json();
+    var testIcon = new L.Icon({
+      iconUrl: this.APIURL + '/marker',
+      iconSize: [27, 27],
+    });
     this.trainAreasLayer = L.geoJSON(furtherTrainAreasGeoJSON.features, {
       pointToLayer: function (feature, latlng) {
-        var testIcon = new L.Icon({
-          iconUrl: 'http://localhost:8781/marker',
-          iconSize: [27, 27],
-        });
-        return new L.Marker(latlng, { icon: testIcon })
+        return new L.Marker(latlng, { icon: testIcon });
       },
     });
 
@@ -279,8 +279,7 @@ export class ResultComponent implements AfterViewInit {
         (<HTMLInputElement>document.getElementById('trainAreasCheckbox'))
           .checked
       ) {
-        this.trainAreasLayer = 
-        this.trainAreasLayer.addTo(this.map);
+        this.trainAreasLayer = this.trainAreasLayer.addTo(this.map);
       } else {
         this.map.removeLayer(this.trainAreasLayer);
       }
