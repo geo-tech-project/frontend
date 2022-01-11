@@ -1,4 +1,5 @@
 @import "~node_modules/bulma/bulma";
+@import "~node_modules/@creativebulma/bulma-tooltip";
 
 .hero {
   height: 100vh;
@@ -83,4 +84,14 @@ ul.leaflet-draw-actions.leaflet-draw-actions-bottom
 
 .mainsection {
   flex: 1;
+}
+
+.mat-step-header {
+  overflow: visible !important;
+}
+
+[data-tooltip]:not(.is-loading),
+[data-tooltip]:not(.is-disabled),
+[data-tooltip]:not([disabled]) {
+  position: absolute;
 }

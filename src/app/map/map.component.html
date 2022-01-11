@@ -8,23 +8,35 @@
                             <mat-stepper id="stepper" formArrayName="formArray" orientation="vertical"
                                 [selectedIndex]="stepperIndex" linear #stepper>
                                 <mat-step formGroupName="0" [stepControl]="formArray?.get([0])">
-                                    <ng-template matStepLabel>Please select your area of interest on the map.
+                                    <ng-template matStepLabel>
+                                        <div>
+                                            Please select your area of interest on the map.
+                                            <span *ngIf="getStep(stepper) == 0" class="has-tooltip-bottom" data-tooltip="Hier können sachen stehen">
+                                                <i class="fa fa-info-circle"></i>
+                                            </span>
+                                        </div>
                                     </ng-template>
                                     <div>
-                                        <p>Click the black rectangle in the top left corner on the map and draw your
+                                        <p> Click the black rectangle in the top left corner on the map and draw your
                                             area of interest.
                                             You can edit this anytime by clicking the delete button after the rectangle
                                             was drawn.
                                         </p>
                                         <label class="checkbox" style="visibility: hidden;">
                                             <input id="checkbox" type="checkbox" formControlName="selected">
-                                            Choose are of interest
+                                            Choose area of interest
                                         </label>
                                     </div>
                                 </mat-step>
                                 <mat-step formGroupName="1" [stepControl]="formArray?.get([1])" state="option">
-                                    <ng-template matStepLabel>Do you have a trained model or just some training
-                                        data?
+                                    <ng-template matStepLabel>
+                                        <div>
+                                            Do you have a trained model or just some training data?
+                                            <span *ngIf="getStep(stepper) == 1" class="has-tooltip-arrow has-tooltip-bottom"
+                                                data-tooltip="Hier können sachen stehen">
+                                                <i class="fa fa-info-circle"></i>
+                                            </span>
+                                        </div>
                                     </ng-template>
                                     <div class="control">
                                         <label class="radio">
@@ -65,9 +77,16 @@
                                     </div>
                                 </mat-step>
                                 <mat-step formGroupName="2" [stepControl]="formArray?.get([2])" state="upload">
+                                    <ng-template matStepLabel>
+                                        <div>
+                                            Select a file (trained model or training data)
+                                            <span *ngIf="getStep(stepper) == 2" class="has-tooltip-arrow has-tooltip-bottom"
+                                                data-tooltip="Hier können sachen stehen">
+                                                <i class="fa fa-info-circle"></i>
+                                            </span>
+                                        </div>
+                                    </ng-template>
                                     <div *ngIf="getOptionValue() == 'data'">
-                                        <ng-template matStepLabel>Select a file (trained model or training data)
-                                        </ng-template>
                                         <div class="file has-name is-boxed is-centered">
                                             <label class="file-label">
                                                 <input class="file-input" type="file" (change)="fileSelected($event)"
@@ -93,13 +112,11 @@
                                         </div>
                                     </div>
                                     <div *ngIf="getOptionValue() == 'model'">
-                                        <ng-template matStepLabel>Select a file (trained model or training data)
-                                        </ng-template>
                                         <div class="file has-name is-boxed is-centered">
                                             <label class="file-label">
                                                 <input class="file-input" type="file" (change)="fileSelected($event)"
-                                                    name="file" ng2FileSelect [uploader]="uploader"
-                                                    accept=".rds" formControlName="file">
+                                                    name="file" ng2FileSelect [uploader]="uploader" accept=".rds"
+                                                    formControlName="file">
                                                 <span class="file-cta">
                                                     <span class="file-icon">
                                                         <i class="fa fa-upload"></i>
@@ -121,7 +138,15 @@
                                     </div>
                                 </mat-step>
                                 <mat-step formGroupName="3" [stepControl]="formArray?.get([3])" state="timeframe">
-                                    <ng-template matStepLabel>Enter a timeframe for the satelite images:</ng-template>
+                                    <ng-template matStepLabel>
+                                        <div>
+                                            Enter a timeframe for the satelite images:
+                                            <span *ngIf="getStep(stepper) == 3" class="has-tooltip-arrow has-tooltip-bottom"
+                                                data-tooltip="Hier können sachen stehen">
+                                                <i class="fa fa-info-circle"></i>
+                                            </span>
+                                        </div>
+                                    </ng-template>
                                     <mat-form-field appearance="fill">
                                         <mat-date-range-input [rangePicker]="picker" [min]="minDate" [max]="maxDate">
                                             <input matStartDate placeholder="Start date" formControlName="startDate">
@@ -140,7 +165,15 @@
                                     </div>
                                 </mat-step>
                                 <mat-step formGroupName="5" [stepControl]="formArray?.get([5])">
-                                    <ng-template matStepLabel>Desired channels satellite images</ng-template>
+                                    <ng-template matStepLabel>
+                                        <div>
+                                            Desired channels satellite images
+                                            <span  *ngIf="getStep(stepper) == 4" class="has-tooltip-arrow has-tooltip-bottom"
+                                                data-tooltip="Hier können sachen stehen">
+                                                <i class="fa fa-info-circle"></i>
+                                            </span>
+                                        </div>
+                                    </ng-template>
                                     <mat-form-field appearance="fill">
                                         <mat-label>Desired channels</mat-label>
                                         <mat-select formControlName="channels" multiple>
@@ -168,7 +201,15 @@
                                     </div>
                                 </mat-step>
                                 <mat-step formGroupName="4" [stepControl]="formArray?.get([4])">
-                                    <ng-template matStepLabel>Resolution of satellite images</ng-template>
+                                    <ng-template matStepLabel>
+                                        <div>
+                                            Resolution of satellite images
+                                            <span *ngIf="getStep(stepper) == 5" class="has-tooltip-arrow has-tooltip-bottom"
+                                                data-tooltip="Hier können sachen stehen">
+                                                <i class="fa fa-info-circle"></i>
+                                            </span>
+                                        </div>
+                                    </ng-template>
                                     <mat-form-field appearance="fill">
                                         <mat-label>Select an option</mat-label>
                                         <mat-select formControlName="resolution">
@@ -191,7 +232,15 @@
                                 </mat-step>
                                 <mat-step formGroupName="6" [stepControl]="formArray?.get([6])">
                                     <br>
-                                    <ng-template matStepLabel>Cloud coverage on satellite images</ng-template>
+                                    <ng-template matStepLabel>
+                                        <div>
+                                            Cloud coverage on satellite images
+                                            <span *ngIf="getStep(stepper) == 6" class="has-tooltip-arrow has-tooltip-bottom"
+                                                data-tooltip="Hier können sachen stehen">
+                                                <i class="fa fa-info-circle"></i>
+                                            </span>
+                                        </div>
+                                    </ng-template>
                                     <div class="columns is-mobile is-centered">
                                         <div class="column is-half">
                                             <p class="bd-notification is-primary">

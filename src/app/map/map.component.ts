@@ -11,6 +11,7 @@ import { FileUploader } from 'ng2-file-upload';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { MatStepper } from '@angular/material/stepper';
 
 @Component({
   selector: 'app-map',
@@ -32,6 +33,11 @@ export class MapComponent implements AfterViewInit {
   drawnItems;
   // stepper index
   stepperIndex;
+
+  getStep(stepper: MatStepper) {
+    console.log(stepper.selectedIndex);
+    return stepper.selectedIndex;
+  }
 
   minDate = new Date(2016, 1, 1);
   maxDate = new Date();
