@@ -44,9 +44,10 @@ a:hover {
 
 html,
 body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
   height: 100%;
-}
-body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
@@ -82,7 +83,7 @@ ul.leaflet-draw-actions.leaflet-draw-actions-bottom
   min-height: 100vh;
 }
 
-.mainsection {
+.content {
   flex: 1;
 }
 
