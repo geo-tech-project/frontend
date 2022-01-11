@@ -2,19 +2,10 @@ import { Component, ElementRef, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-footer',
-  template: `
-    <footer class="footer is-dark">
-      <div class="content has-text-centered">
-        <p>
-          <a> Software Project WiSe 21/22 by xx xx xx xx xx </a>
-        </p>
-      </div>
-    </footer>
-  `,
+  templateUrl: "./footer.component.html",
   styles: [],
 })
 export class FooterComponent implements OnInit {
   constructor() {}
-  ngOnInit() {
-  }
+  ngOnInit() {}
 }

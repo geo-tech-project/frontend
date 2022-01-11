@@ -74,3 +74,13 @@ ul.leaflet-draw-actions.leaflet-draw-actions-bottom
   background-color: rgba(0, 0, 0, 0.54);
   color: #fff;
 }
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.mainsection {
+  flex: 1;
+}
