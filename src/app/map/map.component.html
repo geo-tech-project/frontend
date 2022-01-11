@@ -65,29 +65,58 @@
                                     </div>
                                 </mat-step>
                                 <mat-step formGroupName="2" [stepControl]="formArray?.get([2])" state="upload">
-                                    <ng-template matStepLabel>Select a file (trained model or training data)
-                                    </ng-template>
-                                    <div class="file has-name is-boxed is-centered">
-                                        <label class="file-label">
-                                            <input class="file-input" type="file" (change)="fileSelected($event)"
-                                                name="file" ng2FileSelect [uploader]="uploader"
-                                                accept=".geojson,.json,.gpkg,.rds" formControlName="file">
-                                            <span class="file-cta">
-                                                <span class="file-icon">
-                                                    <i class="fa fa-upload"></i>
+                                    <div *ngIf="getOptionValue() == 'data'">
+                                        <ng-template matStepLabel>Select a file (trained model or training data)
+                                        </ng-template>
+                                        <div class="file has-name is-boxed is-centered">
+                                            <label class="file-label">
+                                                <input class="file-input" type="file" (change)="fileSelected($event)"
+                                                    name="file" ng2FileSelect [uploader]="uploader"
+                                                    accept=".geojson,.gpkg" formControlName="file">
+                                                <span class="file-cta">
+                                                    <span class="file-icon">
+                                                        <i class="fa fa-upload"></i>
+                                                    </span>
                                                 </span>
-                                            </span>
-                                            <span class="file-name" *ngIf="this.currentFileName != ''">
-                                                {{currentFileName}}
-                                            </span>
-                                        </label>
+                                                <span class="file-name" *ngIf="this.currentFileName != ''">
+                                                    {{currentFileName}}
+                                                </span>
+                                            </label>
+                                        </div>
+                                        <div class="container">
+                                            <div class="field">
+                                                <button mat-button matStepperPrevious
+                                                    class="button has-background-warning-light is-pulled-left">Back</button>
+                                                <button mat-button matStepperNext
+                                                    class="button has-background-info-light is-pulled-right">Next</button>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="container">
-                                        <div class="field">
-                                            <button mat-button matStepperPrevious
-                                                class="button has-background-warning-light is-pulled-left">Back</button>
-                                            <button mat-button matStepperNext
-                                                class="button has-background-info-light is-pulled-right">Next</button>
+                                    <div *ngIf="getOptionValue() == 'model'">
+                                        <ng-template matStepLabel>Select a file (trained model or training data)
+                                        </ng-template>
+                                        <div class="file has-name is-boxed is-centered">
+                                            <label class="file-label">
+                                                <input class="file-input" type="file" (change)="fileSelected($event)"
+                                                    name="file" ng2FileSelect [uploader]="uploader"
+                                                    accept=".rds" formControlName="file">
+                                                <span class="file-cta">
+                                                    <span class="file-icon">
+                                                        <i class="fa fa-upload"></i>
+                                                    </span>
+                                                </span>
+                                                <span class="file-name" *ngIf="this.currentFileName != ''">
+                                                    {{currentFileName}}
+                                                </span>
+                                            </label>
+                                        </div>
+                                        <div class="container">
+                                            <div class="field">
+                                                <button mat-button matStepperPrevious
+                                                    class="button has-background-warning-light is-pulled-left">Back</button>
+                                                <button mat-button matStepperNext
+                                                    class="button has-background-info-light is-pulled-right">Next</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </mat-step>
