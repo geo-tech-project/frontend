@@ -11,7 +11,9 @@
                                     <ng-template matStepLabel>
                                         <div>
                                             Please select your area of interest on the map.
-                                            <span *ngIf="getStep(stepper) == 0" class="has-tooltip-bottom" data-tooltip="Hier können sachen stehen">
+                                            <span *ngIf="getStep(stepper) == 0" class="has-tooltip-bottom" data-tooltip="The larger the selected area, the longer the calculation will take. 
+For a faster calculation, the resolution and/or the number of bands could be reduced. 
+Example: For an area of ​​approx. 10,000 hectares, a 10x10m resolution and all bands selected the program needs about 15 minutes to work.">
                                                 <i class="fa fa-info-circle"></i>
                                             </span>
                                         </div>
