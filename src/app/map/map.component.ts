@@ -33,6 +33,9 @@ export class MapComponent implements AfterViewInit {
   // stepper index
   stepperIndex;
 
+  minDate = new Date(2016, 1, 1);
+  maxDate = new Date();
+
   // uploader for training data or trained model
   public uploader: FileUploader = new FileUploader({
     url: this.APIURL + '/upload',
