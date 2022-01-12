@@ -20,6 +20,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": ["georaster-layer-for-leaflet"],
             "outputPath": "dist/geosoft2-project-frontend",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -42,8 +43,7 @@
               "./node_modules/leaflet-draw/dist/leaflet.draw.css",
               "./node_modules/font-awesome/css/font-awesome.min.css"
             ],
-            "scripts": [
-            ]
+            "scripts": []
           },
           "configurations": {
             "production": {
