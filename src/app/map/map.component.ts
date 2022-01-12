@@ -92,18 +92,19 @@ export class MapComponent implements AfterViewInit {
     
 
 
-    //  what sould happen after a file was selected
+    //  what should happen after a file was selected
     this.uploader.onAfterAddingFile = async (file) => {
       console.log(this.formArray);
       file.withCredentials = false;
       await this.uploader.uploadAll();
 
-      this.trainingDataPolygonsJSONUrl += await this.currentFileName;
-      // console.log(this.trainingDataPolygonsJSONUrl);
+      this.trainingDataPolygonsJSONUrl += this.currentFileName;
+      console.log(this.trainingDataPolygonsJSONUrl);
       
-      this.map.remove
+      //this.map.remove()
 
       const trainAreas = await fetch(this.trainingDataPolygonsJSONUrl);
+      console.log(trainAreas);
       const trainAreasGeoJSON = await trainAreas.json();
       console.log(trainAreasGeoJSON);
       this.trainAreasLayer = L.geoJSON(trainAreasGeoJSON.features);
@@ -114,6 +115,7 @@ export class MapComponent implements AfterViewInit {
     // what should happen after the file was succsessfully uploaded
     let fileUploadSuccessfull;
     this.uploader.onCompleteItem = () => { fileUploadSuccessfull = true}
+    console.log(fileUploadSuccessfull);
     
       
   }
