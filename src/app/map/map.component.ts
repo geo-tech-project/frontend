@@ -6,6 +6,8 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import * as bulmaToast from 'bulma-toast';
+
 import { HttpClient } from '@angular/common/http';
 import { FileUploader } from 'ng2-file-upload';
 import { environment } from 'src/environments/environment';
@@ -104,8 +106,9 @@ export class MapComponent implements AfterViewInit {
     // what should happen after the file was succsessfully uploaded
     this.uploader.onCompleteItem = (item: any, status: any) => {
       //Send post request to server /deleteFiles to delete all files in the server
-      this.http.post(this.APIURL + '/deleteFiles', {
-        file: this.currentFileName
+      this.http
+        .post(this.APIURL + '/deleteFiles', {
+          file: this.currentFileName,
         })
         .subscribe(
           (data) => {
@@ -146,6 +149,7 @@ export class MapComponent implements AfterViewInit {
       // send POST to start calculations
       this.http.post(this.APIURL + '/start', jsonData).subscribe({
         next: (data) => {
+          console.log('Data', data);
           this.map.removeLayer(this.drawnItems);
           //console.log(data);
           document
@@ -155,6 +159,32 @@ export class MapComponent implements AfterViewInit {
         },
         error: (error) => {
           console.error('There was an error!', error);
+          //Fire an alert with the error message
+          let hasAoiError = error.error.stac.aoi.status === 'error';
+          let hasTrainingDataError =
+            error.error.stac.trainingData.status === 'error';
+          let errorText = '';
+          if (hasAoiError && hasTrainingDataError) {
+            errorText =
+              'No stac items for both area of interest and training area were found.';
+          } else if (hasAoiError) {
+            errorText = 'No stac items for area of interest were found.';
+          } else if (hasTrainingDataError) {
+            errorText = 'No stac items for training area were found.';
+          }
+          errorText += '\nPlease check your input and try again.';
+          //alert(errorText);
+          document
+            .getElementById('progressModal')
+            .classList.remove('is-active');
+            bulmaToast.toast({
+            message: errorText,
+            type: 'is-danger',
+            position: 'top-right',
+            duration: 1000*60,
+            dismissible: true,
+          });
+
         },
       });
     };
