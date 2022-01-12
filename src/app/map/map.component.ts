@@ -46,6 +46,7 @@ export class MapComponent implements AfterViewInit {
   ) {}
 
   trainingDataPolygonsJSONUrl = this.APIURL + '/trainingdata/';
+  trainLayerGroup = null;
   trainAreasLayer = null;
 
   ngOnInit() {
@@ -90,32 +91,35 @@ export class MapComponent implements AfterViewInit {
     });
 
     
-
-
     //  what should happen after a file was selected
     this.uploader.onAfterAddingFile = async (file) => {
+      await this.trainLayerGroup.clearLayers();
       console.log(this.formArray);
       file.withCredentials = false;
       await this.uploader.uploadAll();
 
-      this.trainingDataPolygonsJSONUrl += this.currentFileName;
-      console.log(this.trainingDataPolygonsJSONUrl);
+      let tmpURL = this.trainingDataPolygonsJSONUrl;
+      tmpURL += this.currentFileName;
+      console.log(tmpURL);
       
-      //this.map.remove()
+      console.log()
 
-      const trainAreas = await fetch(this.trainingDataPolygonsJSONUrl);
+      const trainAreas = await fetch(tmpURL);
       console.log(trainAreas);
       const trainAreasGeoJSON = await trainAreas.json();
       console.log(trainAreasGeoJSON);
       this.trainAreasLayer = L.geoJSON(trainAreasGeoJSON.features);
-      this.trainAreasLayer.addTo(this.map);
-      this.map.setView(this.trainAreasLayer.getBounds());
+      await this.trainLayerGroup.addLayer(this.trainAreasLayer);
+      this.map.fitBounds(this.trainAreasLayer.getBounds());
     };
 
     // what should happen after the file was succsessfully uploaded
     let fileUploadSuccessfull;
-    this.uploader.onCompleteItem = () => { fileUploadSuccessfull = true}
-    console.log(fileUploadSuccessfull);
+    this.uploader.onCompleteItem = () => { 
+        fileUploadSuccessfull = true;
+        console.log(fileUploadSuccessfull);      
+    }
+    
     
       
   }
@@ -145,6 +149,10 @@ export class MapComponent implements AfterViewInit {
     );
     // add tiles to map
     tiles.addTo(this.map);
+
+    // add layer group for trainareas to map
+    this.trainLayerGroup = new L.LayerGroup();
+    this.trainLayerGroup.addTo(this.map);
 
     // add draw options to map
     this.drawnItems = new L.FeatureGroup();
