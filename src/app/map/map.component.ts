@@ -11,6 +11,7 @@ import { FileUploader } from 'ng2-file-upload';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { geoPackageFeatureLayer } from '@ngageoint/leaflet-geopackage';
 
 @Component({
   selector: 'app-map',
@@ -95,22 +96,30 @@ export class MapComponent implements AfterViewInit {
     this.uploader.onAfterAddingFile = async (file) => {
       await this.trainLayerGroup.clearLayers();
       console.log(this.formArray);
+      console.log(this.uploader)
       file.withCredentials = false;
       await this.uploader.uploadAll();
 
-      let tmpURL = this.trainingDataPolygonsJSONUrl;
-      tmpURL += this.currentFileName;
+      let tmpURL = await this.trainingDataPolygonsJSONUrl;
+      tmpURL += await this.currentFileName;
       console.log(tmpURL);
-      
-      console.log()
 
       const trainAreas = await fetch(tmpURL);
       console.log(trainAreas);
-      const trainAreasGeoJSON = await trainAreas.json();
-      console.log(trainAreasGeoJSON);
-      this.trainAreasLayer = L.geoJSON(trainAreasGeoJSON.features);
-      await this.trainLayerGroup.addLayer(this.trainAreasLayer);
-      this.map.fitBounds(this.trainAreasLayer.getBounds());
+      if (this.currentFileName.split('.').pop() == "geojson") {
+        console.log(this.currentFileName.split('.').pop())
+        const trainAreasGeoJSON = await trainAreas.json();
+        console.log(trainAreasGeoJSON);
+        this.trainAreasLayer = await L.geoJSON(trainAreasGeoJSON.features);
+        await this.trainLayerGroup.addLayer(this.trainAreasLayer);
+      } 
+      else if (this.currentFileName.split('.').pop() == "gpkg") {
+        console.log(this.currentFileName.split('.').pop())
+        // await this.trainLayerGroup.addLayer(geoPackageFeatureLayer([], { geoPackageUrl: tmpURL, layerName: 'trainAreas' }));
+      }
+
+        
+      //this.map.fitBounds(this.trainAreasLayer.getBounds());
     };
 
     // what should happen after the file was succsessfully uploaded
