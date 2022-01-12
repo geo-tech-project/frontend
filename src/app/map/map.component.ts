@@ -35,7 +35,7 @@ export class MapComponent implements AfterViewInit {
   stepperIndex;
 
   getStep(stepper: MatStepper) {
-    console.log(stepper.selectedIndex);
+    // console.log(stepper.selectedIndex);
     return stepper.selectedIndex;
   }
 
@@ -147,6 +147,7 @@ export class MapComponent implements AfterViewInit {
       // send POST to start calculations
       this.http.post(this.APIURL + '/start', jsonData).subscribe({
         next: (data) => {
+          console.log("Data",data);
           this.map.removeLayer(this.drawnItems);
           //console.log(data);
           document
@@ -156,6 +157,11 @@ export class MapComponent implements AfterViewInit {
         },
         error: (error) => {
           console.error('There was an error!', error);
+          //Fire an alert with the error message
+          let errorText = "AOI: "+ error.error.stac.aoi.error+"\n Training Data: "+error.error.stac.trainingData.error;
+          alert(errorText);
+          //reload the page
+          location.reload();
         },
       });
     };
