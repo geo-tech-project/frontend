@@ -35,7 +35,6 @@ export class MapComponent implements AfterViewInit {
   stepperIndex;
 
   getStep(stepper: MatStepper) {
-    console.log(stepper.selectedIndex);
     return stepper.selectedIndex;
   }
 
