@@ -111,7 +111,7 @@ export class ResultComponent implements AfterViewInit {
 
     // create array with the colours to be used for the classification
     const usedColours = [];
-    var scale = chroma.scale('Spectral'); // define which color scheme we want to use
+    var scale = chroma.scale('Viridis'); // define which color scheme we want to use
     for (let index = min; index <= max; index++) {
       usedColours.push(scale((index - min) / range).hex());
     }
