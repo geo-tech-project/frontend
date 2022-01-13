@@ -159,32 +159,67 @@ export class MapComponent implements AfterViewInit {
         },
         error: (error) => {
           console.error('There was an error!', error);
-          //Fire an alert with the error message
-          let hasAoiError = error.error.stac.aoi.status === 'error';
-          let hasTrainingDataError =
-            error.error.stac.trainingData.status === 'error';
-          let errorText = '';
-          if (hasAoiError && hasTrainingDataError) {
-            errorText =
-              'No stac items for both area of interest and training area were found.';
-          } else if (hasAoiError) {
-            errorText = 'No stac items for area of interest were found.';
-          } else if (hasTrainingDataError) {
-            errorText = 'No stac items for training area were found.';
-          }
-          errorText += '\nPlease check your input and try again.';
-          //alert(errorText);
-          document
-            .getElementById('progressModal')
-            .classList.remove('is-active');
-            bulmaToast.toast({
-            message: errorText,
-            type: 'is-danger',
-            position: 'top-right',
-            duration: 1000*60,
-            dismissible: true,
-          });
+          if (error.status === 402) {
+            //Fire an alert with the error message
+            let hasAoiError = error.error?.stac?.aoi?.status === 'error';
+            let hasTrainingDataError =
+              error.error?.stac?.trainingData?.status === 'error';
+            let errorText = '';
+            if (hasAoiError && hasTrainingDataError) {
+              errorText =
+                'No stac items for both area of interest and training area were found.';
+            } else if (hasAoiError) {
+              errorText = 'No stac items for area of interest were found.';
+            } else if (hasTrainingDataError) {
+              errorText = 'No stac items for training area were found.';
+            } else {
+              errorText = 'There was an error!';
+            }
+            errorText += '\nPlease check your input and try again.';
 
+            //alert(errorText);
+            document
+              .getElementById('progressModal')
+              .classList.remove('is-active');
+
+            bulmaToast.toast({
+              message: errorText,
+              type: 'is-danger',
+              position: 'top-right',
+              duration: 1000 * 60,
+              dismissible: true,
+            });
+          } else if (error.status === 401) {
+            console.error(
+              `There was an error with status code ${error.status}!`,
+              error
+            );
+            let errorText =
+              error.error.error.error + '\nPlease check your input and try again.';
+
+            document
+              .getElementById('progressModal')
+              .classList.remove('is-active');
+
+            bulmaToast.toast({
+              message: errorText,
+              type: 'is-danger',
+              position: 'top-right',
+              duration: 1000 * 60,
+              dismissible: true,
+            });
+          } else {
+            document
+              .getElementById('progressModal')
+              .classList.remove('is-active');
+            bulmaToast.toast({
+              message: 'There was an unexpected error! Please try again.',
+              type: 'is-danger',
+              position: 'top-right',
+              duration: 1000 * 60,
+              dismissible: true,
+            });
+          }
         },
       });
     };
