@@ -1,88 +1,295 @@
-<div class="content" style="height: 100vh">
-    <div class="columns is-mobile is-centered">
-        <div class="column">
-            <div class="notification is-info is-light">
-                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-                nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et
-                accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
-                ipsum
-                dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-                invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo
-                dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut
-                labore et
-                dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
-                Stet
-                clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-                Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum
-                dolore eu
-                feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum
-                zzril
-                delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet,
+<div class="hero is-fullheight-with-navbar">
+    <section class="section">
+        <div id="container" class="container is-fluid">
+            <div class="columns is-centered">
+                <div id="formdiv" class="column is-one-third">
+                    <div>
+                        <form [formGroup]="submitForm">
+                            <mat-stepper id="stepper" formArrayName="formArray" orientation="vertical"
+                                [selectedIndex]="stepperIndex" linear #stepper>
+                                <mat-step formGroupName="0" [stepControl]="formArray?.get([0])">
+                                    <ng-template matStepLabel>
+                                        <div>
+                                            Please select your area of interest on the map.
+                                            <span *ngIf="getStep(stepper) == 0" class="has-tooltip-bottom" data-tooltip="The larger the selected area, the longer the calculation will take. 
+For a faster calculation, the resolution and/or the number of bands could be reduced. 
+Example: For an area of ​​approx. 10,000 hectares, a 10x10m resolution and all bands selected the program needs about 15 minutes to work.">
+                                                <i class="fa fa-info-circle"></i>
+                                            </span>
+                                        </div>
+                                    </ng-template>
+                                    <div>
+                                        <p> Click the black rectangle in the top left corner on the map and draw your
+                                            area of interest.
+                                            You can edit this anytime by clicking the delete button after the rectangle
+                                            was drawn.
+                                        </p>
+                                        <label class="checkbox" style="visibility: hidden;">
+                                            <input id="checkbox" type="checkbox" formControlName="selected">
+                                            Choose area of interest
+                                        </label>
+                                    </div>
+                                </mat-step>
+                                <mat-step formGroupName="1" [stepControl]="formArray?.get([1])" state="option">
+                                    <ng-template matStepLabel>
+                                        <div>
+                                            Do you have a trained model or just some training data?
+                                            <span *ngIf="getStep(stepper) == 1" class="has-tooltip-arrow has-tooltip-bottom"
+                                                data-tooltip="Hier können sachen stehen">
+                                                <i class="fa fa-info-circle"></i>
+                                            </span>
+                                        </div>
+                                    </ng-template>
+                                    <div class="control">
+                                        <label class="radio">
+                                            <input type="radio" [value]="'model'" name="option"
+                                                formControlName="option">
+                                            <b>Trained model</b>
+                                        </label>
+                                        <label class="radio">
+                                            <input type="radio" [value]="'data'" name="option" formControlName="option">
+                                            <b>Training data</b>
+                                        </label>
+                                    </div>
+                                    <div *ngIf="getOptionValue() == 'data'">
+                                        <mat-form-field appearance="fill">
+                                            <mat-label>Select a training algorithm</mat-label>
+                                            <mat-select formControlName="algorithm">
+                                                <mat-option value='rf'>Random Forest</mat-option>
+                                                <mat-option value='smvRadial'>Support Vector Machines</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                        <div *ngIf="getAlgorithmValue() == 'rf'">
+                                            <label class="label">Number of Randomly Selected Predictors</label>
+                                            <input formControlName="mtry" class="input" type="number" min="2" readonly>
+                                        </div>
+                                        <div *ngIf="getAlgorithmValue() == 'smvRadial'">
+                                            <label class="label">Standard Deviation</label>
+                                            <input formControlName="sigma" class="input" type="number">
+                                            <br>
+                                            <label class="label">Cost</label>
+                                            <input formControlName="cost" class="input" type="number">
+                                        </div>
+                                    </div>
+                                    <div class="container">
+                                        <div class="field">
+                                            <button mat-button matStepperNext
+                                                class="button has-background-info-light is-pulled-right">Next</button>
+                                        </div>
+                                    </div>
+                                </mat-step>
+                                <mat-step formGroupName="2" [stepControl]="formArray?.get([2])" state="upload">
+                                    <ng-template matStepLabel>
+                                        <div>
+                                            Select a file (trained model or training data)
+                                            <span *ngIf="getStep(stepper) == 2" class="has-tooltip-arrow has-tooltip-bottom"
+                                                data-tooltip="Hier können sachen stehen">
+                                                <i class="fa fa-info-circle"></i>
+                                            </span>
+                                        </div>
+                                    </ng-template>
+                                    <div *ngIf="getOptionValue() == 'data'">
+                                        <div class="file has-name is-boxed is-centered">
+                                            <label class="file-label">
+                                                <input class="file-input" type="file" (change)="fileSelected($event)"
+                                                    name="file" ng2FileSelect [uploader]="uploader"
+                                                    accept=".geojson,.gpkg" formControlName="file">
+                                                <span class="file-cta">
+                                                    <span class="file-icon">
+                                                        <i class="fa fa-upload"></i>
+                                                    </span>
+                                                </span>
+                                                <span class="file-name" *ngIf="this.currentFileName != ''">
+                                                    {{currentFileName}}
+                                                </span>
+                                            </label>
+                                        </div>
+                                        <div class="container">
+                                            <div class="field">
+                                                <button mat-button matStepperPrevious
+                                                    class="button has-background-warning-light is-pulled-left">Back</button>
+                                                <button mat-button matStepperNext
+                                                    class="button has-background-info-light is-pulled-right">Next</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="getOptionValue() == 'model'">
+                                        <div class="file has-name is-boxed is-centered">
+                                            <label class="file-label">
+                                                <input class="file-input" type="file" (change)="fileSelected($event)"
+                                                    name="file" ng2FileSelect [uploader]="uploader" accept=".rds"
+                                                    formControlName="file">
+                                                <span class="file-cta">
+                                                    <span class="file-icon">
+                                                        <i class="fa fa-upload"></i>
+                                                    </span>
+                                                </span>
+                                                <span class="file-name" *ngIf="this.currentFileName != ''">
+                                                    {{currentFileName}}
+                                                </span>
+                                            </label>
+                                        </div>
+                                        <div class="container">
+                                            <div class="field">
+                                                <button mat-button matStepperPrevious
+                                                    class="button has-background-warning-light is-pulled-left">Back</button>
+                                                <button mat-button matStepperNext
+                                                    class="button has-background-info-light is-pulled-right">Next</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </mat-step>
+                                <mat-step formGroupName="3" [stepControl]="formArray?.get([3])" state="timeframe">
+                                    <ng-template matStepLabel>
+                                        <div>
+                                            Enter a timeframe for the satelite images:
+                                            <span *ngIf="getStep(stepper) == 3" class="has-tooltip-arrow has-tooltip-bottom"
+                                                data-tooltip="Hier können sachen stehen">
+                                                <i class="fa fa-info-circle"></i>
+                                            </span>
+                                        </div>
+                                    </ng-template>
+                                    <mat-form-field appearance="fill">
+                                        <mat-date-range-input [rangePicker]="picker" [min]="minDate" [max]="maxDate">
+                                            <input matStartDate placeholder="Start date" formControlName="startDate">
+                                            <input matEndDate placeholder="End date" formControlName="endDate">
+                                        </mat-date-range-input>
+                                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                        <mat-date-range-picker touchUi #picker></mat-date-range-picker>
+                                    </mat-form-field>
+                                    <div class="container">
+                                        <div class="field">
+                                            <button mat-button matStepperPrevious
+                                                class="button has-background-warning-light is-pulled-left">Back</button>
+                                            <button mat-button matStepperNext
+                                                class="button has-background-info-light is-pulled-right">Next</button>
+                                        </div>
+                                    </div>
+                                </mat-step>
+                                <mat-step formGroupName="5" [stepControl]="formArray?.get([5])">
+                                    <ng-template matStepLabel>
+                                        <div>
+                                            Desired channels satellite images
+                                            <span  *ngIf="getStep(stepper) == 4" class="has-tooltip-arrow has-tooltip-bottom"
+                                                data-tooltip="Hier können sachen stehen">
+                                                <i class="fa fa-info-circle"></i>
+                                            </span>
+                                        </div>
+                                    </ng-template>
+                                    <mat-form-field appearance="fill">
+                                        <mat-label>Desired channels</mat-label>
+                                        <mat-select formControlName="channels" multiple>
+                                            <mat-option value="B01">B01</mat-option>
+                                            <mat-option value="B02">B02</mat-option>
+                                            <mat-option value="B03">B03</mat-option>
+                                            <mat-option value="B04">B04</mat-option>
+                                            <mat-option value="B05">B05</mat-option>
+                                            <mat-option value="B06">B06</mat-option>
+                                            <mat-option value="B07">B07</mat-option>
+                                            <mat-option value="B08">B08</mat-option>
+                                            <mat-option value="B09">B09</mat-option>
+                                            <mat-option value="B11">B11</mat-option>
+                                            <mat-option value="B12">B12</mat-option>
+                                            <mat-option value="B8A">B8A</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                    <div class="container">
+                                        <div class="field">
+                                            <button mat-button matStepperPrevious
+                                                class="button has-background-warning-light is-pulled-left">Back</button>
+                                            <button mat-button matStepperNext
+                                                class="button has-background-info-light is-pulled-right">Next</button>
+                                        </div>
+                                    </div>
+                                </mat-step>
+                                <mat-step formGroupName="4" [stepControl]="formArray?.get([4])">
+                                    <ng-template matStepLabel>
+                                        <div>
+                                            Resolution of satellite images
+                                            <span *ngIf="getStep(stepper) == 5" class="has-tooltip-arrow has-tooltip-bottom"
+                                                data-tooltip="Hier können sachen stehen">
+                                                <i class="fa fa-info-circle"></i>
+                                            </span>
+                                        </div>
+                                    </ng-template>
+                                    <mat-form-field appearance="fill">
+                                        <mat-label>Select an option</mat-label>
+                                        <mat-select formControlName="resolution">
+                                            <mat-option value=10>10mx10m</mat-option>
+                                            <mat-option value=20>20mx20m</mat-option>
+                                            <mat-option value=60>60mx60m</mat-option>
+                                            <mat-option value=100>100mx100m</mat-option>
+                                            <mat-option value=200>200mx200m</mat-option>
+                                            <mat-option value=400>400mx400m</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                    <div class="container">
+                                        <div class="field">
+                                            <button mat-button matStepperPrevious
+                                                class="button has-background-warning-light is-pulled-left">Back</button>
+                                            <button mat-button matStepperNext
+                                                class="button has-background-info-light is-pulled-right">Next</button>
+                                        </div>
+                                    </div>
+                                </mat-step>
+                                <mat-step formGroupName="6" [stepControl]="formArray?.get([6])">
+                                    <br>
+                                    <ng-template matStepLabel>
+                                        <div>
+                                            Cloud coverage on satellite images
+                                            <span *ngIf="getStep(stepper) == 6" class="has-tooltip-arrow has-tooltip-bottom"
+                                                data-tooltip="Hier können sachen stehen">
+                                                <i class="fa fa-info-circle"></i>
+                                            </span>
+                                        </div>
+                                    </ng-template>
+                                    <div class="columns is-mobile is-centered">
+                                        <div class="column is-half">
+                                            <p class="bd-notification is-primary">
+                                                <mat-slider thumbLabel tickInterval="1" step="1" min="0" max="100"
+                                                    aria-label="units" formControlName="coverage"></mat-slider>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="container">
+                                        <div class="field">
+                                            <button mat-button matStepperPrevious
+                                                class="button has-background-warning-light is-pulled-left">Back</button>
+                                            <button mat-button matStepperNext
+                                                class="button has-background-info-light is-pulled-right">Next</button>
+                                        </div>
+                                    </div>
+                                </mat-step>
+                                <mat-step>
+                                    <ng-template matStepLabel>Done</ng-template>
+                                    <p>Do you want to submit your data?</p>
+                                    <div class="field">
+                                        <button mat-button matStepperPrevious
+                                            class="button has-background-warning-light is-pulled-left">Back</button>
+                                        <button mat-button (click)="runDemo()"
+                                            class="button is-success is-pulled-right">Run demo</button>
+                                    </div>
+                                </mat-step>
+                            </mat-stepper>
+                        </form>
+                    </div>
+                </div>
+                <div id="mapdiv" class="column">
+                    <!-- map -->
+                    <div class="notification is-white">
+                        <div id="map"></div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="column">
-            <div class="notification is-info is-light">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-                nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et
-                accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
-                ipsum
-                dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-                invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo
-                dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut
-                labore et
-                dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
-                Stet
-                clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-                Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum
-                dolore eu
-                feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum
-                zzril
-                delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet,
-            </div>
+    </section>
+</div>
+<div id="progressModal" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+        <div class="box">
+            This could take some time, please wait...
         </div>
-        <div class="column">
-            <div class="notification is-info is-light">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-                nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et
-                accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
-                ipsum
-                dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-                invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo
-                dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut
-                labore et
-                dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
-                Stet
-                clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-                Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum
-                dolore eu
-                feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum
-                zzril
-                delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet,
-            </div>
-        </div>
-        <div class="column">
-            <div class="notification is-info is-light">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-                nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et
-                accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
-                ipsum
-                dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-                invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo
-                dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut
-                labore et
-                dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
-                Stet
-                clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-                Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum
-                dolore eu
-                feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum
-                zzril
-                delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet,
-            </div>
-        </div>
-    </div>
-    <div class="box has-text-centered">
-        <button (click)="runDemo()" class="button is-primary">Run demo</button>
+        <progress class="progress is-large is-info" max="100">60%</progress>
     </div>
 </div>

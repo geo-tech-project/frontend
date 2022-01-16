@@ -24,22 +24,17 @@ export class ResultComponent implements AfterViewInit {
   // URLs for all layers that have to be created
   predictionUrl = this.APIURL + '/predictionaoa/prediction.tif';
   aoaUrl = this.APIURL + '/predictionaoa/aoa.tif';
+  classesUrl = this.APIURL + '/predictionaoa/classes.json';
+  furtherTrainAreasJSONUrl = this.APIURL + '/furthertrainareas/furtherTrainAreas.geojson';
   aoiUrl = this.APIURL + '/processedsentinelimages/aoi.tif';
-  furtherTrainAreasJSONUrl =
-    this.APIURL + '/furthertrainareas/furtherTrainAreas.geojson';
-  trainingDataPolygonsJSONUrl =
-    this.APIURL + '/trainingdata/trainingsdaten_muenster_32632.gpkg';
-  classesUrl = this.APIURL + '/json';
+  trainingDataPolygonsJSONUrl = this.APIURL + '/trainingdata/trainingsdaten_muenster_32632.gpkg';
+  modelUrl = this.APIURL + '/model/model.RDS'
 
   // Initially definining variables for layers
   predictionLayer = null;
   aoaLayer = null;
   aoiLayer = null;
   trainAreasLayer = null;
-
-  // markerIcon = L.icon({
-  //   iconUrl: this.APIURL + '/marker',
-  // });
 
   // Set up map
   private initMap(): void {
@@ -72,8 +67,7 @@ export class ResultComponent implements AfterViewInit {
     const responsePrediction = await fetch(this.predictionUrl);
     const arrayBufferPrediction = await responsePrediction.arrayBuffer();
     const georasterPrediction = await parseGeoRaster(arrayBufferPrediction);
-    console.log(georasterPrediction);
-
+  
     // Fetch aoa url and create georaster object
     const responseAOA = await fetch(this.aoaUrl);
     const arrayBufferAOA = await responseAOA.arrayBuffer();
@@ -101,9 +95,6 @@ export class ResultComponent implements AfterViewInit {
     const min = 1;
     const max = georasterPrediction.maxs[0];
     const range = max - min;
-    // console.log(min);
-    // console.log(max);
-    // console.log(range);
 
     // await the file with the used classes
     const classes = await fetch(this.classesUrl);
@@ -191,6 +182,7 @@ export class ResultComponent implements AfterViewInit {
       resolution: 64, // optional parameter for adjusting display resolution
     });
     this.predictionLayer.addTo(this.map);
+    console.log(this.predictionLayer);
 
     // creating aoa layer
     this.aoaLayer = new GeoRasterLayer({
@@ -201,6 +193,7 @@ export class ResultComponent implements AfterViewInit {
         values[0] === 0 ? '#000000 ' : values[0] === 1 ? '#FFFFFF ' : null,
       resolution: 64, // optional parameter for adjusting display resolution
     });
+    console.log(this.aoaLayer);
 
     // creating aoi layer
     // this.aoiLayer = new GeoRasterLayer({
@@ -229,25 +222,19 @@ export class ResultComponent implements AfterViewInit {
    * Function that wil be executed if a download button gets clicked
    * @param name name of file to be downloaded
    */
-  downloadData(name) {
+   downloadData(name) {
     if (name == 'prediction') {
-      window.open(this.APIURL + '/predictionaoa/prediction.tif', '_blank');
+      window.open(this.predictionUrl, '_blank');
     } else if (name == 'aoa') {
-      window.open(this.APIURL + '/predictionaoa/aoa.tif', '_blank');
+      window.open(this.aoaUrl, '_blank');
     } else if (name == 'trainAreas') {
-      window.open(
-        this.APIURL + '/furthertrainareas/furtherTrainAreas.geojson',
-        '_blank'
-      );
+      window.open(this.furtherTrainAreasJSONUrl,'_blank');
     } else if (name == 'aoi') {
-      window.open(this.APIURL + '/processedsentinelimages/aoi.tif', '_blank');
+      window.open(this.aoiUrl, '_blank');
     } else if (name == 'trainingData') {
-      window.open(
-        this.APIURL + '/processedsentinelimages/trainingData.tif',
-        '_blank'
-      );
+      window.open(this.trainingDataPolygonsJSONUrl, '_blank');
     } else if (name == 'model') {
-      window.open(this.APIURL + '/model/model.RDS', '_blank');
+      window.open(this.modelUrl, '_blank');
     }
   }
 

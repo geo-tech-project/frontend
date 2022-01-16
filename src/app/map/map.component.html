@@ -61,7 +61,7 @@ Example: For an area of ​​approx. 10,000 hectares, a 10x10m resolution and a
                                         </mat-form-field>
                                         <div *ngIf="getAlgorithmValue() == 'rf'">
                                             <label class="label">Number of Randomly Selected Predictors</label>
-                                            <input formControlName="mtry" class="input" type="number">
+                                            <input formControlName="mtry" class="input" type="number"  min="2">
                                         </div>
                                         <div *ngIf="getAlgorithmValue() == 'smvRadial'">
                                             <label class="label">Standard Deviation</label>
@@ -188,9 +188,9 @@ Example: For an area of ​​approx. 10,000 hectares, a 10x10m resolution and a
                                             <mat-option value="B07">B07</mat-option>
                                             <mat-option value="B08">B08</mat-option>
                                             <mat-option value="B09">B09</mat-option>
-                                            <mat-option value="B10">B10</mat-option>
                                             <mat-option value="B11">B11</mat-option>
                                             <mat-option value="B12">B12</mat-option>
+                                            <mat-option value="B8A">B8A</mat-option>
                                         </mat-select>
                                     </mat-form-field>
                                     <div class="container">
@@ -215,12 +215,12 @@ Example: For an area of ​​approx. 10,000 hectares, a 10x10m resolution and a
                                     <mat-form-field appearance="fill">
                                         <mat-label>Select an option</mat-label>
                                         <mat-select formControlName="resolution">
-                                            <mat-option value=10>10x10m</mat-option>
-                                            <mat-option value=20>20x20m</mat-option>
-                                            <mat-option value=60>60x60m</mat-option>
-                                            <mat-option value=100>100x100m</mat-option>
-                                            <mat-option value=200>200x200m</mat-option>
-                                            <mat-option value=400>400x400m</mat-option>
+                                            <mat-option value=10>10mx10m</mat-option>
+                                            <mat-option value=20>20mx20m</mat-option>
+                                            <mat-option value=60>60mx60m</mat-option>
+                                            <mat-option value=100>100mx100m</mat-option>
+                                            <mat-option value=200>200mx200m</mat-option>
+                                            <mat-option value=400>400mx400m</mat-option>
                                         </mat-select>
                                     </mat-form-field>
                                     <div class="container">
