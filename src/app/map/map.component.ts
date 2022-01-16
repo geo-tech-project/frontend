@@ -11,7 +11,9 @@ import { FileUploader } from 'ng2-file-upload';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
-import { geoPackageFeatureLayer } from '@ngageoint/leaflet-geopackage';
+import {geoPackageFeatureLayer} from '@ngageoint/leaflet-geopackage';
+//import * as G from '@ngageoint/leaflet-geopackage';
+
 
 @Component({
   selector: 'app-map',
@@ -107,19 +109,22 @@ export class MapComponent implements AfterViewInit {
       const trainAreas = await fetch(tmpURL);
       console.log(trainAreas);
       if (this.currentFileName.split('.').pop() == "geojson") {
-        console.log(this.currentFileName.split('.').pop())
+        // console.log(this.currentFileName.split('.').pop())
         const trainAreasGeoJSON = await trainAreas.json();
         console.log(trainAreasGeoJSON);
         this.trainAreasLayer = await L.geoJSON(trainAreasGeoJSON.features);
         await this.trainLayerGroup.addLayer(this.trainAreasLayer);
       } 
       else if (this.currentFileName.split('.').pop() == "gpkg") {
-        console.log(this.currentFileName.split('.').pop())
-        // await this.trainLayerGroup.addLayer(geoPackageFeatureLayer([], { geoPackageUrl: tmpURL, layerName: 'trainAreas' }));
+        // console.log(this.currentFileName.split('.').pop());
+        let a = geoPackageFeatureLayer([], {geoPackageUrl: tmpURL, layerName: 'trainAreas'})
+        console.log(a);
+        //this.trainAreasLayer = await G.geoPackageFeatureLayer([], { geoPackageUrl: tmpURL, layerName: 'trainAreas' });
+        //await this.trainLayerGroup.addLayer(this.trainAreasLayer);
       }
 
         
-      //this.map.fitBounds(this.trainAreasLayer.getBounds());
+      this.map.fitBounds(this.trainAreasLayer.getBounds());
     };
 
     // what should happen after the file was succsessfully uploaded
