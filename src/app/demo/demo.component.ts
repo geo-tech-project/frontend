@@ -20,7 +20,7 @@ export class DemoComponent implements OnInit {
     bottomrightlng: 7.652018947455736,
     toprightlat: 51.946286720328104,
     toprightlng: 7.652018947455736,
-    option: 'data',
+    option: 'model',
     algorithm: 'rf',
     startDate: '2021-05-31T22:00:00.000Z',
     endDate: '2021-08-30T22:00:00.000Z',
