@@ -28,7 +28,7 @@ export class ResultComponent implements AfterViewInit {
   furtherTrainAreasJSONUrl = this.APIURL + '/furthertrainareas/furtherTrainAreas.geojson';
   aoiUrl = this.APIURL + '/processedsentinelimages/aoi.tif';
   trainingDataPolygonsJSONUrl = this.APIURL + '/trainingdata/trainingsdaten_muenster_32632.gpkg';
-  modelUrl = this.APIURL + '/model/model.RDS'
+  modelUrl = this.APIURL + '/model/model.RDS';
 
   // Initially definining variables for layers
   predictionLayer = null;

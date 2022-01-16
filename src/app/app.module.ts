@@ -31,7 +31,6 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatSliderModule} from '@angular/material/slider';
 import { DemoComponent } from './demo/demo.component';
 import { ResultComponent } from './result/result.component';
-import { DemoResultComponent } from './demo-result/demo-result.component';
 
 @NgModule({
   declarations: [
@@ -41,8 +40,7 @@ import { DemoResultComponent } from './demo-result/demo-result.component';
     FooterComponent,
     MapComponent,
     DemoComponent,
-    ResultComponent,
-    DemoResultComponent
+    ResultComponent
   ],
   imports: [
     BrowserModule,
