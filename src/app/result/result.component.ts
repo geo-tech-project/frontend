@@ -27,7 +27,7 @@ export class ResultComponent implements AfterViewInit {
   classesUrl = this.APIURL + '/predictionaoa/classes.json';
   furtherTrainAreasJSONUrl = this.APIURL + '/furthertrainareas/furtherTrainAreas.geojson';
   aoiUrl = this.APIURL + '/processedsentinelimages/aoi.tif';
-  trainingDataPolygonsJSONUrl = this.APIURL + '/trainingdata/trainingsdaten_muenster_32632.gpkg';
+  trainingDataTifUrl = this.APIURL + '/processedsentinelimages/trainingData.tif';
   modelUrl = this.APIURL + '/model/model.RDS';
 
   // Initially definining variables for layers
@@ -232,7 +232,7 @@ export class ResultComponent implements AfterViewInit {
     } else if (name == 'aoi') {
       window.open(this.aoiUrl, '_blank');
     } else if (name == 'trainingData') {
-      window.open(this.trainingDataPolygonsJSONUrl, '_blank');
+      window.open(this.trainingDataTifUrl, '_blank');
     } else if (name == 'model') {
       window.open(this.modelUrl, '_blank');
     }
