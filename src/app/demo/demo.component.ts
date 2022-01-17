@@ -26,7 +26,7 @@ export class DemoComponent implements OnInit {
     endDate: '2021-08-30T22:00:00.000Z',
     filename: 'trainingsdaten_muenster_32632.gpkg',
     resolution: '10',
-    channels: ['B02', 'B03', 'B04'],
+    channels: ['B02', 'B03', 'B04', 'SCL'],
     coverage: 20,
     mtry: 2,
   };
