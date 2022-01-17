@@ -11,8 +11,9 @@
                                     <ng-template matStepLabel>
                                         <div>
                                             Please select your area of interest on the map.
-                                            <span *ngIf="getStep(stepper) == 0" class="has-tooltip-bottom" data-tooltip="The larger the selected area, the longer the calculation will take. 
-For a faster calculation, the resolution and/or the number of bands could be reduced. 
+                                            <span *ngIf="getStep(stepper) == 0" class="has-tooltip-bottom" 
+                                            data-tooltip= "The larger the selected area, the longer the calculation will take. 
+For a faster calculation, the resolution and/or the number of bands could be reduced.
 Example: For an area of ​​approx. 10,000 hectares, a 10x10m resolution and all bands selected the program needs about 15 minutes to work.">
                                                 <i class="fa fa-info-circle"></i>
                                             </span>
@@ -35,7 +36,18 @@ Example: For an area of ​​approx. 10,000 hectares, a 10x10m resolution and a
                                         <div>
                                             Do you have a trained model or just some training data?
                                             <span *ngIf="getStep(stepper) == 1" class="has-tooltip-arrow has-tooltip-bottom"
-                                                data-tooltip="Hier können sachen stehen">
+                                                data-tooltip="Choose whether you want to upload an already trained model or training data for the training of a new model.
+When you select to upload training data, you will be able to choose between two machine learning algorithms to train the model.
+For each algorithm further hyperparameters can then be set.
+• Random Forest:
+    o Number of randomly selected predictors:
+        - can't be higher than the number of predictors
+        - default: 2
+• Support Vector Machine:
+    o Standard Deviation:
+        - default: 1
+    o Cost:
+        - default: 1">
                                                 <i class="fa fa-info-circle"></i>
                                             </span>
                                         </div>
@@ -83,7 +95,17 @@ Example: For an area of ​​approx. 10,000 hectares, a 10x10m resolution and a
                                         <div>
                                             Select a file (trained model or training data)
                                             <span *ngIf="getStep(stepper) == 2" class="has-tooltip-arrow has-tooltip-bottom"
-                                                data-tooltip="Hier können sachen stehen">
+                                                data-tooltip="
+• Model:
+    o If you choose to upload a model, please note, that all predictors used by the model must
+      also be included in the selection of bands/predictors (step 5). The reverse need not apply.
+    o Accepted formats:
+        - .RDS
+• Training data:
+    o Training data must be stored as polygons or multipolygons and contain a “Label” column.
+    o Accepted formats:
+        - .gpkg
+        - .geojson">
                                                 <i class="fa fa-info-circle"></i>
                                             </span>
                                         </div>
