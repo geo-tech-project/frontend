@@ -11,8 +11,6 @@ import { FileUploader } from 'ng2-file-upload';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
-import {geoPackageFeatureLayer} from '@ngageoint/leaflet-geopackage';
-//import * as G from '@ngageoint/leaflet-geopackage';
 
 
 @Component({
@@ -117,8 +115,8 @@ export class MapComponent implements AfterViewInit {
       } 
       else if (this.currentFileName.split('.').pop() == "gpkg") {
         // console.log(this.currentFileName.split('.').pop());
-        let a = geoPackageFeatureLayer([], {geoPackageUrl: tmpURL, layerName: 'trainAreas'})
-        console.log(a);
+
+        console.log();
         //this.trainAreasLayer = await G.geoPackageFeatureLayer([], { geoPackageUrl: tmpURL, layerName: 'trainAreas' });
         //await this.trainLayerGroup.addLayer(this.trainAreasLayer);
       }
