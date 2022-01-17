@@ -36,9 +36,13 @@ export class DemoComponent implements OnInit {
   ngOnInit(): void {}
 
   runDemo() {
+    document.getElementById('progressModal').classList.add('is-active');
     this.http.post(this.APIURL + '/start', this.json).subscribe({
       next: (data) => {
         console.log('Data', data);
+        document
+            .getElementById('progressModal')
+            .classList.remove('is-active');
         this.router.navigate(['result']);
       },
     });
