@@ -95,44 +95,45 @@ export class MapComponent implements AfterViewInit {
     
     //  what should happen after a file was selected
     this.uploader.onAfterAddingFile = async (file) => {
+
       await this.trainLayerGroup.clearLayers();
-      //console.log(this.formArray);
-      //console.log(this.uploader)
       file.withCredentials = false;
-      await this.uploader.uploadAll();
+      this.uploader.uploadAll();
 
-      let trainDataURL = await this.trainingDataPolygonsJsonUrl;
-      let tmpURL = trainDataURL + await this.currentFileName;
-      console.log(tmpURL);
-
-      var trainAreas = await fetch(tmpURL);
-      // console.log(trainAreas);
+      let trainDataURL = this.trainingDataPolygonsJsonUrl;
 
       // if the uploaded training data is ".geojson"
       if (this.currentFileName.split('.').pop() == "geojson") {
-        // console.log(this.currentFileName.split('.').pop())
-        var trainAreasGeoJson = await trainAreas.json();
+        
+        let tmpURLgeojson = trainDataURL + this.currentFileName;
+        console.log(tmpURLgeojson)
+
+        let trainAreas = await fetch(tmpURLgeojson);
+        let trainAreasGeoJson = await trainAreas.json();
         console.log(trainAreasGeoJson);
-        this.trainAreasLayer = await L.geoJSON(trainAreasGeoJson.features);
+
+        this.trainAreasLayer = L.geoJSON(trainAreasGeoJson.features);
         await this.trainLayerGroup.addLayer(this.trainAreasLayer);
         await this.map.fitBounds(this.trainAreasLayer.getBounds());
       }
       // if the uploaded training Data is ".gpkg"
       else if (this.currentFileName.split('.').pop() == "gpkg") {
-        var filenameWithoutExtension = this.currentFileName.split('.')[0];
-        var jsonData = {filename: filenameWithoutExtension}
+
+        let filenameWithoutExtension = this.currentFileName.split('.')[0];
+        let jsonData = {filename: filenameWithoutExtension}
         
         // send POST to start calculations
         this.http.post(this.APIURL + '/getGeoJSON', jsonData).subscribe({
           next: async (data) => {
             console.log(data);
-            var tmpURLGeoJson = this.trainingDataPolygonsJsonUrl + filenameWithoutExtension + ".geojson"
-            console.log(tmpURLGeoJson)
 
-            var trainAreasGeoJsonResponse = await fetch(tmpURLGeoJson);
-            var trainAreasGeoJson = await trainAreasGeoJsonResponse.json();
+            let tmpURLgpkg = this.trainingDataPolygonsJsonUrl + filenameWithoutExtension + ".geojson"
+            console.log(tmpURLgpkg)
+
+            let trainAreasGPKGResponse = await fetch(tmpURLgpkg);
+            let trainAreasGPKG = await trainAreasGPKGResponse.json();
             
-            this.trainAreasLayer = await L.geoJSON(trainAreasGeoJson.features);
+            this.trainAreasLayer = L.geoJSON(trainAreasGPKG.features);
             await this.trainLayerGroup.addLayer(this.trainAreasLayer);
             await this.map.fitBounds(this.trainAreasLayer.getBounds());
           },
@@ -148,10 +149,7 @@ export class MapComponent implements AfterViewInit {
     this.uploader.onCompleteItem = () => { 
         fileUploadSuccessfull = true;
         // console.log(fileUploadSuccessfull);      
-    }
-    
-    
-      
+    }      
   }
 
   // init map
