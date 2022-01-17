@@ -91,12 +91,23 @@ export class MapComponent implements AfterViewInit {
         }),
       ]),
     });
-
+    
     
     //  what should happen after a file was selected
     this.uploader.onAfterAddingFile = async (file) => {
 
       await this.trainLayerGroup.clearLayers();
+      // delete further uploaded files in uploads folder everytime a new file is selected
+      this.http.post(this.APIURL + '/deleteFiles', {file: this.currentFileName}).subscribe({
+          next: (data) => {
+            console.log(data);
+          },
+          error: (error) => {
+            console.log(error);
+          }
+      });
+
+      // upload the selected file
       file.withCredentials = false;
       this.uploader.uploadAll();
 
@@ -110,7 +121,6 @@ export class MapComponent implements AfterViewInit {
 
         let trainAreas = await fetch(tmpURLgeojson);
         let trainAreasGeoJson = await trainAreas.json();
-        console.log(trainAreasGeoJson);
 
         this.trainAreasLayer = L.geoJSON(trainAreasGeoJson.features);
         await this.trainLayerGroup.addLayer(this.trainAreasLayer);
