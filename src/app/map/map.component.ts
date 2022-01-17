@@ -121,6 +121,7 @@ export class MapComponent implements AfterViewInit {
       console.log('Uploaded File Details:', item);
       //convert to json file
       var jsonData = {
+        whereareyoufrom: 'map',
         topleftlat: this.formArray?.get([0]).value.aoi[0][0].lat,
         topleftlng: this.formArray?.get([0]).value.aoi[0][0].lng,
         bottomleftlat: this.formArray?.get([0]).value.aoi[0][1].lat,
