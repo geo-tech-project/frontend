@@ -24,7 +24,7 @@ export class DemoComponent implements OnInit {
     algorithm: 'rf',
     startDate: '2021-05-31T22:00:00.000Z',
     endDate: '2021-08-30T22:00:00.000Z',
-    filename: 'trainingsdaten_muenster_32632.gpkg',
+    filename: 'model.RDS',
     resolution: '10',
     channels: ['B02', 'B03', 'B04', 'SCL'],
     coverage: 20,
