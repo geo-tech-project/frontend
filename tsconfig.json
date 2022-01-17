@@ -24,11 +24,6 @@
     "noImplicitAny": false,
     "strictNullChecks": false,
     "paths": {
-      "crypto":["./node_modules/crypto-browserify"],
-      "http": ["./node_modules/stream-http"],
-      "os": ["./node_modules/os-browserify/browser"],
-      "stream": [ "./node_modules/stream-browserify" ],
-      "fs": ["./node_modules/browserify-fs"]
     }
   },
   "angularCompilerOptions": {

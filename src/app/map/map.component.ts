@@ -11,6 +11,7 @@ import { FileUploader } from 'ng2-file-upload';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import {rewind} from '@mapbox/geojson-rewind';
 
 
 @Component({
@@ -46,7 +47,7 @@ export class MapComponent implements AfterViewInit {
     private router: Router
   ) {}
 
-  trainingDataPolygonsJSONUrl = this.APIURL + '/trainingdata/';
+  trainingDataPolygonsJsonUrl = this.APIURL + '/trainingdata/';
   trainLayerGroup = null;
   trainAreasLayer = null;
 
@@ -95,41 +96,58 @@ export class MapComponent implements AfterViewInit {
     //  what should happen after a file was selected
     this.uploader.onAfterAddingFile = async (file) => {
       await this.trainLayerGroup.clearLayers();
-      console.log(this.formArray);
-      console.log(this.uploader)
+      //console.log(this.formArray);
+      //console.log(this.uploader)
       file.withCredentials = false;
       await this.uploader.uploadAll();
 
-      let tmpURL = await this.trainingDataPolygonsJSONUrl;
-      tmpURL += await this.currentFileName;
+      let trainDataURL = await this.trainingDataPolygonsJsonUrl;
+      let tmpURL = trainDataURL + await this.currentFileName;
       console.log(tmpURL);
 
-      const trainAreas = await fetch(tmpURL);
-      console.log(trainAreas);
+      var trainAreas = await fetch(tmpURL);
+      // console.log(trainAreas);
+
+      // if the uploaded training data is ".geojson"
       if (this.currentFileName.split('.').pop() == "geojson") {
         // console.log(this.currentFileName.split('.').pop())
-        const trainAreasGeoJSON = await trainAreas.json();
-        console.log(trainAreasGeoJSON);
-        this.trainAreasLayer = await L.geoJSON(trainAreasGeoJSON.features);
+        var trainAreasGeoJson = await trainAreas.json();
+        console.log(trainAreasGeoJson);
+        this.trainAreasLayer = await L.geoJSON(trainAreasGeoJson.features);
         await this.trainLayerGroup.addLayer(this.trainAreasLayer);
-      } 
-      else if (this.currentFileName.split('.').pop() == "gpkg") {
-        // console.log(this.currentFileName.split('.').pop());
-
-        console.log();
-        //this.trainAreasLayer = await G.geoPackageFeatureLayer([], { geoPackageUrl: tmpURL, layerName: 'trainAreas' });
-        //await this.trainLayerGroup.addLayer(this.trainAreasLayer);
+        await this.map.fitBounds(this.trainAreasLayer.getBounds());
       }
-
+      // if the uploaded training Data is ".gpkg"
+      else if (this.currentFileName.split('.').pop() == "gpkg") {
+        var filenameWithoutExtension = this.currentFileName.split('.')[0];
+        var jsonData = {filename: filenameWithoutExtension}
         
-      this.map.fitBounds(this.trainAreasLayer.getBounds());
+        // send POST to start calculations
+        this.http.post(this.APIURL + '/getGeoJSON', jsonData).subscribe({
+          next: async (data) => {
+            console.log(data);
+            var tmpURLGeoJson = this.trainingDataPolygonsJsonUrl + filenameWithoutExtension + ".geojson"
+            console.log(tmpURLGeoJson)
+
+            var trainAreasGeoJsonResponse = await fetch(tmpURLGeoJson);
+            var trainAreasGeoJson = await trainAreasGeoJsonResponse.json();
+            
+            this.trainAreasLayer = await L.geoJSON(trainAreasGeoJson.features);
+            await this.trainLayerGroup.addLayer(this.trainAreasLayer);
+            await this.map.fitBounds(this.trainAreasLayer.getBounds());
+          },
+          error: (error) => {
+            console.error('There was an error!', error);
+          },
+        });
+      }
     };
 
     // what should happen after the file was succsessfully uploaded
     let fileUploadSuccessfull;
     this.uploader.onCompleteItem = () => { 
         fileUploadSuccessfull = true;
-        console.log(fileUploadSuccessfull);      
+        // console.log(fileUploadSuccessfull);      
     }
     
     
