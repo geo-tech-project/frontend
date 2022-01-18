@@ -31,6 +31,8 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatSliderModule} from '@angular/material/slider';
 import { DemoComponent } from './demo/demo.component';
 import { ResultComponent } from './result/result.component';
+import { MarkdownModule } from 'ngx-markdown';
+import { DocumentationComponent } from './documentation/documentation.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +42,8 @@ import { ResultComponent } from './result/result.component';
     FooterComponent,
     MapComponent,
     DemoComponent,
-    ResultComponent
+    ResultComponent,
+    DocumentationComponent
   ],
   imports: [
     BrowserModule,
@@ -60,7 +63,8 @@ import { ResultComponent } from './result/result.component';
     MatStepperModule,
     MatIconModule,
     MatSelectModule,
-    MatSliderModule
+    MatSliderModule,
+    MarkdownModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent],

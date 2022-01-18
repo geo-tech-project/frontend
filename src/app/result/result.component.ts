@@ -40,7 +40,7 @@ export class ResultComponent implements AfterViewInit {
   private initMap(): void {
     this.map = L.map('resultmap', {
       center: [51.9606649, 7.6261347],
-      zoom: 12,
+      zoom: 4,
       zoomControl: false,
     });
 
@@ -181,7 +181,7 @@ export class ResultComponent implements AfterViewInit {
       },
       resolution: 64, // optional parameter for adjusting display resolution
     });
-    this.predictionLayer.addTo(this.map);
+    //this.predictionLayer.addTo(this.map);
     console.log(this.predictionLayer);
 
     // creating aoa layer
@@ -249,15 +249,14 @@ export class ResultComponent implements AfterViewInit {
           .checked
       ) {
         this.predictionLayer.addTo(this.map);
-        // this.map.fitBounds(this.predictionLayer)
-        this.map.setView(this.predictionLayer.getBounds().getCenter());
+        this.map.fitBounds(this.predictionLayer.getBounds())
       } else {
         this.map.removeLayer(this.predictionLayer);
       }
     } else if (name == 'aoa') {
       if ((<HTMLInputElement>document.getElementById('aoaCheckbox')).checked) {
         this.aoaLayer.addTo(this.map);
-        this.map.setView(this.aoaLayer.getBounds().getCenter());
+        this.map.fitBounds(this.aoaLayer.getBounds())
       } else {
         this.map.removeLayer(this.aoaLayer);
       }
@@ -267,6 +266,7 @@ export class ResultComponent implements AfterViewInit {
           .checked
       ) {
         this.trainAreasLayer = this.trainAreasLayer.addTo(this.map);
+        this.map.fitBounds(this.trainAreasLayer.getBounds())
       } else {
         this.map.removeLayer(this.trainAreasLayer);
       }

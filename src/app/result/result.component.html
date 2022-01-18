@@ -15,7 +15,7 @@
               </div>
               <div class="column">
                 <input style="transform: scale(1.5);" id="predictionCheckbox" (change)="checkboxClicked('prediction')"
-                  type="checkbox" checked>
+                  type="checkbox">
               </div>
             </div>
             <div class='my-legend'>
@@ -112,8 +112,8 @@
               </div>
             </div>
             <div class="is-clearfix">
-              <div class="is-pulled-right">
-                <button (click)="downloadData('trainAreas')" class="button is-info"><i
+              <div class="">
+                <button (click)="downloadData('trainAreas')" class="button is-info is-pulled-right"><i
                     class="fa fa-download"></i></button>
               </div>
             </div>
@@ -135,7 +135,7 @@
                 <label class="label">Sentinel TIF (Training data)</label>
               </div>
               <div class="column">
-                <button (click)="downloadData('trainingData')" class="button is-info"><i
+                <button (click)="downloadData('trainingData')" class="button is-info is-pulled-right"><i
                     class="fa fa-download"></i></button>
               </div>
             </div>
