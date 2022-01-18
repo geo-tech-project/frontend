@@ -43,7 +43,7 @@
               "./node_modules/leaflet-draw/dist/leaflet.draw.css",
               "./node_modules/font-awesome/css/font-awesome.min.css"
             ],
-            "scripts": []
+            "scripts": ["node_modules/marked/lib/marked.js"]
           },
           "configurations": {
             "production": {

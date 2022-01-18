@@ -43,6 +43,7 @@
     "leaflet-geotiff": "^0.2.0",
     "leaflet-geotiff-2": "^1.1.0",
     "ng2-file-upload": "^1.4.0",
+    "ngx-markdown": "^13.0.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.2.0",
     "zone.js": "~0.11.4"
