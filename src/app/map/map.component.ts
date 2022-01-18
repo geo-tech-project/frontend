@@ -96,8 +96,6 @@ export class MapComponent implements AfterViewInit {
     //  what should happen after a file was selected
     this.uploader.onAfterAddingFile = async (file) => {
 
-      
-
       await this.trainLayerGroup.clearLayers();
       // delete further uploaded files in uploads folder everytime a new file is selected
 
