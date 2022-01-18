@@ -116,8 +116,9 @@ export class MapComponent implements AfterViewInit {
     // what should happen after the file was succsessfully uploaded
     let fileUploadSuccessfull;
     this.uploader.onCompleteItem = async () => { 
+
       fileUploadSuccessfull = true;
-      
+
       let trainDataURL = this.trainingDataPolygonsJsonUrl;
 
       // if the uploaded training data is ".geojson"
@@ -159,10 +160,8 @@ export class MapComponent implements AfterViewInit {
           },
         });
       }
+    }  
         
-        
-
-    }      
   }
 
   // init map
