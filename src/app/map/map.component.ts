@@ -374,7 +374,7 @@ export class MapComponent implements AfterViewInit {
               error
             );
             let errorText =
-              error.error.error.error + '\nPlease check your input and try again.';
+              error?.error?.error?.message + '\nPlease check your input and try again.';
 
             document
               .getElementById('progressModal')
