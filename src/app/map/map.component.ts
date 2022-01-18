@@ -96,8 +96,15 @@ export class MapComponent implements AfterViewInit {
     //  what should happen after a file was selected
     this.uploader.onAfterAddingFile = async (file) => {
 
+      
+
       await this.trainLayerGroup.clearLayers();
       // delete further uploaded files in uploads folder everytime a new file is selected
+
+      // upload the selected file
+      file.withCredentials = false;
+      this.uploader.uploadAll();
+
       this.http.post(this.APIURL + '/deleteFiles', {file: this.currentFileName}).subscribe({
           next: (data) => {
             console.log(data);
@@ -105,12 +112,14 @@ export class MapComponent implements AfterViewInit {
           error: (error) => {
             console.log(error);
           }
-      });
+      });  
+    };
 
-      // upload the selected file
-      file.withCredentials = false;
-      this.uploader.uploadAll();
-
+    // what should happen after the file was succsessfully uploaded
+    let fileUploadSuccessfull;
+    this.uploader.onCompleteItem = async () => { 
+      fileUploadSuccessfull = true;
+      
       let trainDataURL = this.trainingDataPolygonsJsonUrl;
 
       // if the uploaded training data is ".geojson"
@@ -152,13 +161,9 @@ export class MapComponent implements AfterViewInit {
           },
         });
       }
-    };
+        
+        
 
-    // what should happen after the file was succsessfully uploaded
-    let fileUploadSuccessfull;
-    this.uploader.onCompleteItem = () => { 
-        fileUploadSuccessfull = true;
-        // console.log(fileUploadSuccessfull);      
     }      
   }
 
