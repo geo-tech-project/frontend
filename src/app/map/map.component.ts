@@ -11,7 +11,6 @@ import { FileUploader } from 'ng2-file-upload';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
-import {rewind} from '@mapbox/geojson-rewind';
 
 
 @Component({
@@ -97,25 +96,27 @@ export class MapComponent implements AfterViewInit {
     this.uploader.onAfterAddingFile = async (file) => {
 
       await this.trainLayerGroup.clearLayers();
-      // delete further uploaded files in uploads folder everytime a new file is selected
+      
 
       // upload the selected file
       file.withCredentials = false;
       this.uploader.uploadAll();
 
-      this.http.post(this.APIURL + '/deleteFiles', {file: this.currentFileName}).subscribe({
-          next: (data) => {
-            console.log(data);
-          },
-          error: (error) => {
-            console.log(error);
-          }
-      });  
     };
 
     // what should happen after the file was succsessfully uploaded
     let fileUploadSuccessfull;
     this.uploader.onCompleteItem = async () => { 
+
+      // delete further uploaded files in uploads folder everytime a new file is selected
+      this.http.post(this.APIURL + '/deleteFiles', {file: this.currentFileName}).subscribe({
+        next: (data) => {
+          console.log(data);
+        },
+        error: (error) => {
+          console.log(error);
+        }
+    });  
 
       fileUploadSuccessfull = true;
 
