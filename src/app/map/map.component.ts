@@ -346,7 +346,7 @@ export class MapComponent implements AfterViewInit {
             let errorText = '';
             if (hasAoiError && hasTrainingDataError) {
               errorText =
-                'No stac items for both area of interest and training area were found.';
+                'No stac items for both, area of interest and training area were found.';
             } else if (hasAoiError) {
               errorText = 'No stac items for area of interest were found.';
             } else if (hasTrainingDataError) {
@@ -354,7 +354,7 @@ export class MapComponent implements AfterViewInit {
             } else {
               errorText = 'There was an error!';
             }
-            errorText += '\nPlease check your input and try again.';
+            errorText += '\nPlease update your input (date period and/or cloud coverage) and try again.';
 
             //alert(errorText);
             document
@@ -365,7 +365,7 @@ export class MapComponent implements AfterViewInit {
               message: errorText,
               type: 'is-danger',
               position: 'top-right',
-              duration: 1000 * 60,
+              duration: 1000 * 3600,
               dismissible: true,
             });
           } else if (error.status === 401) {
@@ -384,7 +384,7 @@ export class MapComponent implements AfterViewInit {
               message: errorText,
               type: 'is-danger',
               position: 'top-right',
-              duration: 1000 * 60,
+              duration: 1000 * 3600,
               dismissible: true,
             });
           } else {
@@ -395,7 +395,7 @@ export class MapComponent implements AfterViewInit {
               message: 'There was an unexpected error! Please try again.',
               type: 'is-danger',
               position: 'top-right',
-              duration: 1000 * 60,
+              duration: 1000 * 3600,
               dismissible: true,
             });
           }
