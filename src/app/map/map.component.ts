@@ -55,6 +55,10 @@ export class MapComponent implements AfterViewInit {
     private router: Router
   ) {}
 
+  trainingDataPolygonsJsonUrl = this.APIURL + '/trainingdata/';
+  trainLayerGroup = null;
+  trainAreasLayer = null;
+
   ngOnInit() {
     // initialize form group for validation and form stepper
     this.submitForm = this.fb.group({
@@ -97,132 +101,72 @@ export class MapComponent implements AfterViewInit {
     });
 
     //  what sould happen after a file was selected
-    this.uploader.onAfterAddingFile = (file) => {
+    this.uploader.onAfterAddingFile = async (file) => {
       console.log(this.formArray);
 
+      await this.trainLayerGroup.clearLayers();
+
       file.withCredentials = false;
+      this.uploader.uploadAll();
     };
 
     // what should happen after the file was succsessfully uploaded
-    this.uploader.onCompleteItem = (item: any, status: any) => {
-      //Send post request to server /deleteFiles to delete all files in the server
-      this.http
-        .post(this.APIURL + '/deleteFiles', {
-          file: this.currentFileName,
-        })
-        .subscribe(
-          (data) => {
-            console.log(data);
-          },
-          (error) => {
-            console.log(error);
-          }
-        );
-      console.log('Uploaded File Details:', item);
-      //convert to json file
-      var jsonData = {
-        whereareyoufrom: 'map',
-        topleftlat: this.formArray?.get([0]).value.aoi[0][0].lat,
-        topleftlng: this.formArray?.get([0]).value.aoi[0][0].lng,
-        bottomleftlat: this.formArray?.get([0]).value.aoi[0][1].lat,
-        bottomleftlng: this.formArray?.get([0]).value.aoi[0][1].lng,
-        bottomrightlat: this.formArray?.get([0]).value.aoi[0][2].lat,
-        bottomrightlng: this.formArray?.get([0]).value.aoi[0][2].lng,
-        toprightlat: this.formArray?.get([0]).value.aoi[0][3].lat,
-        toprightlng: this.formArray?.get([0]).value.aoi[0][3].lng,
-        option: this.formArray?.get([1]).value.option,
-        algorithm: this.formArray?.get([1]).value.algorithm,
-        startDate: this.formArray?.get([3]).value.startDate,
-        endDate: this.formArray?.get([3]).value.endDate,
-        filename: item._file.name,
-        resolution: this.formArray?.get([4]).value.resolution,
-        channels: this.formArray?.get([5]).value.channels,
-        coverage: this.formArray?.get([6]).value.coverage,
-      };
-
-      if (jsonData.algorithm == 'rf') {
-        jsonData['mtry'] = this.formArray?.get([1]).value.mtry;
-      } else if (jsonData.algorithm == 'smvRadial') {
-        jsonData['sigma'] = this.formArray?.get([1]).value.sigma;
-        jsonData['cost'] = this.formArray?.get([1]).value.cost;
-      }
-
-      // send POST to start calculations
-      this.http.post(this.APIURL + '/start', jsonData).subscribe({
+    this.uploader.onCompleteItem = async (item: any, status: any) => {
+      // delete further uploaded files in uploads folder everytime a new file is selected
+      this.http.post(this.APIURL + '/deleteFiles', {file: this.currentFileName}).subscribe({
         next: (data) => {
-          console.log('Data', data);
-          this.map.removeLayer(this.drawnItems);
-          //console.log(data);
-          document
-            .getElementById('progressModal')
-            .classList.remove('is-active');
-          this.router.navigate(['result']);
+          console.log(data);
         },
         error: (error) => {
-          console.error('There was an error!', error);
-          if (error.status === 402) {
-            //Fire an alert with the error message
-            let hasAoiError = error.error?.stac?.aoi?.status === 'error';
-            let hasTrainingDataError =
-              error.error?.stac?.trainingData?.status === 'error';
-            let errorText = '';
-            if (hasAoiError && hasTrainingDataError) {
-              errorText =
-                'No stac items for both area of interest and training area were found.';
-            } else if (hasAoiError) {
-              errorText = 'No stac items for area of interest were found.';
-            } else if (hasTrainingDataError) {
-              errorText = 'No stac items for training area were found.';
-            } else {
-              errorText = 'There was an error!';
-            }
-            errorText += '\nPlease check your input and try again.';
+          console.log(error);
+        }
+      });  
 
-            //alert(errorText);
-            document
-              .getElementById('progressModal')
-              .classList.remove('is-active');
+      console.log('Uploaded File Details:', item);
 
-            bulmaToast.toast({
-              message: errorText,
-              type: 'is-danger',
-              position: 'top-right',
-              duration: 1000 * 60,
-              dismissible: true,
-            });
-          } else if (error.status === 401) {
-            console.error(
-              `There was an error with status code ${error.status}!`,
-              error
-            );
-            let errorText =
-              error.error.error.error + '\nPlease check your input and try again.';
+      let trainDataURL = this.trainingDataPolygonsJsonUrl;
 
-            document
-              .getElementById('progressModal')
-              .classList.remove('is-active');
+      if (this.currentFileName.split('.').pop() == "geojson") {
+        
+        let tmpURLgeojson = trainDataURL + this.currentFileName;
+        console.log(tmpURLgeojson)
 
-            bulmaToast.toast({
-              message: errorText,
-              type: 'is-danger',
-              position: 'top-right',
-              duration: 1000 * 60,
-              dismissible: true,
-            });
-          } else {
-            document
-              .getElementById('progressModal')
-              .classList.remove('is-active');
-            bulmaToast.toast({
-              message: 'There was an unexpected error! Please try again.',
-              type: 'is-danger',
-              position: 'top-right',
-              duration: 1000 * 60,
-              dismissible: true,
-            });
-          }
-        },
-      });
+        let trainAreas = await fetch(tmpURLgeojson);
+        let trainAreasGeoJson = await trainAreas.json();
+
+        this.trainAreasLayer = L.geoJSON(trainAreasGeoJson.features);
+        await this.trainLayerGroup.addLayer(this.trainAreasLayer);
+        await this.map.fitBounds(this.trainAreasLayer.getBounds());
+      }
+      // if the uploaded training Data is ".gpkg"
+      else if (this.currentFileName.split('.').pop() == "gpkg") {
+
+        let filenameWithoutExtension = this.currentFileName.split('.')[0];
+        let jsonData = {filename: filenameWithoutExtension}
+        
+        // send POST to start calculations
+        this.http.post(this.APIURL + '/getGeoJSON', jsonData).subscribe({
+          next: async (data) => {
+            console.log(data);
+
+            let tmpURLgpkg = this.trainingDataPolygonsJsonUrl + filenameWithoutExtension + ".geojson"
+            console.log(tmpURLgpkg)
+
+            let trainAreasGPKGResponse = await fetch(tmpURLgpkg);
+            let trainAreasGPKG = await trainAreasGPKGResponse.json();
+            
+            this.trainAreasLayer = L.geoJSON(trainAreasGPKG.features);
+            await this.trainLayerGroup.addLayer(this.trainAreasLayer);
+            await this.map.fitBounds(this.trainAreasLayer.getBounds());
+          },
+          error: (error) => {
+            console.error('There was an error!', error);
+          },
+        });
+      }
+     
+
+      
     };
   }
 
@@ -251,6 +195,10 @@ export class MapComponent implements AfterViewInit {
     );
     // add tiles to map
     tiles.addTo(this.map);
+
+    // add layer group for trainareas to map
+    this.trainLayerGroup = new L.LayerGroup();
+    this.trainLayerGroup.addTo(this.map);
 
     // add draw options to map
     this.drawnItems = new L.FeatureGroup();
@@ -348,7 +296,111 @@ export class MapComponent implements AfterViewInit {
     this.formSubmitted = true;
     if (this.submitForm.valid) {
       document.getElementById('progressModal').classList.add('is-active');
-      this.uploader.uploadAll();
+      
+      //convert to json file
+      var jsonData = {
+        whereareyoufrom: 'map',
+        topleftlat: this.formArray?.get([0]).value.aoi[0][0].lat,
+        topleftlng: this.formArray?.get([0]).value.aoi[0][0].lng,
+        bottomleftlat: this.formArray?.get([0]).value.aoi[0][1].lat,
+        bottomleftlng: this.formArray?.get([0]).value.aoi[0][1].lng,
+        bottomrightlat: this.formArray?.get([0]).value.aoi[0][2].lat,
+        bottomrightlng: this.formArray?.get([0]).value.aoi[0][2].lng,
+        toprightlat: this.formArray?.get([0]).value.aoi[0][3].lat,
+        toprightlng: this.formArray?.get([0]).value.aoi[0][3].lng,
+        option: this.formArray?.get([1]).value.option,
+        algorithm: this.formArray?.get([1]).value.algorithm,
+        startDate: this.formArray?.get([3]).value.startDate,
+        endDate: this.formArray?.get([3]).value.endDate,
+        filename: this.currentFileName,
+        resolution: this.formArray?.get([4]).value.resolution,
+        channels: this.formArray?.get([5]).value.channels,
+        coverage: this.formArray?.get([6]).value.coverage,
+      };
+
+      if (jsonData.algorithm == 'rf') {
+        jsonData['mtry'] = this.formArray?.get([1]).value.mtry;
+      } else if (jsonData.algorithm == 'smvRadial') {
+        jsonData['sigma'] = this.formArray?.get([1]).value.sigma;
+        jsonData['cost'] = this.formArray?.get([1]).value.cost;
+      }
+
+      // send POST to start calculations
+      this.http.post(this.APIURL + '/start', jsonData).subscribe({
+        next: (data) => {
+          console.log('Data', data);
+          this.map.removeLayer(this.drawnItems);
+          //console.log(data);
+          document
+            .getElementById('progressModal')
+            .classList.remove('is-active');
+          this.router.navigate(['result']);
+        },
+        error: (error) => {
+          console.error('There was an error!', error);
+          if (error.status === 402) {
+            //Fire an alert with the error message
+            let hasAoiError = error.error?.stac?.aoi?.status === 'error';
+            let hasTrainingDataError =
+              error.error?.stac?.trainingData?.status === 'error';
+            let errorText = '';
+            if (hasAoiError && hasTrainingDataError) {
+              errorText =
+                'No stac items for both area of interest and training area were found.';
+            } else if (hasAoiError) {
+              errorText = 'No stac items for area of interest were found.';
+            } else if (hasTrainingDataError) {
+              errorText = 'No stac items for training area were found.';
+            } else {
+              errorText = 'There was an error!';
+            }
+            errorText += '\nPlease check your input and try again.';
+
+            //alert(errorText);
+            document
+              .getElementById('progressModal')
+              .classList.remove('is-active');
+
+            bulmaToast.toast({
+              message: errorText,
+              type: 'is-danger',
+              position: 'top-right',
+              duration: 1000 * 60,
+              dismissible: true,
+            });
+          } else if (error.status === 401) {
+            console.error(
+              `There was an error with status code ${error.status}!`,
+              error
+            );
+            let errorText =
+              error.error.error.error + '\nPlease check your input and try again.';
+
+            document
+              .getElementById('progressModal')
+              .classList.remove('is-active');
+
+            bulmaToast.toast({
+              message: errorText,
+              type: 'is-danger',
+              position: 'top-right',
+              duration: 1000 * 60,
+              dismissible: true,
+            });
+          } else {
+            document
+              .getElementById('progressModal')
+              .classList.remove('is-active');
+            bulmaToast.toast({
+              message: 'There was an unexpected error! Please try again.',
+              type: 'is-danger',
+              position: 'top-right',
+              duration: 1000 * 60,
+              dismissible: true,
+            });
+          }
+        },
+      });
     } else {
       console.log(this.submitForm);
       console.log('invalid');
