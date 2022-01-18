@@ -345,12 +345,11 @@ export class MapComponent implements AfterViewInit {
               error.error?.stac?.trainingData?.status === 'error';
             let errorText = '';
             if (hasAoiError && hasTrainingDataError) {
-              errorText =
-                'No stac items for both, area of interest and training area were found.';
+              errorText = error.error?.stac?.aoi?.error + "\n" + error.error?.stac?.trainingData?.error;
             } else if (hasAoiError) {
-              errorText = 'No stac items for area of interest were found.';
+              errorText = error.error?.stac?.aoi?.error;
             } else if (hasTrainingDataError) {
-              errorText = 'No stac items for training area were found.';
+              errorText = error.error?.stac?.trainingData?.error ;
             } else {
               errorText = 'There was an error!';
             }
