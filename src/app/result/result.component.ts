@@ -94,6 +94,7 @@ export class ResultComponent implements AfterViewInit {
     // variables for colour setting
     const min = 1;
     const max = georasterPrediction.maxs[0];
+    console.log(max)
     const range = max - min;
 
     // await the file with the used classes
