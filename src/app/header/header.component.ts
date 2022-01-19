@@ -23,6 +23,14 @@ import { Component, OnInit } from '@angular/core';
                 <span>Home</span>
               </a>
             </span>
+            <span class="navbar-item" routerLink="/documentation" routerLinkActive="active">
+              <a class="is-tab">
+                <span class="icon">
+                <i class="fa fa-book"></i>
+                </span>
+                <span>Documentation</span>
+              </a>
+            </span>
             <span
               class="navbar-item"
               routerLink="/map"
@@ -42,7 +50,7 @@ import { Component, OnInit } from '@angular/core';
             >
               <a>
                 <span class="icon">
-                  <i class="fa fa-map"></i>
+                  <i class="fa fa-play"></i>
                 </span>
                 <span>Demo</span>
               </a>
