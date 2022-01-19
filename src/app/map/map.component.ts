@@ -320,7 +320,7 @@ export class MapComponent implements AfterViewInit {
 
       if (jsonData.algorithm == 'rf') {
         jsonData['mtry'] = this.formArray?.get([1]).value.mtry;
-      } else if (jsonData.algorithm == 'smvRadial') {
+      } else if (jsonData.algorithm == 'svmRadial') {
         jsonData['sigma'] = this.formArray?.get([1]).value.sigma;
         jsonData['cost'] = this.formArray?.get([1]).value.cost;
       }

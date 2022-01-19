@@ -68,14 +68,14 @@ For each algorithm further hyperparameters can then be set.
                                             <mat-label>Select a training algorithm</mat-label>
                                             <mat-select formControlName="algorithm">
                                                 <mat-option value='rf'>Random Forest</mat-option>
-                                                <mat-option value='smvRadial'>Support Vector Machines</mat-option>
+                                                <mat-option value='svmRadial'>Support Vector Machines</mat-option>
                                             </mat-select>
                                         </mat-form-field>
                                         <div *ngIf="getAlgorithmValue() == 'rf'">
                                             <label class="label">Number of Randomly Selected Predictors</label>
                                             <input formControlName="mtry" class="input" type="number"  min="2">
                                         </div>
-                                        <div *ngIf="getAlgorithmValue() == 'smvRadial'">
+                                        <div *ngIf="getAlgorithmValue() == 'svmRadial'">
                                             <label class="label">Standard Deviation</label>
                                             <input formControlName="sigma" class="input" type="number">
                                             <br>
