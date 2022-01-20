@@ -3,15 +3,10 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-header',
   template: `
-    <section class="section">
-      <nav id="navbar" class="navbar is-dark is-fixed-top">
+    <section class="section" style="padding: 1rem 1rem;">
+      <nav id="navbar" class="navbar is-dark is-fixed-top" role="navigation">
         <div class="navbar-brand">
-          <a class="navbar-item" routerLink="/" routerLinkActive="active">
-            <span>GeoTech</span>
-            <span class="icon">
-              <i class="fa fa-globe"></i>
-            </span>
-          </a>
+          <a class="navbar-item ichbindaslogo" routerLink="/" routerLinkActive="active"> </a>
         </div>
         <div class="navbar-menu">
           <div class="navbar-start">
@@ -23,10 +18,14 @@ import { Component, OnInit } from '@angular/core';
                 <span>Home</span>
               </a>
             </span>
-            <span class="navbar-item" routerLink="/documentation" routerLinkActive="active">
+            <span
+              class="navbar-item"
+              routerLink="/documentation"
+              routerLinkActive="active"
+            >
               <a class="is-tab">
                 <span class="icon">
-                <i class="fa fa-book"></i>
+                  <i class="fa fa-book"></i>
                 </span>
                 <span>Documentation</span>
               </a>
