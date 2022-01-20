@@ -35,6 +35,7 @@ const routes: Routes = [
     [
       RouterModule.forRoot(routes, {
         scrollPositionRestoration: 'top',
+        onSameUrlNavigation: 'reload'
       }),
     ],
   ],

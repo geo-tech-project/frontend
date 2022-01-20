@@ -1,4 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, AfterViewInit } from '@angular/core';
+import * as L from 'leaflet';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+} from '@angular/forms';
+import * as bulmaToast from 'bulma-toast';
+
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
@@ -8,10 +16,22 @@ import { Router } from '@angular/router';
   templateUrl: './demo.component.html',
   styleUrls: ['./demo.component.scss'],
 })
-export class DemoComponent implements OnInit {
+export class DemoComponent implements AfterViewInit {
+  // filename to display after choosing a file
+  currentFileName = 'demoModel.RDS';
+  // url to run on -> localhost or ip
   APIURL = environment.api_url;
+
+  algorithm = 'rf';
+
+  dates: FormGroup;
+
+  selectedChannels = ['B02', 'B03', 'B04'];
+
+  resolution = '10';
+
   json = {
-    whereareyoufrom: "demo",
+    whereareyoufrom: 'demo',
     topleftlat: 51.946286720328104,
     topleftlng: 7.5971644627228905,
     bottomleftlat: 51.975309509611826,
@@ -31,20 +51,65 @@ export class DemoComponent implements OnInit {
     mtry: 2,
   };
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private fb: FormBuilder,
+    private http: HttpClient,
+    private router: Router
+  ) {}
 
-  ngOnInit(): void {}
+  ngOnInit() {
+    this.dates = new FormGroup({
+      start: new FormControl(new Date(2021, 4, 31)),
+      end: new FormControl(new Date(2021, 7, 30)),
+    });
+  }
 
-  runDemo() {
+  
+
+  // init map
+  private map: any;
+  private initMap(): void {
+    // set map options
+    this.map = L.map('map', {
+      center: [51.9606649, 7.6261347],
+      zoom: 12,
+      zoomControl: false,
+    });
+
+    // position zoom controls bottom right
+    new L.Control.Zoom({ position: 'topright' }).addTo(this.map);
+
+    // set tiles and options
+    const tiles = L.tileLayer(
+      'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+      {
+        maxZoom: 22,
+        minZoom: 1,
+        attribution:
+          '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      }
+    );
+    // add tiles to map
+    tiles.addTo(this.map);
+
+    L.rectangle([
+      [51.946286720328104, 7.5971644627228905],
+      [51.975309509611826, 7.652018947455736],
+    ]).addTo(this.map);
+  }
+
+  onSubmit() {
     document.getElementById('progressModal').classList.add('is-active');
     this.http.post(this.APIURL + '/start', this.json).subscribe({
       next: (data) => {
         console.log('Data', data);
-        document
-            .getElementById('progressModal')
-            .classList.remove('is-active');
+        document.getElementById('progressModal').classList.remove('is-active');
         this.router.navigate(['result']);
       },
     });
+  }
+
+  ngAfterViewInit(): void {
+    this.initMap();
   }
 }
