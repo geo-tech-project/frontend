@@ -11,4 +11,4 @@ COPY . /app
 
 EXPOSE 8780
 # start app
-CMD ng serve --host 0.0.0.0 --port 8780
+CMD ng serve --prod --host 0.0.0.0 --port 8780
