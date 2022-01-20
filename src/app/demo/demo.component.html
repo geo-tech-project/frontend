@@ -1,73 +1,272 @@
-<div class="hero is-fullheight-with-navbar">
+<div class="hero is-fullheight-with-navbar" style="margin-top: 60px; margin-bottom: 60px;">
     <section class="section">
-        <div id="container" class="container is-fluid">
-            <div class="columns" style="min-height : 100%;">
-                <div class="column is-10 is-offset-1">
-                    <div>
-                        <markdown ngPreserveWhitespaces>
-                            # Markdown
-                            ## Markdown 2
-                            **big test**
-                            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-                            invidunt
-                            ut
-                            labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo
-                            dolores
-                            et
-                            ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-                            Lorem
-                            ipsum
-                            dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut
-                            labore et
-                            dolore
-                            magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea
-                            rebum.
-                            Stet
-                            clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum
-                            dolor
-                            sit
-                            amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
-                            dolore
-                            magna
-                            aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
-                            Stet
-                            clita
-                            kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-
-                            Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel
-                            illum
-                            dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui
-                            blandit
-                            praesent
-                            luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit
-                            amet,
-                            consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore
-                            magna
-                            aliquam
-                            erat volutpat.
-
-                            Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl
-                            ut
-                            aliquip
-                            ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit
-                            esse
-                            molestie
-                            consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto
-                            odio
-                            dignissim
-                            qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.
-
-                            Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod
-                            mazim
-                            placerat
-                            facer
-                        </markdown>
+        <div class="notification is-white box">
+            <div id="container" class="container is-fluid">
+                <div class="columns is-centered">
+                    <div id="formdiv" class="column is-one-third">
+                        <div>
+                            <form>
+                                <mat-stepper orientation="vertical" #stepper [selectedIndex]="7">
+                                    <mat-step>
+                                        <ng-template matStepLabel>
+                                            <div>
+                                                Please select your area of interest on the map.
+                                                <span
+                                                    class="has-tooltip-bottom has-text-info"
+                                                    data-tooltip="The larger the selected area, the longer the calculation will take. 
+For a faster calculation, the resolution and/or the number of bands could be reduced.
+Example: For an area of ​​approx. 10,000 hectares, a 10x10m resolution and all bands selected the program needs about 15 minutes to work.">
+                                                    <i class="fa fa-info-circle"></i>
+                                                </span>
+                                            </div>
+                                        </ng-template>
+                                        <div>
+                                            <p> This is the area of interest selected for the demonstration.
+                                            </p>
+                                        </div>
+                                    </mat-step>
+                                    <mat-step state="option">
+                                        <ng-template matStepLabel>
+                                            <div>
+                                                Do you have a trained model or just some training data?
+                                                <span
+                                                    class="has-tooltip-arrow has-tooltip-bottom has-text-info"
+                                                    data-tooltip="Choose whether you want to upload an already trained model or training data for the training of a new model.
+When you select to upload training data, you will be able to choose between two machine learning algorithms to train the model.
+For each algorithm further hyperparameters can then be set.
+• Random Forest:
+    o Number of randomly selected predictors:
+        - can't be higher than the number of predictors
+        - default: 2
+• Support Vector Machine:
+    o Standard Deviation:
+        - default: 1
+    o Cost:
+        - default: 1">
+                                                    <i class="fa fa-info-circle"></i>
+                                                </span>
+                                            </div>
+                                        </ng-template>
+                                        <div class="control">
+                                            <label class="radio">
+                                                <input type="radio" checked disabled>
+                                                <b>Trained model</b>
+                                            </label>
+                                            <label class="radio">
+                                                <input type="radio" disabled>
+                                                <b>Training data</b>
+                                            </label>
+                                        </div>
+                                        <div>
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>Select a training algorithm</mat-label>
+                                                <mat-select [(value)]="algorithm">
+                                                    <mat-option value='rf' disabled>Random Forest</mat-option>
+                                                    <mat-option value='svmRadial' disabled>Support Vector Machines</mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                            <div>
+                                                <label class="label">Number of Randomly Selected Predictors</label>
+                                                <input class="input" type="number" value="2" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="container">
+                                            <div class="field">
+                                                <button mat-button matStepperNext
+                                                    class="button has-background-info-light is-pulled-right">Next</button>
+                                            </div>
+                                        </div>
+                                    </mat-step>
+                                    <mat-step>
+                                        <ng-template matStepLabel>
+                                            <div>
+                                                Select a file (trained model or training data)
+                                                <span
+                                                    class="has-tooltip-arrow has-tooltip-bottom has-text-info"
+                                                    data-tooltip="
+• Model:
+    o If you choose to upload a model, please note, that all predictors used by the model must
+      also be included in the selection of bands/predictors (step 5). The reverse need not apply.
+    o Accepted formats:
+        - .RDS
+• Training data:
+    o Training data must be stored as polygons or multipolygons and contain a “Label” column.
+    o Accepted formats:
+        - .gpkg
+        - .geojson">
+                                                    <i class="fa fa-info-circle"></i>
+                                                </span>
+                                            </div>
+                                        </ng-template>
+                                        <div>
+                                            <div class="file has-name is-boxed is-centered">
+                                                <label class="file-label">
+                                                    <input class="file-input" type="file" disabled="true">
+                                                    <span class="file-cta">
+                                                        <span class="file-icon">
+                                                            <i class="fa fa-upload"></i>
+                                                        </span>
+                                                    </span>
+                                                    <span class="file-name" *ngIf="this.currentFileName != ''">
+                                                        {{currentFileName}}
+                                                    </span>
+                                                </label>
+                                            </div>
+                                            <div class="container">
+                                                <div class="field">
+                                                    <button mat-button matStepperPrevious
+                                                        class="button has-background-warning-light is-pulled-left">Back</button>
+                                                    <button mat-button matStepperNext
+                                                        class="button has-background-info-light is-pulled-right">Next</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </mat-step>
+                                    <mat-step>
+                                        <ng-template matStepLabel>
+                                            <div>
+                                                Enter a timeframe for the satelite images:
+                                                <span
+                                                    class="has-tooltip-arrow has-tooltip-bottom has-text-info"
+                                                    data-tooltip="Hier können sachen stehen">
+                                                    <i class="fa fa-info-circle"></i>
+                                                </span>
+                                            </div>
+                                        </ng-template>
+                                        <mat-form-field appearance="fill">
+                                            <mat-date-range-input [rangePicker]="picker" [formGroup]="dates">
+                                                <input matStartDate placeholder="Start date" formControlName="start">
+                                                <input matEndDate placeholder="End date" formControlName="end">
+                                            </mat-date-range-input>
+                                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                            <mat-date-range-picker touchUi #picker></mat-date-range-picker>
+                                        </mat-form-field>
+                                        <div class="container">
+                                            <div class="field">
+                                                <button mat-button matStepperPrevious
+                                                    class="button has-background-warning-light is-pulled-left">Back</button>
+                                                <button mat-button matStepperNext
+                                                    class="button has-background-info-light is-pulled-right">Next</button>
+                                            </div>
+                                        </div>
+                                    </mat-step>
+                                    <mat-step>
+                                        <ng-template matStepLabel>
+                                            <div>
+                                                Desired channels satellite images
+                                                <span
+                                                    class="has-tooltip-arrow has-tooltip-bottom has-text-info"
+                                                    data-tooltip="Hier können sachen stehen">
+                                                    <i class="fa fa-info-circle"></i>
+                                                </span>
+                                            </div>
+                                        </ng-template>
+                                        <mat-form-field appearance="fill">
+                                            <mat-label>Desired channels</mat-label>
+                                            <mat-select multiple [(ngModel)]="selectedChannels" name="selectedFoods">
+                                                <mat-option value="B01" disabled>B01</mat-option>
+                                                <mat-option value="B02" disabled>B02</mat-option>
+                                                <mat-option value="B03" disabled>B03</mat-option>
+                                                <mat-option value="B04" disabled>B04</mat-option>
+                                                <mat-option value="B05" disabled>B05</mat-option>
+                                                <mat-option value="B06" disabled>B06</mat-option>
+                                                <mat-option value="B07" disabled>B07</mat-option>
+                                                <mat-option value="B08" disabled>B08</mat-option>
+                                                <mat-option value="B09" disabled>B09</mat-option>
+                                                <mat-option value="B11" disabled>B11</mat-option>
+                                                <mat-option value="B12" disabled>B12</mat-option>
+                                                <mat-option value="B8A" disabled>B8A</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                        <div class="container">
+                                            <div class="field">
+                                                <button mat-button matStepperPrevious
+                                                    class="button has-background-warning-light is-pulled-left">Back</button>
+                                                <button mat-button matStepperNext
+                                                    class="button has-background-info-light is-pulled-right">Next</button>
+                                            </div>
+                                        </div>
+                                    </mat-step>
+                                    <mat-step>
+                                        <ng-template matStepLabel>
+                                            <div>
+                                                Resolution of satellite images
+                                                <span
+                                                    class="has-tooltip-arrow has-tooltip-bottom has-text-info"
+                                                    data-tooltip="Hier können sachen stehen">
+                                                    <i class="fa fa-info-circle"></i>
+                                                </span>
+                                            </div>
+                                        </ng-template>
+                                        <mat-form-field appearance="fill">
+                                            <mat-label>Select an option</mat-label>
+                                            <mat-select [(value)]="resolution">
+                                                <mat-option value=10 disabled>10mx10m</mat-option>
+                                                <mat-option value=20 disabled>20mx20m</mat-option>
+                                                <mat-option value=60 disabled>60mx60m</mat-option>
+                                                <mat-option value=100 disabled>100mx100m</mat-option>
+                                                <mat-option value=200 disabled>200mx200m</mat-option>
+                                                <mat-option value=400 disabled>400mx400m</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                        <div class="container">
+                                            <div class="field">
+                                                <button mat-button matStepperPrevious
+                                                    class="button has-background-warning-light is-pulled-left">Back</button>
+                                                <button mat-button matStepperNext
+                                                    class="button has-background-info-light is-pulled-right">Next</button>
+                                            </div>
+                                        </div>
+                                    </mat-step>
+                                    <mat-step>
+                                        <br>
+                                        <ng-template matStepLabel>
+                                            <div>
+                                                Cloud coverage on satellite images
+                                                <span
+                                                    class="has-tooltip-arrow has-tooltip-bottom has-text-info"
+                                                    data-tooltip="Hier können sachen stehen">
+                                                    <i class="fa fa-info-circle"></i>
+                                                </span>
+                                            </div>
+                                        </ng-template>
+                                        <div class="columns is-mobile is-centered">
+                                            <div class="column is-half">
+                                                <p class="bd-notification is-primary">
+                                                    <mat-slider thumbLabel tickInterval="1" step="1" min="0" max="100"
+                                                        aria-label="units" value="20" disabled></mat-slider>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="container">
+                                            <div class="field">
+                                                <button mat-button matStepperPrevious
+                                                    class="button has-background-warning-light is-pulled-left">Back</button>
+                                                <button mat-button matStepperNext
+                                                    class="button has-background-info-light is-pulled-right">Next</button>
+                                            </div>
+                                        </div>
+                                    </mat-step>
+                                    <mat-step>
+                                        <ng-template matStepLabel>Done</ng-template>
+                                        <p>Do you want to submit your data?</p>
+                                        <div class="field">
+                                            <button mat-button matStepperPrevious
+                                                class="button has-background-warning-light is-pulled-left">Back</button>
+                                            <button mat-button (click)="onSubmit()"
+                                                class="button is-success is-pulled-right">Submit</button>
+                                        </div>
+                                    </mat-step>
+                                </mat-stepper>
+                            </form>
+                        </div>
                     </div>
-                </div>
-            </div>
-            <div class="columns">
-                <div class="column is-half is-offset-5">
-                    <button class="button is-large is-rounded is-light is-primary" (click)="runDemo()">Run Demo</button>
+                    <div id="mapdiv" class="column">
+                        <!-- map -->
+                        <div class="notification is-white">
+                            <div id="map"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

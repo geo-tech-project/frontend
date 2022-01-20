@@ -96,3 +96,9 @@ ul.leaflet-draw-actions.leaflet-draw-actions-bottom
 [data-tooltip]:not([disabled]) {
   position: absolute;
 }
+
+.ichbindaslogo {
+  background: url(/assets/logo.png) no-repeat center center;
+  background-size: cover;
+  width: 64px;
+}

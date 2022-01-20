@@ -1,16 +1,17 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
   template: `
-    <section class="section">
-      <nav id="navbar" class="navbar is-dark is-fixed-top">
+    <section class="section" style="padding: 1rem 1rem;">
+      <nav id="navbar" class="navbar is-dark is-fixed-top" role="navigation">
         <div class="navbar-brand">
-          <a class="navbar-item" routerLink="/" routerLinkActive="active">
-            <span>GeoTech</span>
-            <span class="icon">
-              <i class="fa fa-globe"></i>
-            </span>
+          <a
+            class="navbar-item ichbindaslogo"
+            routerLink="/"
+            routerLinkActive="active"
+          >
           </a>
         </div>
         <div class="navbar-menu">
@@ -23,19 +24,19 @@ import { Component, OnInit } from '@angular/core';
                 <span>Home</span>
               </a>
             </span>
-            <span class="navbar-item" routerLink="/documentation" routerLinkActive="active">
+            <span
+              class="navbar-item"
+              routerLink="/documentation"
+              routerLinkActive="active"
+            >
               <a class="is-tab">
                 <span class="icon">
-                <i class="fa fa-book"></i>
+                  <i class="fa fa-book"></i>
                 </span>
                 <span>Documentation</span>
               </a>
             </span>
-            <span
-              class="navbar-item"
-              routerLink="/map"
-              routerLinkActive="active"
-            >
+            <span class="navbar-item" (click)="forwardToMap()">
               <a>
                 <span class="icon">
                   <i class="fa fa-map"></i>
@@ -43,11 +44,7 @@ import { Component, OnInit } from '@angular/core';
                 <span>Map</span>
               </a>
             </span>
-            <span
-              class="navbar-item"
-              routerLink="/demo"
-              routerLinkActive="active"
-            >
+            <span class="navbar-item" (click)="forwardToDemo()">
               <a>
                 <span class="icon">
                   <i class="fa fa-play"></i>
@@ -73,6 +70,16 @@ import { Component, OnInit } from '@angular/core';
   styles: [],
 })
 export class HeaderComponent implements OnInit {
-  constructor() {}
+  constructor(private _routerService: Router) {}
   ngOnInit() {}
+  forwardToMap() {
+    this._routerService.navigate(['/map']).then(() => {
+      window.location.reload();
+    });
+  }
+  forwardToDemo() {
+    this._routerService.navigate(['/demo']).then(() => {
+      window.location.reload();
+    });
+  }
 }
