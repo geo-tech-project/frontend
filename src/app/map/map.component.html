@@ -46,7 +46,8 @@ When you select to upload training data, you will be able to choose between two 
 For each algorithm further hyperparameters can then be set.
 • Random Forest:
     o Number of randomly selected predictors:
-        - can't be higher than the number of predictors
+        - min: 2
+        - max: number of selected predictors
         - default: 2
 • Support Vector Machine:
     o Standard Deviation:
@@ -109,7 +110,7 @@ For each algorithm further hyperparameters can then be set.
     o Accepted formats:
         - .RDS
 • Training data:
-    o Training data must be stored as polygons or multipolygons and contain a “Label” column.
+    o Training data must be stored as polygons and contain a “Label” column.
     o Accepted formats:
         - .gpkg
         - .geojson">
