@@ -10,12 +10,14 @@
                                     <mat-step>
                                         <ng-template matStepLabel>
                                             <div>
-                                                Please select your area of interest on the map.
+                                                Select your area of interest on the map
                                                 <span
                                                     class="has-tooltip-bottom has-text-info"
-                                                    data-tooltip="The larger the selected area, the longer the calculation will take. 
-For a faster calculation, the resolution and/or the number of bands could be reduced.
-Example: For an area of ​​approx. 10,000 hectares, a 10x10m resolution and all bands selected the program needs about 15 minutes to work.">
+                                                    data-tooltip="For this area a satellite image will be created in order to subsequently perform a land use classification. 
+To validate the result, the area of applicabilty (AOA) is also applied. The larger the selected area, the longer
+the calculation will take. For a faster calculation, the resolution and/or the number of bands could be reduced.
+Example: For an area of ​​approx. 10,000 hectares, a 10m resolution and all bands selected the software needs 
+about 15 minutes to work.">
                                                     <i class="fa fa-info-circle"></i>
                                                 </span>
                                             </div>
@@ -31,17 +33,18 @@ Example: For an area of ​​approx. 10,000 hectares, a 10x10m resolution and a
                                                 Do you have a trained model or just some training data?
                                                 <span
                                                     class="has-tooltip-arrow has-tooltip-bottom has-text-info"
-                                                    data-tooltip="Choose whether you want to upload an already trained model or training data for the training of a new model.
-When you select to upload training data, you will be able to choose between two machine learning algorithms to train the model.
-For each algorithm further hyperparameters can then be set.
+                                                    data-tooltip="Choose whether you want to upload an trained model or training data to calculate a new model.
+When you select to upload training data, you will be able to choose between two machine learning algorithms.
+For each algorithm further hyperparameters can be set.
 • Random Forest:
-    o Number of randomly selected predictors:
-        - can't be higher than the number of predictors
+    o mtry:
+        - min: 2
+        - max: Number of selected predictors (step 5)
         - default: 2
 • Support Vector Machine:
-    o Standard Deviation:
+    o standard deviation:
         - default: 1
-    o Cost:
+    o cost:
         - default: 1">
                                                     <i class="fa fa-info-circle"></i>
                                                 </span>
@@ -66,7 +69,7 @@ For each algorithm further hyperparameters can then be set.
                                                 </mat-select>
                                             </mat-form-field>
                                             <div>
-                                                <label class="label">Number of Randomly Selected Predictors</label>
+                                                <label class="label">mtry</label>
                                                 <input class="input" type="number" value="2" readonly>
                                             </div>
                                         </div>
@@ -83,14 +86,14 @@ For each algorithm further hyperparameters can then be set.
                                                 Select a file (trained model or training data)
                                                 <span
                                                     class="has-tooltip-arrow has-tooltip-bottom has-text-info"
-                                                    data-tooltip="
-• Model:
+                                                    data-tooltip="• Model:
     o If you choose to upload a model, please note, that all predictors used by the model must
       also be included in the selection of bands/predictors (step 5). The reverse need not apply.
+    o To get reliable results, the uploaded model should also have been trained at the same resolution as selected in step 6.
     o Accepted formats:
         - .RDS
 • Training data:
-    o Training data must be stored as polygons or multipolygons and contain a “Label” column.
+    o Training data must be stored as polygons and contain a “Label” column.
     o Accepted formats:
         - .gpkg
         - .geojson">
@@ -125,10 +128,14 @@ For each algorithm further hyperparameters can then be set.
                                     <mat-step>
                                         <ng-template matStepLabel>
                                             <div>
-                                                Enter a timeframe for the satelite images:
+                                                Enter a time period (for sentinel-2 image search)
                                                 <span
                                                     class="has-tooltip-arrow has-tooltip-bottom has-text-info"
-                                                    data-tooltip="Hier können sachen stehen">
+                                                    data-tooltip="The period is used to retrieve available sentinel-2 imagery. The images found are processed to create the outcome sentinel
+images for the area of interest and for the training data (if uploaded). It is possible that no suitable sentinel-2 images
+can be found for the selected time period. If this is the case, a corresponding error message will be displayed and you will 
+be prompted to select a larger time period. If you find that the generated sentinel images contain many errors (gaps, clouds
+or other artifacts), try to rerun the program with a larger time period.">
                                                     <i class="fa fa-info-circle"></i>
                                                 </span>
                                             </div>
@@ -152,16 +159,17 @@ For each algorithm further hyperparameters can then be set.
                                     <mat-step>
                                         <ng-template matStepLabel>
                                             <div>
-                                                Desired channels satellite images
+                                                Choose bands/predictors (for outcome sentinel-2 images)
                                                 <span
                                                     class="has-tooltip-arrow has-tooltip-bottom has-text-info"
-                                                    data-tooltip="Hier können sachen stehen">
+                                                    data-tooltip="The bands in our program are the possible predictors. The more predictors are selected, the more computational 
+effort is required. Please choose your predictors carefully, depending on the goal of the calculations.">
                                                     <i class="fa fa-info-circle"></i>
                                                 </span>
                                             </div>
                                         </ng-template>
                                         <mat-form-field appearance="fill">
-                                            <mat-label>Desired channels</mat-label>
+                                            <mat-label>Bands/predictors</mat-label>
                                             <mat-select multiple [(ngModel)]="selectedChannels" name="selectedFoods">
                                                 <mat-option value="B01" disabled>B01</mat-option>
                                                 <mat-option value="B02" disabled>B02</mat-option>
@@ -189,10 +197,14 @@ For each algorithm further hyperparameters can then be set.
                                     <mat-step>
                                         <ng-template matStepLabel>
                                             <div>
-                                                Resolution of satellite images
+                                                Choose the resolution (for outcome sentinel-2 images)
                                                 <span
                                                     class="has-tooltip-arrow has-tooltip-bottom has-text-info"
-                                                    data-tooltip="Hier können sachen stehen">
+                                                    data-tooltip="Here the resolution of the satellite image for the area of interest (and if available also for the training data)
+is selected, on which all further calculations are based. The higher the resolution, the longer the runtime of
+the calculations. Please note, that some bands are only available up to a certain resolution (for further 
+information: https://sentinels.copernicus.eu/web/sentinel/user-guides/sentinel-2-msi/resolutions/spatial).
+Depending on the desired resolution, the bands are up- or downsampled.">
                                                     <i class="fa fa-info-circle"></i>
                                                 </span>
                                             </div>
@@ -200,12 +212,12 @@ For each algorithm further hyperparameters can then be set.
                                         <mat-form-field appearance="fill">
                                             <mat-label>Select an option</mat-label>
                                             <mat-select [(value)]="resolution">
-                                                <mat-option value=10 disabled>10mx10m</mat-option>
-                                                <mat-option value=20 disabled>20mx20m</mat-option>
-                                                <mat-option value=60 disabled>60mx60m</mat-option>
-                                                <mat-option value=100 disabled>100mx100m</mat-option>
-                                                <mat-option value=200 disabled>200mx200m</mat-option>
-                                                <mat-option value=400 disabled>400mx400m</mat-option>
+                                                <mat-option value=10 disabled>10m</mat-option>
+                                                <mat-option value=20 disabled>20m</mat-option>
+                                                <mat-option value=60 disabled>60m</mat-option>
+                                                <mat-option value=100 disabled>100m</mat-option>
+                                                <mat-option value=200 disabled>200m</mat-option>
+                                                <mat-option value=400 disabled>400m</mat-option>
                                             </mat-select>
                                         </mat-form-field>
                                         <div class="container">
@@ -221,10 +233,15 @@ For each algorithm further hyperparameters can then be set.
                                         <br>
                                         <ng-template matStepLabel>
                                             <div>
-                                                Cloud coverage on satellite images
+                                                Choose maximum cloud cover (for sentinel-2 image search)
                                                 <span
                                                     class="has-tooltip-arrow has-tooltip-bottom has-text-info"
-                                                    data-tooltip="Hier können sachen stehen">
+                                                    data-tooltip="The cloud cover is used to retrieve available sentinel-2 imagery. The images found are processed to create the outcome sentinel images
+for the area of interest and for the training data (if uploaded). It is possible that suitable satellite images can be found for the 
+selected time period, but not for the specified maximum cloud cover. If this is the case, a corresponding error message will be displayed 
+and you will be prompted to increase the maximum cloud cover. Please note that increasing the maximum cloud cover will probably produce
+worse sentinel images (more gaps, clouds or other artifacts). If you want to keep the same maximum cloud cover, you can instead increase the
+selected time period.">
                                                     <i class="fa fa-info-circle"></i>
                                                 </span>
                                             </div>
@@ -253,7 +270,7 @@ For each algorithm further hyperparameters can then be set.
                                             <button mat-button matStepperPrevious
                                                 class="button has-background-warning-light is-pulled-left">Back</button>
                                             <button mat-button (click)="onSubmit()"
-                                                class="button is-success is-pulled-right">Submit</button>
+                                                class="button is-success is-pulled-right">Run demo</button>
                                         </div>
                                     </mat-step>
                                 </mat-stepper>

@@ -18,7 +18,7 @@ import { Router } from '@angular/router';
 })
 export class DemoComponent implements AfterViewInit {
   // filename to display after choosing a file
-  currentFileName = 'demoModel.RDS';
+  currentFileName = 'demo_model.RDS';
   // url to run on -> localhost or ip
   APIURL = environment.api_url;
 
@@ -59,8 +59,8 @@ export class DemoComponent implements AfterViewInit {
 
   ngOnInit() {
     this.dates = new FormGroup({
-      start: new FormControl(new Date(2021, 4, 31)),
-      end: new FormControl(new Date(2021, 7, 30)),
+      start: new FormControl(new Date(2021, 5, 1)),
+      end: new FormControl(new Date(2021, 7, 31)),
     });
   }
 
