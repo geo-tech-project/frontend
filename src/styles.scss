@@ -71,10 +71,15 @@ ul.leaflet-draw-actions.leaflet-draw-actions-bottom
   color: #fff;
 }
 
-.wrapper {
+#wrapper {
   display: flex;
   flex-direction: column;
+  height:100%;
   min-height: 100vh;
+}
+
+#site {
+  flex: 1;
 }
 
 .content {
