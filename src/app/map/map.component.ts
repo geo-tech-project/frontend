@@ -72,7 +72,7 @@ export class MapComponent implements AfterViewInit {
         this.fb.group({
           option: [null, Validators.required],
           algorithm: ['rf', Validators.required],
-          mtry: ["2"],
+          mtry: [2],
           sigma: [null],
           cost: [null],
         }),
