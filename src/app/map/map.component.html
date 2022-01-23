@@ -1,9 +1,9 @@
-<div class="hero is-fullheight-with-navbar">
+<div class="background">
     <section class="section">
-        <div class="notification is-white box"  style="margin-top: 60px; margin-bottom: 60px;">
+        <div class="notification is-white box" style="margin-top: 60px; margin-bottom: 60px;">
             <div id="container" class="container is-fluid">
-                <div class="columns is-centered">
-                    <div id="formdiv" class="column is-one-third">
+                <div class="columns is-centered is-8">
+                    <div id="formdiv" class="column is-two-fifths">
                         <div>
                             <form [formGroup]="submitForm">
                                 <mat-stepper id="stepper" formArrayName="formArray" orientation="vertical"
@@ -11,10 +11,9 @@
                                     <mat-step formGroupName="0" [stepControl]="formArray?.get([0])">
                                         <ng-template matStepLabel>
                                             <div>
-                                                Select your area of interest on the map                          
+                                                Select your area of interest on the map
                                                 <span *ngIf="getStep(stepper) == 0"
-                                                    class="has-tooltip-bottom has-text-info"
-                                                    data-tooltip="For this area a satellite image will be created in order to subsequently perform a land use classification. 
+                                                    class="has-tooltip-bottom has-text-info" data-tooltip="For this area a satellite image will be created in order to subsequently perform a land use classification. 
 To validate the result, the area of applicabilty (AOA) is also applied. The larger the selected area, the longer
 the calculation will take. For a faster calculation, the resolution and/or the number of bands could be reduced.
 Example: For an area of ​​approx. 10,000 hectares, a 10m resolution and all bands selected the software needs 
@@ -330,7 +329,9 @@ selected time period.">
                     <div id="mapdiv" class="column">
                         <!-- map -->
                         <div class="notification is-white">
-                            <div id="map"></div>
+                            <div id="map" style="height: 100%;
+                            z-index: 1 !important;
+                            width: 100%;"></div>
                         </div>
                     </div>
                 </div>
