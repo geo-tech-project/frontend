@@ -6,7 +6,7 @@
 }
 
 .navbar {
-  min-height: 5rem;
+  min-height: 3.5rem;
 }
 
 .footer {
@@ -34,12 +34,6 @@ a:visited {
 
 a:hover {
   color: #8bf08b;
-}
-
-#map {
-  height: 700px;
-  z-index: 1 !important;
-  width: 100%;
 }
 
 html,
@@ -77,10 +71,15 @@ ul.leaflet-draw-actions.leaflet-draw-actions-bottom
   color: #fff;
 }
 
-.wrapper {
+#wrapper {
   display: flex;
   flex-direction: column;
+  height:100%;
   min-height: 100vh;
+}
+
+#site {
+  flex: 1;
 }
 
 .content {

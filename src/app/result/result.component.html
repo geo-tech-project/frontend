@@ -1,13 +1,13 @@
-<section class="hero" style="margin-top: 60px; margin-bottom: 60px;">
+<section class="background">
   <div class="hero-body">
     <div class="columns">
-      <div class="column is-three-quarters">
+      <div class="column is-three-quarters" style="margin-top: 60px; margin-bottom: 60px;">
         <div class="container box">
           <div style="height: 100%;" id="resultmap"></div>
         </div>
       </div>
       <div class="column" style="overflow:auto;">
-        <div class="container" style="overflow: auto;">
+        <div class="container" style="overflow: auto;" style="margin-top: 60px; margin-bottom: 60px;">
           <div class="box mt-4">
             <div class="columns">
               <div class="column is-four-fifths">
@@ -121,7 +121,7 @@
           <div class="box">
             <div class="columns">
               <div class="column is-four-fifths">
-                <label class="label">Sentinel TIF (AOI)</label>
+                <label class="label">Sentinel image</label>
               </div>
               <div class="column">
                 <button (click)="downloadData('aoi')" class="button is-info is-pulled-right"><i
@@ -132,7 +132,7 @@
           <div class="box">
             <div class="columns">
               <div class="column is-four-fifths">
-                <label class="label">Sentinel TIF (Training data)</label>
+                <label class="label">Sentinel image</label>
               </div>
               <div class="column">
                 <button (click)="downloadData('trainingData')" class="button is-info is-pulled-right"><i
@@ -153,3 +153,5 @@
         </div>
       </div>
     </div>
+  </div>
+</section>
