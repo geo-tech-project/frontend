@@ -29,5 +29,33 @@
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
     "strictTemplates": true
+  },
+  "typedocOptions": {
+    "entryPoints": [
+      "./src/main.ts",
+      "./src/polyfills.ts",
+      "./src/test.ts",
+      "./src/environments/environment.ts",
+      "./src/environments/environment.prod.ts",
+      "./src/app/app-routing.module.ts",
+      "./src/app/app.module.ts",
+      "./src/app/app.component.ts",
+      "./src/app/app.component.spec.ts",
+      "./src/app/demo/demo.component.spec.ts",
+      "./src/app/demo/demo.component.ts",
+      "./src/app/documentation/documentation.component.spec.ts",
+      "./src/app/documentation/documentation.component.ts",
+      "./src/app/footer/footer.component.spec.ts",
+      "./src/app/footer/footer.component.ts",
+      "./src/app/header/header.component.spec.ts",
+      "./src/app/header/header.component.ts",
+      "./src/app/landingpage/landingpage.component.spec.ts",
+      "./src/app/landingpage/landingpage.component.ts",
+      "./src/app/map/map.component.spec.ts",
+      "./src/app/map/map.component.ts",
+      "./src/app/result/result.component.spec.ts",
+      "./src/app/result/result.component.ts"
+    ],
+    "out": "./docs/",
   }
 }
