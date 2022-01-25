@@ -66,7 +66,7 @@
             
             <nav>
                 
-                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="MapComponent.html">MapComponent</a></li></ul></div>
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="MapComponent.html">MapComponent</a></li><li><a href="MapComponent_MapComponent.html">MapComponent</a></li></ul></div>
                 
             </nav>
         </div>
@@ -85,7 +85,7 @@
 
 <header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>MapComponent<span class="signature">()</span><span class="type-signature"></span></h2>
+        <h2><span class="attribs"><span class="type-signature"></span></span>MapComponent<span class="signature">(fb, http, router)</span><span class="type-signature"></span></h2>
         
             <div class="class-description">This class is made to handle the map/input page of the application. It contains the map and the form with the input fields.It also contains the uploader for the model/training data file. If the user submitted the form, the data is sent to the server.Condional to the servers response, the class either redirect to the result page or displays an error message via bulma-toast.</div>
         
@@ -111,7 +111,7 @@
         
         <span class="code-name">
             
-                new MapComponent<span class="signature">()</span><span class="type-signature"></span>
+                new MapComponent<span class="signature">(fb, http, router)</span><span class="type-signature"></span>
             
         </span>
     </h4>
@@ -119,6 +119,10 @@
 
     
     
+    <div class="description">
+        The constructor of the class. It initializes the form, http client and router.
+    </div>
+    
 
 
 
@@ -127,6 +131,107 @@
 
 
 
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>fb</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">FormBuilder</code>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">The form builder used to create the form.</td>
+</tr>
+
+
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>http</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">HttpClient</code>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">The http client used to send the data to the server.</td>
+</tr>
+
+
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>router</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">Router</code>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">The router used to navigate to the result page.</td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
 
 
 
@@ -223,6 +328,13 @@
 
     
 
+    
+        <h3 class="subsection-title">Classes</h3>
+
+        <dl>
+            <dt><a href="MapComponent_MapComponent.html">MapComponent</a></dt>
+            <dd></dd>
+        </dl>
     
 
     
@@ -378,7 +490,7 @@
         <p class="tag-source">
             <a href="map_map.component.ts.html" class="button">View Source</a>
             <span>
-                <a href="map_map.component.ts.html">map/map.component.ts</a>, <a href="map_map.component.ts.html#line453">line 453</a>
+                <a href="map_map.component.ts.html">map/map.component.ts</a>, <a href="map_map.component.ts.html#line546">line 546</a>
             </span>
         </p>
     
@@ -532,7 +644,7 @@
         <p class="tag-source">
             <a href="map_map.component.ts.html" class="button">View Source</a>
             <span>
-                <a href="map_map.component.ts.html">map/map.component.ts</a>, <a href="map_map.component.ts.html#line441">line 441</a>
+                <a href="map_map.component.ts.html">map/map.component.ts</a>, <a href="map_map.component.ts.html#line534">line 534</a>
             </span>
         </p>
     
@@ -670,7 +782,7 @@
         <p class="tag-source">
             <a href="map_map.component.ts.html" class="button">View Source</a>
             <span>
-                <a href="map_map.component.ts.html">map/map.component.ts</a>, <a href="map_map.component.ts.html#line459">line 459</a>
+                <a href="map_map.component.ts.html">map/map.component.ts</a>, <a href="map_map.component.ts.html#line552">line 552</a>
             </span>
         </p>
     
@@ -824,7 +936,84 @@
         <p class="tag-source">
             <a href="map_map.component.ts.html" class="button">View Source</a>
             <span>
-                <a href="map_map.component.ts.html">map/map.component.ts</a>, <a href="map_map.component.ts.html#line447">line 447</a>
+                <a href="map_map.component.ts.html">map/map.component.ts</a>, <a href="map_map.component.ts.html#line540">line 540</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">any</code>
+
+
+    </span>
+
+<h4 class="name" id="map">
+    <a class="href-link" href="#map">#</a>
+    
+    <span class="code-name">
+        map
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Initializes the map field.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="map_map.component.ts.html" class="button">View Source</a>
+            <span>
+                <a href="map_map.component.ts.html">map/map.component.ts</a>, <a href="map_map.component.ts.html#line233">line 233</a>
             </span>
         </p>
     
@@ -978,7 +1167,7 @@
         <p class="tag-source">
             <a href="map_map.component.ts.html" class="button">View Source</a>
             <span>
-                <a href="map_map.component.ts.html">map/map.component.ts</a>, <a href="map_map.component.ts.html#line487">line 487</a>
+                <a href="map_map.component.ts.html">map/map.component.ts</a>, <a href="map_map.component.ts.html#line580">line 580</a>
             </span>
         </p>
     
@@ -1132,7 +1321,7 @@
         <p class="tag-source">
             <a href="map_map.component.ts.html" class="button">View Source</a>
             <span>
-                <a href="map_map.component.ts.html">map/map.component.ts</a>, <a href="map_map.component.ts.html#line481">line 481</a>
+                <a href="map_map.component.ts.html">map/map.component.ts</a>, <a href="map_map.component.ts.html#line574">line 574</a>
             </span>
         </p>
     
@@ -1286,7 +1475,7 @@
         <p class="tag-source">
             <a href="map_map.component.ts.html" class="button">View Source</a>
             <span>
-                <a href="map_map.component.ts.html">map/map.component.ts</a>, <a href="map_map.component.ts.html#line466">line 466</a>
+                <a href="map_map.component.ts.html">map/map.component.ts</a>, <a href="map_map.component.ts.html#line559">line 559</a>
             </span>
         </p>
     
@@ -1440,7 +1629,623 @@
         <p class="tag-source">
             <a href="map_map.component.ts.html" class="button">View Source</a>
             <span>
-                <a href="map_map.component.ts.html">map/map.component.ts</a>, <a href="map_map.component.ts.html#line435">line 435</a>
+                <a href="map_map.component.ts.html">map/map.component.ts</a>, <a href="map_map.component.ts.html#line528">line 528</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">L.GeoJSON</code>
+
+
+    </span>
+
+<h4 class="name" id="trainAreasLayer">
+    <a class="href-link" href="#trainAreasLayer">#</a>
+    
+    <span class="code-name">
+        trainAreasLayer
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    A Leaflet Layer of the training data polygons.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="map_map.component.ts.html" class="button">View Source</a>
+            <span>
+                <a href="map_map.component.ts.html">map/map.component.ts</a>, <a href="map_map.component.ts.html#line127">line 127</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">L.GeoJSON</code>
+
+
+    </span>
+
+<h4 class="name" id="trainAreasLayer">
+    <a class="href-link" href="#trainAreasLayer">#</a>
+    
+    <span class="code-name">
+        trainAreasLayer
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    A Leaflet Layer of the training data polygons.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="map_map.component.ts.html" class="button">View Source</a>
+            <span>
+                <a href="map_map.component.ts.html">map/map.component.ts</a>, <a href="map_map.component.ts.html#line618">line 618</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">string</code>
+
+
+    </span>
+
+<h4 class="name" id="trainingDataPolygonsJsonUrl">
+    <a class="href-link" href="#trainingDataPolygonsJsonUrl">#</a>
+    
+    <span class="code-name">
+        trainingDataPolygonsJsonUrl
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    The URL where the training data file can be found.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="map_map.component.ts.html" class="button">View Source</a>
+            <span>
+                <a href="map_map.component.ts.html">map/map.component.ts</a>, <a href="map_map.component.ts.html#line115">line 115</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">string</code>
+
+
+    </span>
+
+<h4 class="name" id="trainingDataPolygonsJsonUrl">
+    <a class="href-link" href="#trainingDataPolygonsJsonUrl">#</a>
+    
+    <span class="code-name">
+        trainingDataPolygonsJsonUrl
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    The URL where the training data file can be found.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="map_map.component.ts.html" class="button">View Source</a>
+            <span>
+                <a href="map_map.component.ts.html">map/map.component.ts</a>, <a href="map_map.component.ts.html#line606">line 606</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">L.FeatureGroup</code>
+
+
+    </span>
+
+<h4 class="name" id="trainLayerGroup">
+    <a class="href-link" href="#trainLayerGroup">#</a>
+    
+    <span class="code-name">
+        trainLayerGroup
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    A Leaflet group of the training data polygons.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="map_map.component.ts.html" class="button">View Source</a>
+            <span>
+                <a href="map_map.component.ts.html">map/map.component.ts</a>, <a href="map_map.component.ts.html#line121">line 121</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">L.FeatureGroup</code>
+
+
+    </span>
+
+<h4 class="name" id="trainLayerGroup">
+    <a class="href-link" href="#trainLayerGroup">#</a>
+    
+    <span class="code-name">
+        trainLayerGroup
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    A Leaflet group of the training data polygons.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="map_map.component.ts.html" class="button">View Source</a>
+            <span>
+                <a href="map_map.component.ts.html">map/map.component.ts</a>, <a href="map_map.component.ts.html#line612">line 612</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">FileUploader</code>
+
+
+    </span>
+
+<h4 class="name" id="uploader">
+    <a class="href-link" href="#uploader">#</a>
+    
+    <span class="code-name">
+        uploader
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    A FileUploader is used to upload the model/training data file. Stores the route where the file is uploaded to.And an itemAlias is used to store the filename.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="map_map.component.ts.html" class="button">View Source</a>
+            <span>
+                <a href="map_map.component.ts.html">map/map.component.ts</a>, <a href="map_map.component.ts.html#line93">line 93</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">FileUploader</code>
+
+
+    </span>
+
+<h4 class="name" id="uploader">
+    <a class="href-link" href="#uploader">#</a>
+    
+    <span class="code-name">
+        uploader
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    A FileUploader is used to upload the model/training data file. Stores the route where the file is uploaded to.And an itemAlias is used to store the filename.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="map_map.component.ts.html" class="button">View Source</a>
+            <span>
+                <a href="map_map.component.ts.html">map/map.component.ts</a>, <a href="map_map.component.ts.html#line589">line 589</a>
             </span>
         </p>
     
@@ -1460,6 +2265,719 @@
         <div class='vertical-section'>
             <h1>Methods</h1>
             <div class="members">
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="fileSelected">
+        <a class="href-link" href="#fileSelected">#</a>
+        
+        <span class="code-name">
+            
+                fileSelected<span class="signature">(event)</span><span class="type-signature"> &rarr; {void}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Display the name of the file, which was selected by the user.
+    </div>
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>event</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">Event</code>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">the event of the file input</td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="map_map.component.ts.html" class="button">View Source</a>
+            <span>
+                <a href="map_map.component.ts.html">map/map.component.ts</a>, <a href="map_map.component.ts.html#line665">line 665</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<code class="param-type">void</code>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="formArray">
+        <a class="href-link" href="#formArray">#</a>
+        
+        <span class="code-name">
+            
+                formArray<span class="signature">()</span><span class="type-signature"> &rarr; {AbstractControl|null}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        get the form array from the form group
+    </div>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="map_map.component.ts.html" class="button">View Source</a>
+            <span>
+                <a href="map_map.component.ts.html">map/map.component.ts</a>, <a href="map_map.component.ts.html#line656">line 656</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'>the form array</div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<code class="param-type">AbstractControl</code>
+|
+
+<code class="param-type">null</code>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="getAlgorithmValue">
+        <a class="href-link" href="#getAlgorithmValue">#</a>
+        
+        <span class="code-name">
+            
+                getAlgorithmValue<span class="signature">()</span><span class="type-signature"> &rarr; {string}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        get the value of the Algorithm, which was selected by the user.
+    </div>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="map_map.component.ts.html" class="button">View Source</a>
+            <span>
+                <a href="map_map.component.ts.html">map/map.component.ts</a>, <a href="map_map.component.ts.html#line690">line 690</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'>the selected algorithm name</div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<code class="param-type">string</code>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="getJSON">
+        <a class="href-link" href="#getJSON">#</a>
+        
+        <span class="code-name">
+            
+                getJSON<span class="signature">(path)</span><span class="type-signature"> &rarr; {Observable.&lt;any>}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        get the JSON at the seleced file.
+    </div>
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>path</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">String</code>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">path to the file</td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="map_map.component.ts.html" class="button">View Source</a>
+            <span>
+                <a href="map_map.component.ts.html">map/map.component.ts</a>, <a href="map_map.component.ts.html#line699">line 699</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'>the JSON</div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<code class="param-type">Observable.&lt;any></code>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="getOptionValue">
+        <a class="href-link" href="#getOptionValue">#</a>
+        
+        <span class="code-name">
+            
+                getOptionValue<span class="signature">()</span><span class="type-signature"> &rarr; {string}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Return the option value from the formArray.
+    </div>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="map_map.component.ts.html" class="button">View Source</a>
+            <span>
+                <a href="map_map.component.ts.html">map/map.component.ts</a>, <a href="map_map.component.ts.html#line682">line 682</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'>the option value</div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<code class="param-type">string</code>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
             
                 <div class="member">
 
@@ -1581,7 +3099,7 @@
         <p class="tag-source">
             <a href="map_map.component.ts.html" class="button">View Source</a>
             <span>
-                <a href="map_map.component.ts.html">map/map.component.ts</a>, <a href="map_map.component.ts.html#line475">line 475</a>
+                <a href="map_map.component.ts.html">map/map.component.ts</a>, <a href="map_map.component.ts.html#line568">line 568</a>
             </span>
         </p>
     
@@ -1619,6 +3137,537 @@
         <label>Type: </label>
         
 <code class="param-type">number</code>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="initMap">
+        <a class="href-link" href="#initMap">#</a>
+        
+        <span class="code-name">
+            
+                initMap<span class="signature">()</span><span class="type-signature"> &rarr; {void}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Initializes the map. Set the center of the map to the center of Münster. Set the zoom level to 12.Setting the zoom control to the top right corner. Also adding the tile Layer from the OpenStreetMap. Adding the FeatureGroup for displaying thetraining data polygons. Also adding the Draw control to the map, which is used for drawing the AOI. Controlling the storing of the drawn data,so that the user can only draw one rectangle.
+    </div>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="map_map.component.ts.html" class="button">View Source</a>
+            <span>
+                <a href="map_map.component.ts.html">map/map.component.ts</a>, <a href="map_map.component.ts.html#line243">line 243</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<code class="param-type">void</code>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="ngOnInit">
+        <a class="href-link" href="#ngOnInit">#</a>
+        
+        <span class="code-name">
+            
+                ngOnInit<span class="signature">()</span><span class="type-signature"> &rarr; {void}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        After the page is loaded, this function is called. It initializes the map and the form. It is setting the validators for the form. And adding eventlisteners for certain events like the uploading of the model/training data file. Also handling the functionality, that if training data are uploaded,the polygons are displayed on the map.
+    </div>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="map_map.component.ts.html" class="button">View Source</a>
+            <span>
+                <a href="map_map.component.ts.html">map/map.component.ts</a>, <a href="map_map.component.ts.html#line628">line 628</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<code class="param-type">void</code>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="onSubmit">
+        <a class="href-link" href="#onSubmit">#</a>
+        
+        <span class="code-name">
+            
+                onSubmit<span class="signature">()</span><span class="type-signature"> &rarr; {void}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        This function gets fired when the user hit the submit button. It will get the data from the form group and send it to the server at the /start route.After the server response the function will either redirect to the result page or display an error message.
+    </div>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="map_map.component.ts.html" class="button">View Source</a>
+            <span>
+                <a href="map_map.component.ts.html">map/map.component.ts</a>, <a href="map_map.component.ts.html#line708">line 708</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<code class="param-type">void</code>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="setAoi">
+        <a class="href-link" href="#setAoi">#</a>
+        
+        <span class="code-name">
+            
+                setAoi<span class="signature">(aoi)</span><span class="type-signature"> &rarr; {void}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Set the AOI to the form group.
+    </div>
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>aoi</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">any</code>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">the aoi as a bbox</td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="map_map.component.ts.html" class="button">View Source</a>
+            <span>
+                <a href="map_map.component.ts.html">map/map.component.ts</a>, <a href="map_map.component.ts.html#line674">line 674</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<code class="param-type">void</code>
 
 
     </div>

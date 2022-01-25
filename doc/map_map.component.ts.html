@@ -68,7 +68,7 @@
             
             <nav>
                 
-                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="MapComponent.html">MapComponent</a></li></ul></div>
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="MapComponent.html">MapComponent</a></li><li><a href="MapComponent_MapComponent.html">MapComponent</a></li></ul></div>
                 
             </nav>
         </div>
@@ -188,22 +188,60 @@ export class MapComponent implements AfterViewInit {
    */
   maxDate = new Date();
 
-  // uploader for training data or trained model
+  /**
+   * @description
+   * A FileUploader is used to upload the model/training data file. Stores the route where the file is uploaded to.
+   * And an itemAlias is used to store the filename.
+   * @type FileUploader 
+   */
   public uploader: FileUploader = new FileUploader({
     url: this.APIURL + '/upload',
     itemAlias: 'file',
   });
 
+  /**
+   * @constructor
+   * @description
+   * The constructor of the class. It initializes the form, http client and router.
+   * @param {FormBuilder} fb - The form builder used to create the form.
+   * @param {HttpClient} http - The http client used to send the data to the server.
+   * @param {Router} router - The router used to navigate to the result page.
+   */
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
     private router: Router
   ) {}
 
+  /**
+   * @description
+   * The URL where the training data file can be found.
+   * @type string
+   */
   trainingDataPolygonsJsonUrl = this.APIURL + '/trainingdata/';
+
+  /**
+   * @description
+   * A Leaflet group of the training data polygons.
+   * @type L.FeatureGroup 
+   */
   trainLayerGroup = null;
+
+  /**
+   * @description
+   * A Leaflet Layer of the training data polygons.
+   * @type L.GeoJSON
+   */
   trainAreasLayer = null;
 
+  /**
+   * @function
+   * @description
+   * After the page is loaded, this function is called. It initializes the map and the form. It is setting the validators for the form. And adding event
+   * listeners for certain events like the uploading of the model/training data file. Also handling the functionality, that if training data are uploaded,
+   * the polygons are displayed on the map.
+   * @returns {void}
+   */
   ngOnInit() {
     // initialize form group for validation and form stepper
     this.submitForm = this.fb.group({
@@ -315,8 +353,22 @@ export class MapComponent implements AfterViewInit {
     };
   }
 
-  // init map
+  /**
+   * @description
+   * Initializes the map field.
+   * @type {any}
+   */
   private map: any;
+
+  /**
+   * @function
+   * @description
+   * Initializes the map. Set the center of the map to the center of Münster. Set the zoom level to 12.
+   * Setting the zoom control to the top right corner. Also adding the tile Layer from the OpenStreetMap. Adding the FeatureGroup for displaying the
+   * training data polygons. Also adding the Draw control to the map, which is used for drawing the AOI. Controlling the storing of the drawn data,
+   * so that the user can only draw one rectangle.
+   * @returns {void}
+   */
   private initMap(): void {
     // set map options
     this.map = L.map('map', {
@@ -409,34 +461,78 @@ export class MapComponent implements AfterViewInit {
     });
   }
 
+  /**
+   * @function
+   * @description
+   * get the form array from the form group
+   * @returns {AbstractControl | null} the form array
+   */
   get formArray(): AbstractControl | null {
     return this.submitForm.get('formArray');
   }
 
-  //display name after file selected and pass to form
+  /**
+   * @function
+   * @description
+   * Display the name of the file, which was selected by the user.
+   * @param {Event} event the event of the file input
+   * @returns {void}
+   */
   fileSelected(event) {
     this.currentFileName = event.target.value.split('fakepath')[1].substring(1);
   }
 
-  // function to set the area of interest in the formarray
+  /**
+   * @function
+   * @description
+   * Set the AOI to the form group.
+   * @param {any} aoi the aoi as a bbox
+   * @returns {void}
+   */
   setAoi(coords) {
     this.formArray.get([0]).patchValue({
       aoi: coords,
     });
   }
 
+  /**
+   * @function
+   * @description
+   * Return the option value from the formArray.
+   * @returns {string} the option value
+   */
   getOptionValue() {
     return this.formArray?.get([1]).value.option;
   }
 
+  /**
+   * @function
+   * @description
+   * get the value of the Algorithm, which was selected by the user.
+   * @returns {string} the selected algorithm name
+   */
   getAlgorithmValue() {
     return this.formArray?.get([1]).value.algorithm;
   }
 
+  /**
+   * @function
+   * @description
+   * get the JSON at the seleced file.
+   * @param {String} path - path to the file
+   * @returns {Observable&lt;any>} the JSON
+   */
   getJSON(path): Observable&lt;any> {
     return this.http.get(this.APIURL + '/file/' + path);
   }
 
+  /**
+   * @function
+   * @description
+   * This function gets fired when the user hit the submit button. It will get the data from the form group and send it to the server at the /start route.
+   * After the server response the function will either redirect to the result page or display an error message.
+   * @returns {void} 
+   */
   onSubmit() {
     this.formSubmitted = true;
     if (this.submitForm.valid) {
