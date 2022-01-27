@@ -233,6 +233,8 @@ export class MapComponent implements AfterViewInit {
         this.trainAreasLayer = L.geoJSON(trainAreasGeoJson.features);
         await this.trainLayerGroup.addLayer(this.trainAreasLayer);
         await this.map.fitBounds(this.trainAreasLayer.getBounds());
+        console.log(this.trainAreasLayer.getBounds())
+        console.log(this.map.getBounds())
       }
       // if the uploaded training Data is ".gpkg"
       else if (this.currentFileName.split('.').pop() == "gpkg") {
@@ -254,6 +256,8 @@ export class MapComponent implements AfterViewInit {
             this.trainAreasLayer = L.geoJSON(trainAreasGPKG.features);
             await this.trainLayerGroup.addLayer(this.trainAreasLayer);
             await this.map.fitBounds(this.trainAreasLayer.getBounds());
+            console.log(this.trainAreasLayer.getBounds())
+            console.log(this.map.getBounds())
           },
           error: (error) => {
             console.error('There was an error!', error);
@@ -493,11 +497,12 @@ export class MapComponent implements AfterViewInit {
         error: (error) => {
           console.error('There was an error!', error);
           if (error.status === 402) {
+
             //Fire an alert with the error message
             let hasAoiError = error.error?.stac?.aoi?.status === 'error';
-            let hasTrainingDataError =
-              error.error?.stac?.trainingData?.status === 'error';
+            let hasTrainingDataError = error.error?.stac?.trainingData?.status === 'error';
             let errorText = '';
+
             if (hasAoiError && hasTrainingDataError) {
               errorText = error.error?.stac?.aoi?.error + "\n" + error.error?.stac?.trainingData?.error;
             } else if (hasAoiError) {
@@ -522,6 +527,7 @@ export class MapComponent implements AfterViewInit {
               dismissible: true,
             });
           } else if (error.status === 401) {
+            
             console.error(
               `There was an error with status code ${error.status}!`,
               error
@@ -540,6 +546,26 @@ export class MapComponent implements AfterViewInit {
               duration: 1000 * 3600,
               dismissible: true,
             });
+
+          } else if (error.status = 403) {
+
+            //Fire an alert with the error message
+            let errorText = error.error?.aoa?.training?.error + '\n' + error.error?.aoa?.classifyAndAOA?.error            
+            errorText += '\nPlease update your input data (model / training data) and try again.';
+
+            //alert(errorText);
+            document
+              .getElementById('progressModal')
+              .classList.remove('is-active');
+
+            bulmaToast.toast({
+              message: errorText,
+              type: 'is-danger',
+              position: 'top-right',
+              duration: 1000 * 3600,
+              dismissible: true,
+            });
+
           } else {
             document
               .getElementById('progressModal')
