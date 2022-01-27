@@ -548,24 +548,39 @@ export class MapComponent implements AfterViewInit {
             });
 
           } else if (error.status = 403) {
+            let errorText
+            if (error.error?.aoa?.training?.error === undefined && error.error?.aoa?.classifyAndAOA?.error === undefined) {
+              errorText = "The server environment was exited"
 
-            //Fire an alert with the error message
-            let errorText = error.error?.aoa?.training?.error + '\n' + error.error?.aoa?.classifyAndAOA?.error            
-            errorText += '\nPlease update your input data (model / training data) and try again.';
-
-            //alert(errorText);
-            document
+              //alert(errorText);
+              document
               .getElementById('progressModal')
               .classList.remove('is-active');
 
-            bulmaToast.toast({
-              message: errorText,
-              type: 'is-danger',
-              position: 'top-right',
-              duration: 1000 * 3600,
-              dismissible: true,
-            });
+              bulmaToast.toast({
+                message: errorText,
+                type: 'is-danger',
+                position: 'top-right',
+                duration: 1000 * 3600,
+                dismissible: true,
+              });
+            } else {
+              //Fire an alert with the error message
+              errorText = error.error?.aoa?.training?.error + '\n' + error.error?.aoa?.classifyAndAOA?.error + '\nPlease update your input data (model / training data) and try again.';
 
+              //alert(errorText);
+              document
+                .getElementById('progressModal')
+                .classList.remove('is-active');
+
+              bulmaToast.toast({
+                message: errorText,
+                type: 'is-danger',
+                position: 'top-right',
+                duration: 1000 * 3600,
+                dismissible: true,
+              });
+            }
           } else {
             document
               .getElementById('progressModal')
