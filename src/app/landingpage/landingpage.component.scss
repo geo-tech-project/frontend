@@ -5,7 +5,7 @@
 
 .hero,
 .cta {
-  background: url(../../assets/satellite.jpg),
+  background: url(../../assets/landscape.jpg),
     linear-gradient(52deg, #42475c 0%, #20222e 71%);
 }
 
@@ -28,17 +28,20 @@ footer a {
 }
 
 .title {
-  color: white;
-  font-weight: 800;
-  font-size: 4rem;
-  font-family: "Nunito Sans", sans-serif;
-  text-shadow: 1px 1px 1px #000, 3px 3px 5px rgb(0, 0, 3);
+  color: rgb(255, 255, 255);
+  font-weight: normal;
+  font-size: 5rem;
+  font-family: "Helvetica", sans-serif;
+  text-shadow: 3px 3px 3px #000, 3px 3px 3px rgb(0, 0, 3);
+ 
 }
 
 .subtitle {
   color: white;
-  font-size: 1.2rem;
-  text-shadow: 1px 1px 1px #000, 3px 3px 5px rgb(0, 0, 3);
+  font-size: 1.5rem;
+  font-family: "Helvetica", sans-serif;
+  text-shadow: 2px 2px 2px #000, 2px 2px 2px rgb(0, 0, 3);
+  font-stretch: ultra-expanded;
 }
 
 hr.content-divider {
@@ -47,16 +50,16 @@ hr.content-divider {
 }
 
 #parallax-1 {
-  background: url(../../assets/landscape.jpg);
+  background: url(../../assets/satellite2.jpg);
   background-attachment: fixed;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  border-top: 10px solid coral;
+  border-top: 10px solid rgb(66, 66, 66);
 }
 
 #parallax-1 hr {
-  background: coral;
+  background: rgb(0, 0, 0);
 }
 
 #parallax-2 {
@@ -65,11 +68,11 @@ hr.content-divider {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  border-top: 10px solid yellow;
+  border-top: 10px solid rgb(0, 0, 0);
 }
 
 #parallax-2 hr {
-  background: yellow;
+  background: rgb(0, 0, 0);
 }
 
 // #parallax-3 {
