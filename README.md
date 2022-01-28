@@ -1,20 +1,8 @@
-# Geosoft2Project
-
-## Authors
-Project of the course Geosoftware 2 at the [Institute of Geoinformatics](https://www.uni-muenster.de/Geoinformatics/en/) by [Jakob Dannel](https://github.com/jakobdanel), 
-[Fabian Schumacher](https://github.com/fab-scm), 
-[Thalis Goldschmidt](https://github.com/thalisgold), 
-[Henning Sander](https://github.com/Hes097) and 
-[Frederick Bruch](https://github.com/fbruc03)  
-
-### Applicability Estimation Tool 
-for Spatial Prediction Models
-
-## Description
-This application is a web- based service which provides users with an innovative machine learning toolkit for land use mapping. The unique feature of this toolkit is that it includes the AOA as a standard applicability estimation tool to more accurately assess the reliability of the resulting LULC predictions. In addition, it suggests locations for the collection of additional training data.
+# Estimation Tool for Spatial Prediction Models
 
 ## Table of contents
 
+- [Authors](#authors)
 - [How to install and run the app](#how-to-install-and-run-the-app)
 - [How to use the app](#how-to-use-the-app)
   - [Demo](#demo)
@@ -23,6 +11,61 @@ This application is a web- based service which provides users with an innovative
 - [How to test](#how-to-test)
 - [Credits](#credits)
 - [License](#license)
+
+## Authors
+Project of the course Geosoftware 2 at the [Institute of Geoinformatics](https://www.uni-muenster.de/Geoinformatics/en/) by [Jakob Danel](https://github.com/jakobdanel), 
+[Fabian Schumacher](https://github.com/fab-scm), 
+[Thalis Goldschmidt](https://github.com/thalisgold), 
+[Henning Sander](https://github.com/Hes097) and 
+[Frederick Bruch](https://github.com/fbruc03)  
+
+## Description
+
+## Area Of Applicability (AOA)
+
+## Who is the software for?
+
+## How does the software work?
+
+### Part 1: Satellite image generation (with R)
+#### Generation of a Sentinel-2 satellite image for the area of interest (Sentinel Image (AOI))
+* Based on the user inputs (AOI , time period and cloud cover), the Spatial Temporal Asset Catalog (STAC) is searched for matching Sentinel-2 satellite images. What kind of images? What quality? 
+* For each Sentinel-2 image found, all bands (except band 10) are available for download. We only continue to work with those that have been pre-selected by the user. 
+* If many images are found, we limit ourselves to 200 for further calculation.
+* All images (max 200) are now superimposed and for each pixel the median is calculated over all images for each band.
+* This can be helpful to avoid the problem of cloud cover and other interfering factors. In other words, the more images that can be found, the more likely it is to get a good image for model training and LULC classification.
+
+#### Generation of a Sentinel-2 satellite image for the areas where the training data is located (Sentinel Image (training area))
+* The generation of a Sentinel-2 satellite image for the areas where the training data is located is only done if training data has been uploaded by the user.
+* It works analogously to the generation of the Sentinel-2 image for the AOI. Instead of filtering by the AOI, it filters by the geometry of the training polygons. Pixels outside the polygons are set to NA.
+
+### Part 2: Model training (with R)
+The user has the possibility to select a model for the calculations. He can either upload his own model via an upload button or create a new model in order to train it with a selectable machine-learning algorithm. If the user selects to work with his own model, no further model training is needed. If the user selects to create a new model, additional training data is required to train the model.
+
+
+### Part 3: Prediction and AOA (with R)
+
+### Part 4: Output of the results
+
+## Table of contents
+
+## Installation
+
+## Run the app
+
+## How to use the app
+
+## Credits
+
+## License
+
+## Authors
+Project of the course Geosoftware 2 at the [Institute of Geoinformatics](https://www.uni-muenster.de/Geoinformatics/en/) by [Jakob Dannel](https://github.com/jakobdanel), 
+[Fabian Schumacher](https://github.com/fab-scm), 
+[Thalis Goldschmidt](https://github.com/thalisgold), 
+[Henning Sander](https://github.com/Hes097) and 
+[Frederick Bruch](https://github.com/fbruc03)  
+
 
 ## How to install and run the app
 To make it as simple as possible we use [Docker](https://www.docker.com) for development so you only need to download this repository and run `docker-compsoe up --build`in your command line interface. This installs all dependencies for the font- and backend including all [R](https://www.r-project.org) packages. As these packages are not too small this step could take up to 1 hour of building time (depending on your hardware).  
@@ -55,3 +98,5 @@ Credits
 
 ## License
 Add license text here
+
+
