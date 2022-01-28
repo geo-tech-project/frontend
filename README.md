@@ -3,6 +3,14 @@
 ## Table of contents
 
 - [Authors](#authors)
+- [Description](#description)
+- [Area Of Applicability (AOA)](#area-of-applicability-(aoa))
+- [Who is the software for?](#who-is-the-software-for?)
+- [How does the software work?](#how-does-the-software-work?)
+  - [Part 1: Satellite image generation (with R)](#part-1:-satellite-image-generation-(with-r))
+  - [Part 2: Model training (with R)](#part-2:-model-training-(with-r))
+  - [Part 3: Prediction and AOA (with R)](#part-3:-prediction-and-aoa-(with-r))
+  - [Part 4: Output of the results](#part-4:-output-of-the-results)
 - [How to install and run the app](#how-to-install-and-run-the-app)
 - [How to use the app](#how-to-use-the-app)
   - [Demo](#demo)
@@ -46,26 +54,6 @@ The user has the possibility to select a model for the calculations. He can eith
 ### Part 3: Prediction and AOA (with R)
 
 ### Part 4: Output of the results
-
-## Table of contents
-
-## Installation
-
-## Run the app
-
-## How to use the app
-
-## Credits
-
-## License
-
-## Authors
-Project of the course Geosoftware 2 at the [Institute of Geoinformatics](https://www.uni-muenster.de/Geoinformatics/en/) by [Jakob Dannel](https://github.com/jakobdanel), 
-[Fabian Schumacher](https://github.com/fab-scm), 
-[Thalis Goldschmidt](https://github.com/thalisgold), 
-[Henning Sander](https://github.com/Hes097) and 
-[Frederick Bruch](https://github.com/fbruc03)  
-
 
 ## How to install and run the app
 To make it as simple as possible we use [Docker](https://www.docker.com) for development so you only need to download this repository and run `docker-compsoe up --build`in your command line interface. This installs all dependencies for the font- and backend including all [R](https://www.r-project.org) packages. As these packages are not too small this step could take up to 1 hour of building time (depending on your hardware).  
