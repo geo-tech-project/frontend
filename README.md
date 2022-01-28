@@ -1,4 +1,13 @@
 # Geosoft2Project
+
+## Authors
+Project of the course Geosoftware 2 at the [Institute of Geoinformatics](https://www.uni-muenster.de/Geoinformatics/en/) by  
+[Jakob Dannel](https://github.com/jakobdanel)  
+[Fabian Schumacher](https://github.com/fab-scm)  
+[Thalis Goldschmidt](https://github.com/thalisgold)  
+[Henning Sander](https://github.com/Hes097)  
+[Frederick Bruch](https://github.com/fbruc03)  
+
 ### Applicability Estimation Tool 
 for Spatial Prediction Models
 
@@ -43,13 +52,7 @@ How to test frontend?
 How to test R?  
 
 ## Credits
-
-Project of the course Geosoftware 2 at the [Institute of Geoinformatics](https://www.uni-muenster.de/Geoinformatics/en/) by  
-[Jakob Dannel](https://github.com/jakobdanel)  
-[Fabian Schumacher](https://github.com/fab-scm)  
-[Thalis Goldschmidt](https://github.com/thalisgold)  
-[Henning Sander](https://github.com/Hes097)  
-[Frederick Bruch](https://github.com/fbruc03)  
+Credits
 
 ## License
 Add license text here
