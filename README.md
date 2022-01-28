@@ -1,31 +1,38 @@
 # Estimation Tool for Spatial Prediction Models
 
 ## Table of contents
+- [Estimation Tool for Spatial Prediction Models](#estimation-tool-for-spatial-prediction-models)
+  - [Table of contents](#table-of-contents)
+  - [Authors](#authors)
+  - [Description](#description)
+  - [Area Of Applicability (AOA)](#area-of-applicability-aoa)
+  - [Target group](#target-group)
+  - [How does the software work?](#how-does-the-software-work)
+    - [Part 1: Satellite image generation (with R)](#part-1-satellite-image-generation-with-r)
+      - [Generation of a Sentinel-2 satellite image for the area of interest (Sentinel Image (AOI))](#generation-of-a-sentinel-2-satellite-image-for-the-area-of-interest-sentinel-image-aoi)
+      - [Generation of a Sentinel-2 satellite image for the areas where the training data is located (Sentinel Image (training area))](#generation-of-a-sentinel-2-satellite-image-for-the-areas-where-the-training-data-is-located-sentinel-image-training-area)
+    - [Part 2: Model training (with R)](#part-2-model-training-with-r)
+    - [Part 3: Prediction and AOA (with R)](#part-3-prediction-and-aoa-with-r)
+  - [How to install and run the app](#how-to-install-and-run-the-app)
+  - [How to use the app](#how-to-use-the-app)
+    - [Demo](#demo)
+    - [Main Tool](#main-tool)
+    - [Output of the results](#output-of-the-results)
+  - [How to test](#how-to-test)
+  - [Further Documentation](#further-documentation)
+  - [Credits](#credits)
+  - [License](#license)
 
-- [Authors](#authors)
-- [Description](#description)
-- [Area Of Applicability (AOA)](#area-of-applicability-(aoa))
-- [Who is the software for?](#who-is-the-software-for?)
-- [How does the software work?](#how-does-the-software-work?)
-  - [Part 1: Satellite image generation (with R)](#part-1:-satellite-image-generation-(with-r))
-  - [Part 2: Model training (with R)](#part-2:-model-training-(with-r))
-  - [Part 3: Prediction and AOA (with R)](#part-3:-prediction-and-aoa-(with-r))
-  - [Part 4: Output of the results](#part-4:-output-of-the-results)
-- [How to install and run the app](#how-to-install-and-run-the-app)
-- [How to use the app](#how-to-use-the-app)
-  - [Demo](#demo)
-  - [Main Tool](#main-tool)
-  - [Results](#results)
-- [How to test](#how-to-test)
-- [Credits](#credits)
-- [License](#license)
+
 
 ## Authors
 Project of the course Geosoftware 2 at the [Institute of Geoinformatics](https://www.uni-muenster.de/Geoinformatics/en/) by [Jakob Danel](https://github.com/jakobdanel), 
 [Fabian Schumacher](https://github.com/fab-scm), 
 [Thalis Goldschmidt](https://github.com/thalisgold), 
 [Henning Sander](https://github.com/Hes097) and 
-[Frederick Bruch](https://github.com/fbruc03)  
+[Frederick Bruch](https://github.com/fbruc03) 
+
+[GetsatelliteImage.R](https://github.com/geo-tech-project/backend/blob/main/R/GetSatelliteImages.R)
 
 ## Description
 
@@ -89,6 +96,8 @@ To test this app you can proceed as follows:
 How to test backen?  
 How to test frontend?  
 How to test R?  
+
+## Further Documentation
 
 ## Credits
 Credits
