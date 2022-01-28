@@ -250,14 +250,14 @@ export class ResultComponent implements AfterViewInit {
           .checked
       ) {
         this.predictionLayer.addTo(this.map);
-        this.map.fitBounds(this.predictionLayer.getBounds())
+        this.map.flyToBounds(this.predictionLayer.getBounds())
       } else {
         this.map.removeLayer(this.predictionLayer);
       }
     } else if (name == 'aoa') {
       if ((<HTMLInputElement>document.getElementById('aoaCheckbox')).checked) {
         this.aoaLayer.addTo(this.map);
-        this.map.fitBounds(this.aoaLayer.getBounds())
+        this.map.flyToBounds(this.aoaLayer.getBounds())
       } else {
         this.map.removeLayer(this.aoaLayer);
       }
@@ -267,7 +267,7 @@ export class ResultComponent implements AfterViewInit {
           .checked
       ) {
         this.trainAreasLayer = this.trainAreasLayer.addTo(this.map);
-        this.map.fitBounds(this.trainAreasLayer.getBounds())
+        this.map.flyToBounds(this.trainAreasLayer.getBounds())
       } else {
         this.map.removeLayer(this.trainAreasLayer);
       }
