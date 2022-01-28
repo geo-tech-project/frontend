@@ -8,13 +8,13 @@ This application is a web- based service which provides users with an innovative
 ## Table of contents
 
 - [How to install and run the app](#how-to-install-and-run-the-app)
-- How to use the app
-  - Demo
-  - Main Tool
-  - Results   
-- How to test
-- Credits
-- License
+- [How to use the app](#how-to-use-the-app)
+  - [Demo](#demo)
+  - [Main Tool](#main-tool)
+  - [Results](#results)
+- [How to test](#how-to-test)
+- [Credits](#credits)
+- [License](#license)
 
 ## How to install and run the app
 To make it as simple as possible you only need to download this repository and run `docker-compsoe up --build`in your command line interface. This installs all dependencies for the font- and backend including all `R` packages. As these packages are not too small this step could take up to 1 hour of building time (depending on your hardware).
