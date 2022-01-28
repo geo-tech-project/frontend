@@ -29,9 +29,11 @@ Description of what can be done on the demo page.
 
 ### Main Tool
 Description of main tool. 
+![Main Tool page](/src/assets/main-page-view.png?raw=true)
 
 ### Results
 Description of result page. 
+![Result page](/src/assets/result-page-view.png?raw=true)
 
 
 ## How to test
