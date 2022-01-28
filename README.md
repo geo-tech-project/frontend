@@ -25,6 +25,7 @@ If you have terminated the application and want to start it back up another time
 
 ### Demo
 Description of what can be done on the demo page. 
+![Demo page](/scr/assets/demo-page-view.png?raw=true)
 
 ### Main Tool
 Description of main tool. 
