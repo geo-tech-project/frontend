@@ -37,19 +37,19 @@ Description of result page.
 
 
 ## How to test
-To test this app you can proceed as follows:
+To test this app you can proceed as follows:  
 How to test backen?  
 How to test frontend?  
 How to test R?  
 
 ## Credits
 
-Project of the course Geosoftware 2 at the [Institute of Geoinformatics](https://www.uni-muenster.de/Geoinformatics/en/) by
-[Jakob Dannel](https://github.com/jakobdanel)
-[Fabian Schumacher](https://github.com/fab-scm)
-[Thalis Goldschmidt](https://github.com/thalisgold)
-[Henning Sander](https://github.com/Hes097)
-[Frederick Bruch](https://github.com/fbruc03)
+Project of the course Geosoftware 2 at the [Institute of Geoinformatics](https://www.uni-muenster.de/Geoinformatics/en/) by  
+[Jakob Dannel](https://github.com/jakobdanel)  
+[Fabian Schumacher](https://github.com/fab-scm)  
+[Thalis Goldschmidt](https://github.com/thalisgold)  
+[Henning Sander](https://github.com/Hes097)  
+[Frederick Bruch](https://github.com/fbruc03)  
 
 ## License
 Add license text here
