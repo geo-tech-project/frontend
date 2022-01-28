@@ -32,11 +32,11 @@ Project of the course Geosoftware 2 at the [Institute of Geoinformatics](https:/
 [Henning Sander](https://github.com/Hes097) and 
 [Frederick Bruch](https://github.com/fbruc03) 
 
-[GetsatelliteImage.R](https://github.com/geo-tech-project/backend/blob/main/R/GetSatelliteImages.R)
-
-## Description
+## Abstract
+Machine learning methods have become very popular means for spatial prediction efforts such as classifying remote sensing images. One reason is their ability to learn non-linear relationships and thereby solve more complex classifications tasks. A underestimated issue is that machine learning algorithms can only provide meaningful predictions when applied to data that is similar to the data they were trained on (Meyer and Pebesma, 2021). ”Similar” here refers to the value ranges of the predictor variables (such as different bands of the remote sensing image). When applying a trained machine learning algorithm to a new geographic area, it is unclear whether or not the pixels properties in that area are similar enough to the training data to enable a reliable classification.  
 
 ## Area Of Applicability (AOA)
+The [Area Of Applicability](https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/2041-210X.13650) is a method developed by Meyer and Pebesma (2021) to delineate areas in spatial data (here remote sensing images) that can be assumed to be areas the machine learning model can reliably be applied to, in our case to perform land use/land cover (LULC) classification. Besides delineating such an area of applicability (AOA), this tool can also be used to point to areas where collecting additional training data is needed to train a more applicable model. The AOA provides important additional information that should be communicated when applying machine learning methods to spatial prediction tasks, especially when predicting on a large or even global scale when training data are not evenly distributed over the target area. In particular, this tool is designed to adopt the AOA into the typical workflow of a remote scientist/researcher without having to deal with its concrete implementation.
 
 ## Target group
 Researchers and users of remote sensing methods who want to
@@ -55,6 +55,8 @@ The user has the possibility to select a model to work with. He can either uploa
 * If many images are found, we limit ourselves to 200 for further calculation.
 * All images (max 200) are now superimposed and for each pixel the median is calculated over all images for each band.
 * This can be helpful to avoid the problem of cloud cover and other interfering factors. In other words, the more images that can be found, the more likely it is to get a good image for model training and LULC classification.
+
+[GetsatelliteImage.R](https://github.com/geo-tech-project/backend/blob/main/R/GetSatelliteImages.R)
 
 #### Generation of a Sentinel-2 satellite image for the areas where the training data is located (Sentinel Image (training area))
 * The generation of a Sentinel-2 satellite image for the areas where the training data is located is only done if the user chose to create a new model and therefore has uploaded training data.
