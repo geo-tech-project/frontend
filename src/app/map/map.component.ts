@@ -566,7 +566,11 @@ export class MapComponent implements AfterViewInit {
               });
             } else {
               //Fire an alert with the error message
-              errorText = error.error?.aoa?.training?.error + '\n' + error.error?.aoa?.classifyAndAOA?.error + '\nPlease update your input data (model / training data) and try again.';
+              if (error.error?.aoa?.training?.error === undefined) {
+                errorText = error.error?.aoa?.training?.data + '\n' + error.error?.aoa?.classifyAndAOA?.error + '\nPlease update your input data (model / training data) and try again.';
+              } else {
+                errorText = error.error?.aoa?.training?.error + '\n' + error.error?.aoa?.classifyAndAOA?.error + '\nPlease update your input data (model / training data) and try again.';
+              }
 
               //alert(errorText);
               document
