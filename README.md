@@ -78,11 +78,11 @@ To make it as simple as possible we used [Docker](https://www.docker.com) for th
 
 ### Main Tool
 The main tool is designed in such a way that the user can use it very easily. The user is guided step by step and can only proceed to the next step if the previous one has been carried out correctly. For each step there is an additional info button that displays important information as soon as you hover over it. When everything has been entered successfully, the calculations can be started. After the calculations have been executed and no errors have occurred, the user will be directed to the results page.
-![Main Tool page](/src/assets/main-page-view.png?raw=true)
+![Main Tool page](/src/assets/main-tool.jpg?raw=true)
 
 ### Demo
 The demo page is structured exactly like the actual tool. However, all inputs have already been entered with default values. The user can view these entries, but not change them. He is only able to start the calculations by clicking on the ```Run demo``` button. The user should be redirected to the results page in less than 20 seconds.
-![Demo page](/src/assets/demo-page-view.png?raw=true)
+![Demo page](/src/assets/demo.jpg?raw=true)
 
 ### Output of the results
 On a new route, the following three results are visualised on a map: 
@@ -91,7 +91,8 @@ On a new route, the following three results are visualised on a map:
 * Further train areas
 
 It is possible to show and hide the individual results using a checkbox and even to adjust their transparency. The underlying satellite images on which the calculations are based are not displayed on the map but can be downloaded in the same way as the other results via a download button. Please note that the sentinel image of the training areas can only be downloaded if training data has been submitted.
-![Result page](/src/assets/result-page-view.png?raw=true)
+![Result page](/src/assets/results_complete.jpg?raw=true)
+
 
 
 ## How to test
