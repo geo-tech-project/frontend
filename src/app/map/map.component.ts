@@ -17,7 +17,7 @@ import { MatStepper } from '@angular/material/stepper';
 
 /**
  * @classdesc
- * This class is made to handle the map/input page of the application. It contains the map and the form with the input fields. 
+ * This class is made to handle the map/input page of the application. It contains the map and the form with the input fields.
  * It also contains the uploader for the model/training data file. If the user submitted the form, the data is sent to the server.
  * Condional to the servers response, the class either redirect to the result page or displays an error message via bulma-toast.
  * @extends Component
@@ -29,50 +29,49 @@ import { MatStepper } from '@angular/material/stepper';
   styleUrls: ['./map.component.scss'],
 })
 export class MapComponent implements AfterViewInit {
-  
   /**
    * @description
    * This form stores all the user inputs. It is used to send the data to the server.
    * @type FormGroup
    */
   submitForm: FormGroup;
-  
+
   /**
    * @description
    * The filename which is shown to the user, after the user selected a file.
    * @type string
    */
   currentFileName = '';
-  
+
   /**
    * @description
    * Is true if the user has submitted the form, is false if the user has not submitted the form.
-   * @type boolean 
+   * @type boolean
    */
   formSubmitted = false;
-  
+
   /**
    * @description
    * The url of the backend server. If the server is running in production mode the AWS server is used. If not localhost is used.
    * @type string
    */
   APIURL = environment.api_url;
-  
-  // TODO: Brauchen wir das überhaupt? 
+
+  // TODO: Brauchen wir das überhaupt?
   data;
-  
+
   /**
    * @description
    * The retangle drawn by the user on the Leaflet map.
-   * 
+   *
    */
   drawnItems;
-  
+
   /**
    * @description
    * The index of the step in the form the user is in. This is used to control which step iss shown to the user. It also makes sure, that user can not
    * skip a part of the form.
-   * @type number 
+   * @type number
    */
   stepperIndex;
 
@@ -105,7 +104,7 @@ export class MapComponent implements AfterViewInit {
    * @description
    * A FileUploader is used to upload the model/training data file. Stores the route where the file is uploaded to.
    * And an itemAlias is used to store the filename.
-   * @type FileUploader 
+   * @type FileUploader
    */
   public uploader: FileUploader = new FileUploader({
     url: this.APIURL + '/upload',
@@ -136,7 +135,7 @@ export class MapComponent implements AfterViewInit {
   /**
    * @description
    * A Leaflet group of the training data polygons.
-   * @type L.FeatureGroup 
+   * @type L.FeatureGroup
    */
   trainLayerGroup = null;
 
@@ -209,64 +208,67 @@ export class MapComponent implements AfterViewInit {
     // what should happen after the file was succsessfully uploaded
     this.uploader.onCompleteItem = async (item: any, status: any) => {
       // delete further uploaded files in uploads folder everytime a new file is selected
-      this.http.post(this.APIURL + '/deleteFiles', {file: this.currentFileName}).subscribe({
-        next: (data) => {
-          console.log(data);
-        },
-        error: (error) => {
-          console.log(error);
-        }
-      });  
+      this.http
+        .post(this.APIURL + '/deleteFiles', { file: this.currentFileName })
+        .subscribe({
+          next: (data) => {
+            console.log(data);
+          },
+          error: (error) => {
+            console.log(error);
+          },
+        });
 
       console.log('Uploaded File Details:', item);
 
       let trainDataURL = this.trainingDataPolygonsJsonUrl;
 
-      if (this.currentFileName.split('.').pop() == "geojson") {
-        
+      if (this.currentFileName.split('.').pop() == 'geojson') {
         let tmpURLgeojson = trainDataURL + this.currentFileName;
-        console.log(tmpURLgeojson)
+        console.log(tmpURLgeojson);
 
         let trainAreas = await fetch(tmpURLgeojson);
         let trainAreasGeoJson = await trainAreas.json();
 
         this.trainAreasLayer = L.geoJSON(trainAreasGeoJson.features);
         await this.trainLayerGroup.addLayer(this.trainAreasLayer);
-        await this.map.fitBounds(this.trainAreasLayer.getBounds());
-        console.log(this.trainAreasLayer.getBounds())
-        console.log(this.map.getBounds())
+        var bounds = this.trainAreasLayer.getBounds();
+        var center = bounds.getCenter();
+        this.map.flyToBounds(bounds);
+        this.map.invalidateSize();
+        //this.map.setView([center.lat, center.lng]);
       }
       // if the uploaded training Data is ".gpkg"
-      else if (this.currentFileName.split('.').pop() == "gpkg") {
-
+      else if (this.currentFileName.split('.').pop() == 'gpkg') {
         let filenameWithoutExtension = this.currentFileName.split('.')[0];
-        let jsonData = {filename: filenameWithoutExtension}
-        
+        let jsonData = { filename: filenameWithoutExtension };
+
         // send POST to start calculations
         this.http.post(this.APIURL + '/getGeoJSON', jsonData).subscribe({
           next: async (data) => {
             console.log(data);
 
-            let tmpURLgpkg = this.trainingDataPolygonsJsonUrl + filenameWithoutExtension + ".geojson"
-            console.log(tmpURLgpkg)
+            let tmpURLgpkg =
+              this.trainingDataPolygonsJsonUrl +
+              filenameWithoutExtension +
+              '.geojson';
+            console.log(tmpURLgpkg);
 
             let trainAreasGPKGResponse = await fetch(tmpURLgpkg);
             let trainAreasGPKG = await trainAreasGPKGResponse.json();
-            
+
             this.trainAreasLayer = L.geoJSON(trainAreasGPKG.features);
             await this.trainLayerGroup.addLayer(this.trainAreasLayer);
-            await this.map.fitBounds(this.trainAreasLayer.getBounds());
-            console.log(this.trainAreasLayer.getBounds())
-            console.log(this.map.getBounds())
+            var bounds = this.trainAreasLayer.getBounds();
+            var center = bounds.getCenter();
+            this.map.flyToBounds(bounds);
+            this.map.invalidateSize();
           },
           error: (error) => {
             console.error('There was an error!', error);
           },
         });
       }
-     
-
-      
     };
   }
 
@@ -448,13 +450,13 @@ export class MapComponent implements AfterViewInit {
    * @description
    * This function gets fired when the user hit the submit button. It will get the data from the form group and send it to the server at the /start route.
    * After the server response the function will either redirect to the result page or display an error message.
-   * @returns {void} 
+   * @returns {void}
    */
   onSubmit() {
     this.formSubmitted = true;
     if (this.submitForm.valid) {
       document.getElementById('progressModal').classList.add('is-active');
-      
+
       //convert to json file
       var jsonData = {
         whereareyoufrom: 'map',
@@ -497,22 +499,26 @@ export class MapComponent implements AfterViewInit {
         error: (error) => {
           console.error('There was an error!', error);
           if (error.status === 402) {
-
             //Fire an alert with the error message
             let hasAoiError = error.error?.stac?.aoi?.status === 'error';
-            let hasTrainingDataError = error.error?.stac?.trainingData?.status === 'error';
+            let hasTrainingDataError =
+              error.error?.stac?.trainingData?.status === 'error';
             let errorText = '';
 
             if (hasAoiError && hasTrainingDataError) {
-              errorText = error.error?.stac?.aoi?.error + "\n" + error.error?.stac?.trainingData?.error;
+              errorText =
+                error.error?.stac?.aoi?.error +
+                '\n' +
+                error.error?.stac?.trainingData?.error;
             } else if (hasAoiError) {
               errorText = error.error?.stac?.aoi?.error;
             } else if (hasTrainingDataError) {
-              errorText = error.error?.stac?.trainingData?.error ;
+              errorText = error.error?.stac?.trainingData?.error;
             } else {
               errorText = 'There was an error!';
             }
-            errorText += '\nPlease update your input (date period and/or cloud coverage) and try again.';
+            errorText +=
+              '\nPlease update your input (date period and/or cloud coverage) and try again.';
 
             //alert(errorText);
             document
@@ -527,13 +533,13 @@ export class MapComponent implements AfterViewInit {
               dismissible: true,
             });
           } else if (error.status === 401) {
-            
             console.error(
               `There was an error with status code ${error.status}!`,
               error
             );
             let errorText =
-              error?.error?.error?.error + '\nPlease check your input and try again.';
+              error?.error?.error?.error +
+              '\nPlease check your input and try again.';
 
             document
               .getElementById('progressModal')
@@ -546,16 +552,18 @@ export class MapComponent implements AfterViewInit {
               duration: 1000 * 3600,
               dismissible: true,
             });
-
-          } else if (error.status = 403) {
-            let errorText
-            if (error.error?.aoa?.training?.error === undefined && error.error?.aoa?.classifyAndAOA?.error === undefined) {
-              errorText = "The server environment was exited"
+          } else if ((error.status = 403)) {
+            let errorText;
+            if (
+              error.error?.aoa?.training?.error === undefined &&
+              error.error?.aoa?.classifyAndAOA?.error === undefined
+            ) {
+              errorText = 'The server environment was exited';
 
               //alert(errorText);
               document
-              .getElementById('progressModal')
-              .classList.remove('is-active');
+                .getElementById('progressModal')
+                .classList.remove('is-active');
 
               bulmaToast.toast({
                 message: errorText,
@@ -567,9 +575,17 @@ export class MapComponent implements AfterViewInit {
             } else {
               //Fire an alert with the error message
               if (error.error?.aoa?.training?.error === undefined) {
-                errorText = error.error?.aoa?.training?.data + '\n' + error.error?.aoa?.classifyAndAOA?.error + '\nPlease update your input data (model / training data) and try again.';
+                errorText =
+                  error.error?.aoa?.training?.data +
+                  '\n' +
+                  error.error?.aoa?.classifyAndAOA?.error +
+                  '\nPlease update your input data (model / training data) and try again.';
               } else {
-                errorText = error.error?.aoa?.training?.error + '\n' + error.error?.aoa?.classifyAndAOA?.error + '\nPlease update your input data (model / training data) and try again.';
+                errorText =
+                  error.error?.aoa?.training?.error +
+                  '\n' +
+                  error.error?.aoa?.classifyAndAOA?.error +
+                  '\nPlease update your input data (model / training data) and try again.';
               }
 
               //alert(errorText);
