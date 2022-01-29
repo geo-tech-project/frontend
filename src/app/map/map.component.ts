@@ -206,9 +206,29 @@ export class MapComponent implements AfterViewInit {
     };
 
     // what should happen after the file was succsessfully uploaded
-    this.uploader.onCompleteItem = async (item: any, status: any) => {
-      // delete further uploaded files in uploads folder everytime a new file is selected
-      this.http
+    this.uploader.onCompleteItem = async (item: any, response: any, status: number) => {
+      console.log(status)
+      if (status === 401) {
+        response = JSON.parse(response)
+        console.error(
+          `There was an error with status code ${status}!`);
+        let errorText = response?.error?.error + '\nPlease check your input and try again.';
+        console.log(errorText)
+        this.formArray.get([2]).patchValue({
+          file: null
+        });
+        console.log(this.submitForm)
+        console.log(this.formArray)
+        bulmaToast.toast({
+          message: errorText,
+          type: 'is-danger',
+          position: 'top-right',
+          duration: 1000 * 3600,
+          dismissible: true,
+        });
+      } else if (status === 200) {
+        // delete further uploaded files in uploads folder everytime a new file is selected
+        this.http
         .post(this.APIURL + '/deleteFiles', { file: this.currentFileName })
         .subscribe({
           next: (data) => {
@@ -219,56 +239,66 @@ export class MapComponent implements AfterViewInit {
           },
         });
 
-      console.log('Uploaded File Details:', item);
+        console.log('Uploaded File Details:', item);
 
-      let trainDataURL = this.trainingDataPolygonsJsonUrl;
+        let trainDataURL = this.trainingDataPolygonsJsonUrl;
 
-      if (this.currentFileName.split('.').pop() == 'geojson') {
-        let tmpURLgeojson = trainDataURL + this.currentFileName;
-        console.log(tmpURLgeojson);
+        if (this.currentFileName.split('.').pop() == 'geojson') {
+          let tmpURLgeojson = trainDataURL + this.currentFileName;
+          console.log(tmpURLgeojson);
 
-        let trainAreas = await fetch(tmpURLgeojson);
-        let trainAreasGeoJson = await trainAreas.json();
+          let trainAreas = await fetch(tmpURLgeojson);
+          let trainAreasGeoJson = await trainAreas.json();
+          console.log(trainAreasGeoJson)
 
-        this.trainAreasLayer = L.geoJSON(trainAreasGeoJson.features);
-        await this.trainLayerGroup.addLayer(this.trainAreasLayer);
-        var bounds = this.trainAreasLayer.getBounds();
-        var center = bounds.getCenter();
-        this.map.flyToBounds(bounds);
-        this.map.invalidateSize();
-        //this.map.setView([center.lat, center.lng]);
+          this.trainAreasLayer = L.geoJSON( trainAreasGeoJson,
+                                            {onEachFeature: function(feature, layer) {
+                                                              layer.bindPopup('<p>'+feature.properties.Label+'</p>');
+                                                            }
+                                            }
+          );
+          await this.trainLayerGroup.addLayer(this.trainAreasLayer);
+          var bounds = this.trainAreasLayer.getBounds();
+          var center = bounds.getCenter();
+          this.map.flyToBounds(bounds);
+          this.map.invalidateSize();
+          //this.map.setView([center.lat, center.lng]);
+        }
+        // if the uploaded training Data is ".gpkg"
+        else if (this.currentFileName.split('.').pop() == 'gpkg') {
+          let filenameWithoutExtension = this.currentFileName.split('.')[0];
+          let jsonData = { filename: filenameWithoutExtension };
+
+          // send POST to start calculations
+          this.http.post(this.APIURL + '/getGeoJSON', jsonData).subscribe({
+            next: async (data) => {
+              console.log(data);
+
+              let tmpURLgpkg = this.trainingDataPolygonsJsonUrl + filenameWithoutExtension + '.geojson';
+              console.log(tmpURLgpkg);
+
+              let trainAreasGPKGResponse = await fetch(tmpURLgpkg);
+              let trainAreasGPKG = await trainAreasGPKGResponse.json();
+
+              this.trainAreasLayer = L.geoJSON( trainAreasGPKG,
+                                                {onEachFeature: function(feature, layer) {
+                                                                  layer.bindPopup('<p>'+feature.properties.Label+'</p>');
+                                                                }
+                                                }
+              );
+              await this.trainLayerGroup.addLayer(this.trainAreasLayer);
+              var bounds = this.trainAreasLayer.getBounds();
+              var center = bounds.getCenter();
+              this.map.flyToBounds(bounds);
+              this.map.invalidateSize();
+            },
+            error: (error) => {
+              console.error('There was an error!', error);
+            },
+          });
+        }
       }
-      // if the uploaded training Data is ".gpkg"
-      else if (this.currentFileName.split('.').pop() == 'gpkg') {
-        let filenameWithoutExtension = this.currentFileName.split('.')[0];
-        let jsonData = { filename: filenameWithoutExtension };
-
-        // send POST to start calculations
-        this.http.post(this.APIURL + '/getGeoJSON', jsonData).subscribe({
-          next: async (data) => {
-            console.log(data);
-
-            let tmpURLgpkg =
-              this.trainingDataPolygonsJsonUrl +
-              filenameWithoutExtension +
-              '.geojson';
-            console.log(tmpURLgpkg);
-
-            let trainAreasGPKGResponse = await fetch(tmpURLgpkg);
-            let trainAreasGPKG = await trainAreasGPKGResponse.json();
-
-            this.trainAreasLayer = L.geoJSON(trainAreasGPKG.features);
-            await this.trainLayerGroup.addLayer(this.trainAreasLayer);
-            var bounds = this.trainAreasLayer.getBounds();
-            var center = bounds.getCenter();
-            this.map.flyToBounds(bounds);
-            this.map.invalidateSize();
-          },
-          error: (error) => {
-            console.error('There was an error!', error);
-          },
-        });
-      }
+      
     };
   }
 
