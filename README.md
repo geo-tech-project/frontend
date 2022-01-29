@@ -77,14 +77,15 @@ With the help of the trained model and the generated sentinel image for the AOI,
 To make it as simple as possible we used [Docker](https://www.docker.com) for the development. The only thing necessary to run this software, is to download this repository and run `docker-compsoe up --build`in the command line interface. This installs all dependencies for the front- and backend including all [R](https://www.r-project.org) packages. As these packages are not that small, this step could take up to one hour of building time (depending on your hardware). After building, the application will start automatically and you can access the webtool at `http://localhost:8780`. If you have terminated the application and want to restart it another time you can just leave out the `--build` tag of the `docker-compose up` command to start the app again.  
 
 ## How to use the app
-
-### Demo
-Description of what can be done on the demo page. 
-![Demo page](/src/assets/demo-page-view.png?raw=true)
+The tool is designed in such a way that the user can use it very easily. The user is guided step by step and can only proceed to the next step if the previous one has been carried out correctly. For each step there is an additional info button that displays important information as soon as you hover over it. When everything has been entered successfully, the calculations can be started.
 
 ### Main Tool
 Description of main tool. 
 ![Main Tool page](/src/assets/main-page-view.png?raw=true)
+
+### Demo
+The demo page is structured exactly like the actual tool. However, all inputs have already been entered with default values. The user can view these entries, but not change them. He is only able to start the calculations by clicking on the Run Demo button. As soon as the computations are finished, he will be redirected to the result page. This should happen in less than 20 seconds.
+![Demo page](/src/assets/demo-page-view.png?raw=true)
 
 ### Output of the results
 * Prediction: Land use/ land cover classification based on a given model.
@@ -103,6 +104,18 @@ How to test frontend?
 How to test R?  
 
 ## Further Documentation
+
+The software can be split into two essential parts. The frontend was developed with the web framework [Angular](https://angular.io).
+The backend is setup as a Node.js application using the [Express](https://expressjs.com/) framework. 
+
+### Frontend
+Documentation of the frontend written in Angular, with HTML, CSS and TypeScript: [Frontend](http://35.80.3.64:8781/frontend)
+
+### Backend
+The backend can be devided into three parts. The first part are the R scripts that are used to perform the actual operations, e.g. generating the sentinel images or calculating the AOA. The second part is the API that establishes the connection between the back- and frontend. The last part is the Javascript code that sets up the API and connects to the R-part. Please note that the following links can only be used from the internet network of the University of Münster.
+- [R-Scripts](http://35.80.3.64:8781/R)
+- [API](http://35.80.3.64/documentation)
+- [Javascript](http://35.80.3.64/js)
 
 ## Credits
 Credits
