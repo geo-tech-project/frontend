@@ -59,8 +59,6 @@ The user has the possibility to select a model to work with. He can either uploa
 * All images (max 200) are now superimposed and for each pixel the median is calculated over all images for each band.
 * This can be helpful to avoid the problem of cloud cover and other interfering factors. In other words, the more images that can be found, the more likely it is to get a good image for model training and LULC classification.
 
-[GetsatelliteImage.R](https://github.com/geo-tech-project/backend/blob/main/R/GetSatelliteImages.R)
-
 #### Generation of a Sentinel-2 satellite image for the areas where the training data is located (Sentinel Image (training area))
 * The generation of a Sentinel-2 satellite image for the areas where the training data is located is only done if the user chose to create a new model and therefore has uploaded training data.
 * It works analogously to the generation of the Sentinel-2 image for the AOI. Instead of filtering by the AOI, it filters by the geometry of the training polygons. Pixels outside the polygons are set to NA.
@@ -78,22 +76,23 @@ To make it as simple as possible we used [Docker](https://www.docker.com) for th
 
 ## How to use the app
 
-### Demo
-Description of what can be done on the demo page. 
-![Demo page](/src/assets/demo-page-view.png?raw=true)
-
 ### Main Tool
-Description of main tool. 
-![Main Tool page](/src/assets/main-page-view.png?raw=true)
+The main tool is designed in such a way that the user can use it very easily. The user is guided step by step and can only proceed to the next step if the previous one has been carried out correctly. For each step there is an additional info button that displays important information as soon as you hover over it. When everything has been entered successfully, the calculations can be started. After the calculations have been executed and no errors have occurred, the user will be directed to the results page.
+![Main Tool page](/src/assets/main-tool.jpg?raw=true)
+
+### Demo
+The demo page is structured exactly like the actual tool. However, all inputs have already been entered with default values. The user can view these entries, but not change them. He is only able to start the calculations by clicking on the ```Run demo``` button. The user should be redirected to the results page in less than 20 seconds.
+![Demo page](/src/assets/demo.jpg?raw=true)
 
 ### Output of the results
-* Prediction: Land use/ land cover classification based on a given model.
-* Area of Applicabilty (AOA): 
-* Further train areas:
-* Sentinel image (AOI):
-* Sentinel image (training areas):
-Description of result page. 
-![Result page](/src/assets/result-page-view.png?raw=true)
+On a new route, the following three results are visualised on a map: 
+* Prediction: Land use/ land cover classification
+* Area of Applicabilty (AOA)
+* Further train areas
+
+It is possible to show and hide the individual results using a checkbox and even to adjust their transparency. The underlying satellite images on which the calculations are based are not displayed on the map but can be downloaded in the same way as the other results via a download button. Please note that the sentinel image of the training areas can only be downloaded if training data has been submitted.
+![Result page](/src/assets/results_complete.jpg?raw=true)
+
 
 
 ## How to test
@@ -103,6 +102,18 @@ How to test frontend?
 How to test R?  
 
 ## Further Documentation
+
+The software can be split into two essential parts. The frontend was developed with the web framework [Angular](https://angular.io).
+The backend is setup as a Node.js application using the [Express](https://expressjs.com/) framework. 
+
+### Frontend
+Documentation of the frontend written in Angular, with HTML, CSS and TypeScript: [Frontend](http://35.80.3.64:8781/frontend)
+
+### Backend
+The backend can be devided into three parts. The first part are the R scripts that are used to perform the actual operations, e.g. generating the sentinel images or calculating the AOA. The second part is the API that establishes the connection between the back- and frontend. The last part is the Javascript code that sets up the API and connects to the R-part. Please note that the following links can only be used from the internet network of the University of Münster.
+- [R-Scripts](http://35.80.3.64:8781/R)
+- [API](http://35.80.3.64/documentation)
+- [Javascript](http://35.80.3.64/js)
 
 ## Credits
 Credits
