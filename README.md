@@ -59,8 +59,6 @@ The user has the possibility to select a model to work with. He can either uploa
 * All images (max 200) are now superimposed and for each pixel the median is calculated over all images for each band.
 * This can be helpful to avoid the problem of cloud cover and other interfering factors. In other words, the more images that can be found, the more likely it is to get a good image for model training and LULC classification.
 
-[GetsatelliteImage.R](https://github.com/geo-tech-project/backend/blob/main/R/GetSatelliteImages.R)
-
 #### Generation of a Sentinel-2 satellite image for the areas where the training data is located (Sentinel Image (training area))
 * The generation of a Sentinel-2 satellite image for the areas where the training data is located is only done if the user chose to create a new model and therefore has uploaded training data.
 * It works analogously to the generation of the Sentinel-2 image for the AOI. Instead of filtering by the AOI, it filters by the geometry of the training polygons. Pixels outside the polygons are set to NA.
@@ -77,23 +75,22 @@ With the help of the trained model and the generated sentinel image for the AOI,
 To make it as simple as possible we used [Docker](https://www.docker.com) for the development. The only thing necessary to run this software, is to download this repository and run `docker-compsoe up --build`in the command line interface. This installs all dependencies for the front- and backend including all [R](https://www.r-project.org) packages. As these packages are not that small, this step could take up to one hour of building time (depending on your hardware). After building, the application will start automatically and you can access the webtool at `http://localhost:8780`. If you have terminated the application and want to restart it another time you can just leave out the `--build` tag of the `docker-compose up` command to start the app again.  
 
 ## How to use the app
-The tool is designed in such a way that the user can use it very easily. The user is guided step by step and can only proceed to the next step if the previous one has been carried out correctly. For each step there is an additional info button that displays important information as soon as you hover over it. When everything has been entered successfully, the calculations can be started.
 
 ### Main Tool
-Description of main tool. 
+The main tool is designed in such a way that the user can use it very easily. The user is guided step by step and can only proceed to the next step if the previous one has been carried out correctly. For each step there is an additional info button that displays important information as soon as you hover over it. When everything has been entered successfully, the calculations can be started. After the calculations have been executed and no errors have occurred, the user will be directed to the results page.
 ![Main Tool page](/src/assets/main-page-view.png?raw=true)
 
 ### Demo
-The demo page is structured exactly like the actual tool. However, all inputs have already been entered with default values. The user can view these entries, but not change them. He is only able to start the calculations by clicking on the Run Demo button. As soon as the computations are finished, he will be redirected to the result page. This should happen in less than 20 seconds.
+The demo page is structured exactly like the actual tool. However, all inputs have already been entered with default values. The user can view these entries, but not change them. He is only able to start the calculations by clicking on the ```Run demo``` button. The user should be redirected to the results page in less than 20 seconds.
 ![Demo page](/src/assets/demo-page-view.png?raw=true)
 
 ### Output of the results
-* Prediction: Land use/ land cover classification based on a given model.
-* Area of Applicabilty (AOA): 
-* Further train areas:
-* Sentinel image (AOI):
-* Sentinel image (training areas):
-Description of result page. 
+On a new route, the following three results are visualised on a map: 
+* Prediction: Land use/ land cover classification
+* Area of Applicabilty (AOA)
+* Further train areas
+
+It is possible to show and hide the individual results using a checkbox and even to adjust their transparency. The underlying satellite images on which the calculations are based are not displayed on the map but can be downloaded in the same way as the other results via a download button. Please note that the sentinel image of the training areas can only be downloaded if training data has been submitted.
 ![Result page](/src/assets/result-page-view.png?raw=true)
 
 
