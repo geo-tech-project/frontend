@@ -9,6 +9,7 @@
   - [Aim of the tool](#aim-of-the-tool)
   - [Target group](#target-group)
   - [How does the software work?](#how-does-the-software-work)
+    - [Input](#input)
     - [Part 1: Satellite image generation (with R)](#part-1-satellite-image-generation-with-r)
       - [Generation of a Sentinel-2 satellite image for the area of interest (Sentinel Image (AOI))](#generation-of-a-sentinel-2-satellite-image-for-the-area-of-interest-sentinel-image-aoi)
       - [Generation of a Sentinel-2 satellite image for the areas where the training data is located (Sentinel Image (training area))](#generation-of-a-sentinel-2-satellite-image-for-the-areas-where-the-training-data-is-located-sentinel-image-training-area)
@@ -28,8 +29,6 @@
     - [Backend](#backend-1)
   - [Credits](#credits)
   - [License](#license)
-
-
 
 ## Authors
 Project of the course Geosoftware 2 at the [Institute of Geoinformatics](https://www.uni-muenster.de/Geoinformatics/en/) by [Jakob Danel](https://github.com/jakobdanel), 
@@ -126,7 +125,7 @@ Requirements:
 Proceed the following steps.
 1. Make a clone of the backend repository
 2. Navigate into the backend/test folder
-3. run node testR.js  
+3. Run node testR.js  
 
 ## Dependencies
 The following packages are used in this project:
