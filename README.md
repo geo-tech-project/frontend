@@ -198,7 +198,7 @@ The following packages are used in this project:
 - [express](https://ghub.io/express): Fast, unopinionated, minimalist web framework
 - [mocha](https://ghub.io/mocha): simple, flexible, fun test framework
 - [multer](https://ghub.io/multer): Middleware for handling `multipart/form-data`.
-- [ng2-file-upload](https://ghub.io/ng2-file-upload): 
+- [ng2-file-upload](https://ghub.io/ng2-file-upload): extension for multer to upload files to the server
 - [nodemon](https://ghub.io/nodemon): Simple monitor script for use during development of a node.js app.
 - [r-integration](https://ghub.io/r-integration): Simple portable library used to interact with pre-installed R compiler by running commands or scripts(files)
 - [supertest](https://ghub.io/supertest): SuperAgent driven library for testing HTTP servers
