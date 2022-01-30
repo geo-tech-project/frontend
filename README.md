@@ -238,8 +238,8 @@ Documentation of the frontend written in Angular, with HTML, CSS and TypeScript:
 ### Backend
 The backend can be devided into three parts. The first part are the R scripts that are used to perform the actual operations, e.g. generating the sentinel images or calculating the AOA. The second part is the API that establishes the connection between the back- and frontend. The last part is the Javascript code that sets up the API and connects to the R-part. Please note that the following links can only be used from the internet network of the University of Münster.
 - R-Scripts
-  - [GetSatelliteImages.R](http://35.80.3.64:8781/R/GetSatelliteImages.R)
-  - [CheckTrainingData.R](http://35.80.3.64:8781/R/CheckTrainingData.R)
+  - [GetSatelliteImages.R](http://35.80.3.64:8781/R/GetSatelliteImages.html)
+  - [CheckTrainingData.R](http://35.80.3.64:8781/R/CheckTrainingData.html)
   - [ML_AOA.R](http://35.80.3.64:8781/R/ML_AOA.R)
 - [API](http://35.80.3.64:8781/api)
 - [Javascript](http://35.80.3.64:8781/js)
