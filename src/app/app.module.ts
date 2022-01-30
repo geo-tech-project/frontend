@@ -21,14 +21,14 @@ import { MatInputModule } from '@angular/material/input';
 
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 import { FileUploadModule } from 'ng2-file-upload';
 
-import {MatStepperModule} from '@angular/material/stepper';
-import {MatIconModule} from '@angular/material/icon';
-import {MatSelectModule} from '@angular/material/select';
-import {MatSliderModule} from '@angular/material/slider';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSliderModule } from '@angular/material/slider';
 import { DemoComponent } from './demo/demo.component';
 import { ResultComponent } from './result/result.component';
 import { MarkdownModule } from 'ngx-markdown';
@@ -43,7 +43,7 @@ import { DocumentationComponent } from './documentation/documentation.component'
     MapComponent,
     DemoComponent,
     ResultComponent,
-    DocumentationComponent
+    DocumentationComponent,
   ],
   imports: [
     BrowserModule,
@@ -64,7 +64,7 @@ import { DocumentationComponent } from './documentation/documentation.component'
     MatIconModule,
     MatSelectModule,
     MatSliderModule,
-    MarkdownModule.forRoot()
+    MarkdownModule.forRoot({ loader: HttpClient }),
   ],
   providers: [],
   bootstrap: [AppComponent],
