@@ -189,20 +189,21 @@ The following packages are used in this project:
 - [typescript](https://ghub.io/typescript): TypeScript is a language for application scale JavaScript development
 
 ### Backend
-Javascript packages:
-- "axios": "^0.24.0",
-- "body-parser": "^1.19.0",
-- "chai": "^4.3.4",
-- "cors": "^2.8.5",
-- "dotenv": "^10.0.0",
-- "express": "^4.17.1",
-- "mocha": "^9.1.4",
-- "multer": "^1.4.3",
-- "ng2-file-upload": "^1.4.0",
-- "nodemon": "^2.0.15",
-- "r-integration": "^1.4.0",
-- "supertest": "^6.2.2",
-- "swagger-ui-express": "^4.3.0"
+
+- [axios](https://ghub.io/axios): Promise based HTTP client for the browser and node.js
+- [body-parser](https://ghub.io/body-parser): Node.js body parsing middleware
+- [chai](https://ghub.io/chai): BDD/TDD assertion library for node.js and the browser. Test framework agnostic.
+- [cors](https://ghub.io/cors): Node.js CORS middleware
+- [dotenv](https://ghub.io/dotenv): Loads environment variables from .env file
+- [express](https://ghub.io/express): Fast, unopinionated, minimalist web framework
+- [mocha](https://ghub.io/mocha): simple, flexible, fun test framework
+- [multer](https://ghub.io/multer): Middleware for handling `multipart/form-data`.
+- [ng2-file-upload](https://ghub.io/ng2-file-upload): 
+- [nodemon](https://ghub.io/nodemon): Simple monitor script for use during development of a node.js app.
+- [r-integration](https://ghub.io/r-integration): Simple portable library used to interact with pre-installed R compiler by running commands or scripts(files)
+- [supertest](https://ghub.io/supertest): SuperAgent driven library for testing HTTP servers
+- [swagger-ui-express](https://ghub.io/swagger-ui-express): Swagger UI Express
+
 
 R packages:
 - terra
