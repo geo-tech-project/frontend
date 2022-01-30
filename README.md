@@ -130,7 +130,7 @@ Proceed the following steps.
 
 ## Dependencies
 The following packages are used in this project:
-## Frontend
+### Frontend
 
 - [@angular/animations](https://ghub.io/@angular/animations): Angular - animations integration with web-animations
 - [@angular/cdk](https://ghub.io/@angular/cdk): Angular Material Component Development Kit
@@ -172,7 +172,7 @@ The following packages are used in this project:
 - [typedoc](https://ghub.io/typedoc): Create api documentation for TypeScript projects.
 - [zone.js](https://ghub.io/zone.js): Zones for JavaScript
 
-## Dev Dependencies
+#### Dev Dependencies
 
 - [@angular-devkit/build-angular](https://ghub.io/@angular-devkit/build-angular): Angular Webpack Build Facade
 - [@angular/cli](https://ghub.io/@angular/cli): CLI tool for Angular
@@ -206,7 +206,7 @@ The following packages are used in this project:
 - [swagger-ui-express](https://ghub.io/swagger-ui-express): Swagger UI Express
 
 
-R packages:
+### R
 - [terra](https://cran.r-project.org/web/packages/terra/index.html): Spatial Data Analysis
 - [rgdal](https://cran.r-project.org/web/packages/rgdal/index.html): Bindings for the 'Geospatial' Data Abstraction Library
 - [rgeos](https://cran.r-project.org/web/packages/rgeos/index.html): Interface to Geometry Engine - Open Source ('GEOS')
