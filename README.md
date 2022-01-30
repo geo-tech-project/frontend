@@ -26,7 +26,7 @@
       - [Dev Dependencies](#dev-dependencies)
     - [Backend](#backend)
     - [R](#r)
-  - [Further Documentation](#further-documentation)
+  - [Further documentation](#further-documentation)
     - [Frontend](#frontend-1)
     - [Backend](#backend-1)
   - [License](#license)
@@ -229,7 +229,7 @@ The following packages are used in this project:
 - [randomForest](https://cran.r-project.org/web/packages/randomForest/index.html): Breiman and Cutler's Random Forests for Classification and Regression
 
 
-## Further Documentation
+## Further documentation
 
 The software can be split into two essential parts. The frontend was developed with the web framework [Angular](https://angular.io).
 The backend is setup as a Node.js application using the [Express](https://expressjs.com/) framework. 
