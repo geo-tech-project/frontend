@@ -51,6 +51,15 @@ Researchers and users of remote sensing methods who want to
 ## How does the software work?
 The user has the possibility to select a model to work with. He can either upload his own model via an upload button or create a new model in order to train it with a selectable machine-learning algorithm. Depending on his choice, only specific parts of the software will be executed.
 
+### Input
+* Area of interest: The area for which the land use classification and the aoa are to be calculated.
+* Training data or model: If a new model should be created, training data must be uploaded. Otherwise a model is uploaded by the user.
+* Machine learning algorithm and hyperparameters: The new model must be trained. For this, the user can choose between two machine-learning algorithms and, if desired, also pass hyperparameters.
+* Time period: In that period, a search is made for available sentinel-2 images.
+* Bands/ predictors: All bands/predictors to be included in the sentinel images.
+* Resolution: Resolution of the sentinel images to be generated.
+* Maximum cloud cover: The satellite imagery search is filtered by maximum cloud cover.
+
 ### Part 1: Satellite image generation (with R)
 #### Generation of a Sentinel-2 satellite image for the area of interest (Sentinel Image (AOI))
 * Based on the user inputs (area of interest (AOI) , time period and cloud cover), the Spatial Temporal Asset Catalog (STAC) is searched for matching Sentinel-2 satellite images.
