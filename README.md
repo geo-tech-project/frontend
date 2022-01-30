@@ -240,7 +240,7 @@ The backend can be devided into three parts. The first part are the R scripts th
 - R-Scripts
   - [GetSatelliteImages.R](http://35.80.3.64:8781/R/GetSatelliteImages.html)
   - [CheckTrainingData.R](http://35.80.3.64:8781/R/CheckTrainingData.html)
-  - [ML_AOA.R](http://35.80.3.64:8781/R/ML_AOA.R)
+  - [ML_AOA.R](http://35.80.3.64:8781/R/ML_AOA.html)
 - [API](http://35.80.3.64:8781/api)
 - [Javascript](http://35.80.3.64:8781/js)
 
