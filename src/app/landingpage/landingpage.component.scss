@@ -5,8 +5,11 @@
 
 .hero,
 .cta {
-  background: url(../../assets/satellite.jpg),
-    linear-gradient(52deg, #42475c 0%, #20222e 71%);
+  background: url(../../assets/satellite.jpg);
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .cta {
@@ -50,7 +53,7 @@ hr.content-divider {
 }
 
 #parallax-1 {
-  background: url(../../assets/satellite2.jpg);
+  background: url(../../assets/satellite_3.jpg);
   background-attachment: fixed;
   background-position: center;
   background-repeat: no-repeat;
