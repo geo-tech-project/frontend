@@ -562,26 +562,6 @@ export class MapComponent implements AfterViewInit {
               duration: 1000 * 3600,
               dismissible: true,
             });
-          } else if (error.status === 401) {
-            console.error(
-              `There was an error with status code ${error.status}!`,
-              error
-            );
-            let errorText =
-              error?.error?.error?.error +
-              '\nPlease check your input and try again.';
-
-            document
-              .getElementById('progressModal')
-              .classList.remove('is-active');
-
-            bulmaToast.toast({
-              message: errorText,
-              type: 'is-danger',
-              position: 'top-right',
-              duration: 1000 * 3600,
-              dismissible: true,
-            });
           } else if ((error.status = 403)) {
             let errorText;
             if (
