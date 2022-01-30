@@ -29,7 +29,6 @@
   - [Further Documentation](#further-documentation)
     - [Frontend](#frontend-1)
     - [Backend](#backend-1)
-  - [Credits](#credits)
   - [License](#license)
 
 ## Authors
@@ -244,10 +243,14 @@ The backend can be devided into three parts. The first part are the R scripts th
 - [API](http://35.80.3.64/documentation)
 - [Javascript](http://35.80.3.64/js)
 
-## Credits
-Credits
-
 ## License
-Add license text here
+Copyright (C) 2022  Henning Sander, Frederick Bruch, Jakob Danel, Fabian Schumacher, Thalis Goldschmidt
+
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
 
 
