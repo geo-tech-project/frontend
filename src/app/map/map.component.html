@@ -219,7 +219,7 @@ effort is required. Please choose your predictors carefully, depending on the go
                                         </ng-template>
                                         <mat-form-field appearance="fill">
                                             <mat-label>Bands/predictors</mat-label>
-                                            <mat-select formControlName="channels" multiple>
+                                            <mat-select formControlName="channels" multiple (selectionChange)="addIndex($event)">
                                                 <mat-option value="B01">B01</mat-option>
                                                 <mat-option value="B02">B02</mat-option>
                                                 <mat-option value="B03">B03</mat-option>
@@ -232,6 +232,16 @@ effort is required. Please choose your predictors carefully, depending on the go
                                                 <mat-option value="B09">B09</mat-option>
                                                 <mat-option value="B11">B11</mat-option>
                                                 <mat-option value="B12">B12</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                        <mat-form-field appearance="fill">
+                                            <mat-label>Additional Indices</mat-label>
+                                            <mat-select formControlName="additionalIndices" multiple (selectionChange)="addNDVI_SD($event)">
+                                                <mat-option #NDVI id="NDVI" value="NDVI" disabled>NDVI</mat-option>
+                                                <mat-option #NDVI_SD_3x3 value="NDVI_SD_3x3" disabled>NDVI_SD (3x3)</mat-option>
+                                                <mat-option #NDVI_SD_5x5 value="NDVI_SD_5x5" disabled>NDVI_SD (5x5)</mat-option>
+                                                <mat-option #BSI value="BSI" disabled>BSI</mat-option>
+                                                <mat-option #BAEI value="BAEI" disabled>BAEI</mat-option>
                                             </mat-select>
                                         </mat-form-field>
                                         <div class="container">

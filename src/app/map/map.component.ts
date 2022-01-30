@@ -1,4 +1,4 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import * as L from 'leaflet';
 import {
   AbstractControl,
@@ -7,13 +7,15 @@ import {
   Validators,
 } from '@angular/forms';
 import * as bulmaToast from 'bulma-toast';
-
+import * as _ from 'lodash';
 import { HttpClient } from '@angular/common/http';
 import { FileUploader } from 'ng2-file-upload';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { MatStepper } from '@angular/material/stepper';
+
+
 
 /**
  * @classdesc
@@ -122,7 +124,7 @@ export class MapComponent implements AfterViewInit {
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
   ) {}
 
   /**
@@ -145,6 +147,7 @@ export class MapComponent implements AfterViewInit {
    * @type L.GeoJSON
    */
   trainAreasLayer = null;
+
 
   /**
    * @function
@@ -187,6 +190,7 @@ export class MapComponent implements AfterViewInit {
         // desired channels
         this.fb.group({
           channels: [null, Validators.required],
+          additionalIndices: [null]
         }),
         // cloud coverage
         this.fb.group({
@@ -298,9 +302,11 @@ export class MapComponent implements AfterViewInit {
             },
           });
         }
-      }
-      
-    };
+      }  
+    }
+
+    
+
   }
 
   /**
@@ -432,6 +438,84 @@ export class MapComponent implements AfterViewInit {
     this.currentFileName = event.target.value.split('fakepath')[1].substring(1);
   }
 
+  arrayRemove(array, value) { 
+    return array.filter(function(ele){ 
+        return ele != value; 
+    });
+  }
+
+
+  @ViewChild('NDVI') NDVI: ElementRef;
+  @ViewChild('NDVI_SD_3x3') NDVI_SD_3x3: ElementRef;
+  @ViewChild('NDVI_SD_5x5') NDVI_SD_5x5: ElementRef;
+  @ViewChild('BSI') BSI: ElementRef;
+  @ViewChild('BAEI') BAEI: ElementRef;
+  addIndex(event) {
+
+    console.log(this.NDVI)
+    
+    let selectedBands = event.value
+
+    if(selectedBands.includes("B04") && selectedBands.includes("B08")) {
+      this.NDVI["_disabled"] = false;
+    } else {
+      this.NDVI["_disabled"] = true;
+      //this.NDVI["_selected"] = false;
+      
+      let array = _.remove(this.formArray?.get([5]).value.additionalIndices, function(string) {return (string =='BSI' || string == 'BAEI')})
+      this.formArray?.get([5]).patchValue({
+        additionalIndices: array
+      })
+    }
+
+    if(selectedBands.includes("B02") && selectedBands.includes("B04") && selectedBands.includes("B08") && selectedBands.includes("B11")) {
+      this.BSI["_disabled"] = false;
+    } else {
+      this.BSI["_disabled"] = true;
+
+      let array = _.remove(this.formArray?.get([5]).value.additionalIndices, function(string) {return (string !='BSI')})
+      this.formArray?.get([5]).patchValue({
+        additionalIndices: array
+      })
+
+    }
+
+    if(selectedBands.includes("B03") && selectedBands.includes("B04") && selectedBands.includes("B11")) {
+      this.BAEI["_disabled"] = false;
+    } else {
+      this.BAEI["_disabled"] = true;
+
+      let array = _.remove(this.formArray?.get([5]).value.additionalIndices, function(string) {return (string !='BAEI')})
+      this.formArray?.get([5]).patchValue({
+        additionalIndices: array
+      })
+    }
+  }
+
+
+  addNDVI_SD(event) {
+
+    let selectedBands = event.value;
+    console.log(selectedBands)
+
+    if(selectedBands.includes("NDVI")) {
+      this.NDVI_SD_3x3["_disabled"] = false;
+      this.NDVI_SD_5x5["_disabled"] = false;
+    } else {
+      this.NDVI_SD_3x3["_disabled"] = true;
+      //this.NDVI_SD_3x3["_selected"] = false;
+      this.NDVI_SD_5x5["_disabled"] = true;
+      //this.NDVI_SD_5x5["_selected"] = false;
+
+      let array = _.remove(this.formArray?.get([5]).value.additionalIndices, function(string) {return (string =='BSI' || string == 'BAEI')})
+      this.formArray?.get([5]).patchValue({
+        additionalIndices: array
+      })
+    }
+  }
+  
+
+
   /**
    * @function
    * @description
@@ -506,6 +590,7 @@ export class MapComponent implements AfterViewInit {
         filename: this.currentFileName,
         resolution: this.formArray?.get([4]).value.resolution,
         channels: this.formArray?.get([5]).value.channels,
+        additionalIndices: this.formArray?.get([5]).value.additionalIndices,
         coverage: this.formArray?.get([6]).value.coverage,
       };
 
