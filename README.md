@@ -4,8 +4,9 @@
 - [Estimation Tool for Spatial Prediction Models](#estimation-tool-for-spatial-prediction-models)
   - [Table of contents](#table-of-contents)
   - [Authors](#authors)
-  - [Description](#description)
+  - [Abstract](#abstract)
   - [Area Of Applicability (AOA)](#area-of-applicability-aoa)
+  - [Aim of the tool](#aim-of-the-tool)
   - [Target group](#target-group)
   - [How does the software work?](#how-does-the-software-work)
     - [Part 1: Satellite image generation (with R)](#part-1-satellite-image-generation-with-r)
@@ -15,11 +16,16 @@
     - [Part 3: Prediction and AOA (with R)](#part-3-prediction-and-aoa-with-r)
   - [How to install and run the app](#how-to-install-and-run-the-app)
   - [How to use the app](#how-to-use-the-app)
-    - [Demo](#demo)
     - [Main Tool](#main-tool)
+    - [Demo](#demo)
     - [Output of the results](#output-of-the-results)
   - [How to test](#how-to-test)
+  - [Dependencies](#dependencies)
+    - [Frontend](#frontend)
+    - [Backend](#backend)
   - [Further Documentation](#further-documentation)
+    - [Frontend](#frontend-1)
+    - [Backend](#backend-1)
   - [Credits](#credits)
   - [License](#license)
 
@@ -81,7 +87,9 @@ The user can choose whether he wants to train the model with an random forest or
 With the help of the trained model and the generated sentinel image for the AOI, a prediction is now calculated. In order to be able to make statements about the applicability of the model especially on unknown areas, the AOA is computed. In the areas where the model is not applicable according to the AOA, random points are generated that are suggested to the user as potential new locations for generating new training data. If this data is acquired in these areas and incorporated into the model, better results could be obtained.
 
 ## How to install and run the app
+
 To make it as simple as possible we used [Docker](https://www.docker.com) for the development. The only thing necessary to run this software, is to download this repository and run `docker-compsoe up --build`in the command line interface. This installs all dependencies for the front- and backend including all [R](https://www.r-project.org) packages. As these packages are not that small, this step could take up to one hour of building time (depending on your hardware). After building, the application will start automatically and you can access the webtool at `http://localhost:8780`. If you have terminated the application and want to restart it another time you can just leave out the `--build` tag of the `docker-compose up` command to start the app again.  
+
 
 ## How to use the app
 
@@ -108,7 +116,114 @@ It is possible to show and hide the individual results using a checkbox and even
 To test this app you can proceed as follows:  
 How to test backen?  
 How to test frontend?  
-How to test R?  
+How to test R?
+The tests are written in the R package [testthat](https://testthat.r-lib.org/)
+Requirements:
+- Installation of R
+- Installation all R packages used in this project
+- Installation of Node.js
+
+Proceed the following steps.
+1. Make a clone of the backend repository
+2. Navigate into the backend/test folder
+3. run node testR.js  
+
+## Dependencies
+The following packages are used in this project:
+### Frontend
+As normal dependencies:
+-  "@angular/animations": "~12.1.1",
+-  "@angular/cdk": "^12.2.12",
+-  "@angular/common": "~12.1.1",
+-  "@angular/compiler": "~12.1.1",
+-  "@angular/core": "~12.1.1",
+-  "@angular/forms": "~12.1.1",
+-  "@angular/material": "^12.2.12",
+-  "@angular/platform-browser": "~12.1.1",
+-  "@angular/platform-browser-dynamic": "~12.1.1",
+-  "@angular/router": "~12.1.1",
+-  "@asymmetrik/ngx-leaflet": "^8.1.0",
+-  "@asymmetrik/ngx-leaflet-draw": "^7.0.0",
+-  "@creativebulma/bulma-tooltip": "^1.2.0",
+-  "@fortawesome/angular-fontawesome": "^0.9.0",
+-  "@fortawesome/fontawesome-svg-core": "^1.2.36",
+-  "@fortawesome/free-brands-svg-icons": "^5.15.4",
+-  "@fortawesome/free-regular-svg-icons": "^5.15.4",
+-  "@fortawesome/free-solid-svg-icons": "^5.15.4",
+-  "ace-builds": "^1.4.13",
+-  "better-docs": "^2.7.1",
+-  "bootstrap": "^5.1.3",
+-  "bulma": "^0.9.3",
+-  "bulma-slider": "^2.0.4",
+-  "bulma-toast": "^2.4.1",
+-  "chroma-js": "^2.1.2",
+-  "font-awesome": "^4.7.0",
+-  "geoblaze": "^1.0.3",
+-  "georaster": "^1.5.6",
+-  "georaster-layer-for-leaflet": "^3.5.0",
+-  "leaflet": "^1.7.1",
+-  "leaflet-draw": "^1.0.4",
+-  "leaflet-geotiff": "^0.2.0",
+-  "leaflet-geotiff-2": "^1.1.0",
+-  "ng2-file-upload": "^1.4.0",
+-  "ngx-markdown": "^13.0.0",
+-  "rxjs": "~6.6.0",
+-  "tslib": "^2.2.0",
+-  "typedoc": "^0.22.11",
+-  "zone.js": "~0.11.4"
+As development dependencies:
+- "@angular-devkit/build-angular": "~12.1.1",
+- "@angular/cli": "~12.1.1",
+- "@angular/compiler-cli": "~12.1.1",
+- "@types/jasmine": "~3.6.0",
+- "@types/leaflet": "^1.7.5",
+- "@types/leaflet-draw": "^1.0.5",
+- "@types/node": "^12.11.1",
+- "jasmine-core": "~3.7.0",
+- "karma": "~6.3.0",
+- "karma-chrome-launcher": "~3.1.0",
+- "karma-coverage": "~2.0.3",
+- "karma-jasmine": "~4.0.0",
+- "karma-jasmine-html-reporter": "^1.5.0",
+- "typescript": "~4.3.2"
+
+### Backend
+Javascript packages:
+- "axios": "^0.24.0",
+- "body-parser": "^1.19.0",
+- "chai": "^4.3.4",
+- "cors": "^2.8.5",
+- "dotenv": "^10.0.0",
+- "express": "^4.17.1",
+- "mocha": "^9.1.4",
+- "multer": "^1.4.3",
+- "ng2-file-upload": "^1.4.0",
+- "nodemon": "^2.0.15",
+- "r-integration": "^1.4.0",
+- "supertest": "^6.2.2",
+- "swagger-ui-express": "^4.3.0"
+
+R packages:
+- terra
+- rgdal
+- rgeos
+- rstac
+- gdalcubes
+- raster
+- caret
+- CAST
+- lattice
+- Orcs
+- jsonlite
+- tmap
+- latticeExtra
+- doParallel
+- parallel
+- sp
+- geojson
+- rjson
+- randomForest
+
 
 ## Further Documentation
 
