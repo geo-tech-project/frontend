@@ -113,7 +113,8 @@ It is possible to show and hide the individual results using a checkbox and even
 
 ## How to test
 To test this app you can proceed as follows:  
-How to test backen?  
+How to test backend?
+With your CLI go into your `backend` folder and run `npm test`.
 How to test frontend?  
 How to test R?
 The tests are written in the R package [testthat](https://testthat.r-lib.org/)
