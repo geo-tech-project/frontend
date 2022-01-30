@@ -124,8 +124,8 @@ Requirements:
 
 Proceed the following steps.
 1. Make a clone of the backend repository
-2. Navigate into the backend/test folder
-3. Run node testR.js  
+2. Navigate into the ```backend/test``` folder
+3. Run ```node testR.js```  
 
 ## Dependencies
 The following packages are used in this project:
