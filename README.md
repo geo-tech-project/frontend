@@ -207,25 +207,25 @@ The following packages are used in this project:
 
 
 R packages:
-- terra
-- rgdal
-- rgeos
-- rstac
-- gdalcubes
-- raster
-- caret
-- CAST
-- lattice
-- Orcs
-- jsonlite
-- tmap
-- latticeExtra
-- doParallel
+- [terra](https://cran.r-project.org/web/packages/terra/index.html): Spatial Data Analysis
+- [rgdal](https://cran.r-project.org/web/packages/rgdal/index.html): Bindings for the 'Geospatial' Data Abstraction Library
+- [rgeos](https://cran.r-project.org/web/packages/rgeos/index.html): Interface to Geometry Engine - Open Source ('GEOS')
+- [rstac](https://cran.r-project.org/web/packages/rstac/index.html): Client Library for SpatioTemporal Asset Catalog
+- [gdalcubes](https://cran.r-project.org/web/packages/gdalcubes/index.html): Earth Observation Data Cubes from Satellite Image Collections
+- [raster](https://cran.r-project.org/web/packages/raster/index.html): Geographic Data Analysis and Modeling
+- [caret](https://cran.r-project.org/web/packages/caret/index.html): Classification and Regression Training
+- [CAST](https://cran.r-project.org/web/packages/CAST/index.html): 'caret' Applications for Spatial-Temporal Models
+- [lattice](https://cran.r-project.org/web/packages/lattice/index.html): Trellis Graphics for R
+- [Orcs](https://cran.r-project.org/web/packages/Orcs/index.html): Omnidirectional R Code Snippets
+- [jsonlite](https://cran.r-project.org/web/packages/jsonlite/index.html): A Simple and Robust JSON Parser and Generator for R
+- [tmap](https://cran.r-project.org/web/packages/tmap/index.html): Thematic Maps
+- [latticeExtra](https://cran.r-project.org/web/packages/latticeExtra/index.html): Extra Graphical Utilities Based on Lattice
+- [doParallel](https://cran.r-project.org/web/packages/doParallel/index.html): Foreach Parallel Adaptor for the 'parallel' Package
 - parallel
-- sp
-- geojson
-- rjson
-- randomForest
+- [sp](https://cran.r-project.org/web/packages/sp/index.html): Classes and Methods for Spatial Data
+- [geojson](https://cran.r-project.org/web/packages/geojson/index.html): Classes for 'GeoJSON'
+- [rjson](https://cran.r-project.org/web/packages/rjson/index.html): JSON for R
+- [randomForest](https://cran.r-project.org/web/packages/randomForest/index.html): Breiman and Cutler's Random Forests for Classification and Regression
 
 
 ## Further Documentation
