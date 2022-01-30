@@ -52,14 +52,14 @@ Researchers and users of remote sensing methods who want to
 * use machine learning for land use classifications
 * work with sentinel-2 data
 * know how to train and apply machine learning models, but are unable or unwilling to focus on understanding and implementing the Area of Applicability
-* work with large-scale mapping/modeling applications, but lack the necessary hardware to perform machine learning and compute the AOA on large datasets
+* work with large-scale mapping/modeling applications, but lack the necessary hardware to perform machine learning
 
 ## How does the software work?
 The user has the possibility to select a model to work with. He can either upload his own model via an upload button or create a new model in order to train it with a selectable machine-learning algorithm. Depending on his choice, only specific parts of the software will be executed.
 
 ### Input
 * Area of interest: The area for which the land use classification and the aoa are to be calculated.
-* Training data or model: If a new model should be created, training data must be uploaded. Otherwise a model is uploaded by the user.
+* Training data or model: If a new model should be created, training data must be uploaded. Otherwise a model has to be uploaoded by the user.
 * Machine learning algorithm and hyperparameters: The new model must be trained. For this, the user can choose between two machine-learning algorithms and, if desired, also pass hyperparameters.
 * Time period: In that period, a search is made for available sentinel-2 images.
 * Bands/ predictors: All bands/predictors to be included in the sentinel images.
@@ -70,7 +70,7 @@ The user has the possibility to select a model to work with. He can either uploa
 #### Generation of a Sentinel-2 satellite image for the area of interest (Sentinel Image (AOI))
 * Based on the user inputs (area of interest (AOI) , time period and cloud cover), the Spatial Temporal Asset Catalog (STAC) is searched for matching Sentinel-2 satellite images.
 * For each Sentinel-2 image found, all bands (except ```B10```) are available for download. We only continue to work with those that have been pre-selected by the user. 
-* If many images are found, we limit ourselves to 400 for further calculation.
+* If many images are found, we limit ourselves to 400 for further calculations.
 * All images (max 400) are now superimposed and for each pixel the median is calculated over all images for each band.
 * This can be helpful to avoid the problem of cloud cover and other interfering factors. In other words, the more images that can be found, the more likely it is to get a good image for model training and LULC classification.
 
@@ -79,9 +79,9 @@ The user has the possibility to select a model to work with. He can either uploa
 * It works analogously to the generation of the Sentinel-2 image for the AOI. Instead of filtering by the AOI, it filters by the geometry of the training polygons. Pixels outside the polygons are set to NA.
 
 ### Part 2: Model training (with R)
-If the user selects to work with his own model, no further model training is needed. If the user selects to create a new model, some additional steps must be performed to obtain valid training data. The generated sentinel image of the training areas (consisting of all selected bands) is now combined with the information from the uploaded training data. Each pixel completely covered by a training polygon is assigned the class of the polygon. As a result we get a dataset of all overlaid pixels, their assigned class and spectral information that we can now use to generate the model. 
+If the user selects to work with his own model, no further model training is needed. If the user selects to create a new model, some additional steps must be performed to obtain valid training data. The generated sentinel image of the training areas (consisting of all selected bands) is now combined with the information from the uploaded training data. Each pixel completely covered by a training polygon is assigned the class of the polygon. As a result we get a dataset of all overlaid pixels, their assigned class and spectral information that we can now use to train the model. 
 
-The user can choose whether he wants to train the model with an random forest or with a support vector machine. For both, hyperparameters can be set and the model is validated with a spatial cross validation method, omitting whole training polygons.
+The user can choose whether he wants to train the model with an random forest algorithm or with a support vector machine. For both, hyperparameters can be set. The models performance is validated with a spatial cross validation method, omitting whole training polygons.
 
 ### Part 3: Prediction and AOA (with R)
 With the help of the trained model and the generated sentinel image for the AOI, a prediction is now calculated. In order to be able to make statements about the applicability of the model especially on unknown areas, the AOA is computed. In the areas where the model is not applicable according to the AOA, random points are generated that are suggested to the user as potential new locations for generating new training data. If this data is acquired in these areas and incorporated into the model, better results could be obtained.
@@ -109,8 +109,6 @@ On a new route, the following three results are visualised on a map:
 
 It is possible to show and hide the individual results using a checkbox and even to adjust their transparency. The underlying satellite images on which the calculations are based are not displayed on the map but can be downloaded in the same way as the other results via a download button. Please note that the sentinel image of the training areas can only be downloaded if training data has been submitted.
 ![Result page](https://github.com/geo-tech-project/frontend/raw/main/src/assets/results_complete.jpg)
-
-
 
 ## How to test
 To test this app you can proceed as follows:    
