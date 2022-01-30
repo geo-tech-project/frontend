@@ -253,7 +253,7 @@ export class MapComponent implements AfterViewInit {
 
           this.trainAreasLayer = L.geoJSON( trainAreasGeoJson,
                                             {onEachFeature: function(feature, layer) {
-                                                              layer.bindPopup('<p>'+feature.properties.Label+'</p>');
+                                                              layer.bindPopup(feature.properties.Label);
                                                             }
                                             }
           );
@@ -267,7 +267,8 @@ export class MapComponent implements AfterViewInit {
         // if the uploaded training Data is ".gpkg"
         else if (this.currentFileName.split('.').pop() == 'gpkg') {
           let filenameWithoutExtension = this.currentFileName.split('.')[0];
-          let jsonData = { filename: filenameWithoutExtension };
+          let jsonData = { filename: filenameWithoutExtension,
+                           filepath: "./public/uploads/"};
 
           // send POST to start calculations
           this.http.post(this.APIURL + '/getGeoJSON', jsonData).subscribe({
