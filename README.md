@@ -1,5 +1,5 @@
 # Estimation Tool for Spatial Prediction Models
-\
+
 ## Table of contents
 - [Estimation Tool for Spatial Prediction Models](#estimation-tool-for-spatial-prediction-models)
   - [Table of contents](#table-of-contents)
@@ -29,9 +29,8 @@
     - [Backend](#backend-1)
   - [Credits](#credits)
   - [License](#license)
-\
+
 ## Authors
-\
 Project of the course Geosoftware 2 at the [Institute of Geoinformatics](https://www.uni-muenster.de/Geoinformatics/en/) by [Jakob Danel](https://github.com/jakobdanel), 
 [Fabian Schumacher](https://github.com/fab-scm), 
 [Thalis Goldschmidt](https://github.com/thalisgold), 
@@ -39,19 +38,15 @@ Project of the course Geosoftware 2 at the [Institute of Geoinformatics](https:/
 [Frederick Bruch](https://github.com/fbruc03) 
 
 ## Abstract
-\
 Machine learning methods have become very popular for spatial prediction efforts such as classifying remote sensing images, especially because of their ability to learn non-linear relationships and thereby solve more complex classifications tasks. A underestimated issue is that machine learning algorithms can only provide meaningful predictions when applied to data that is similar to the data they were trained on (Meyer and Pebesma, 2021). ”Similar” here refers to the value ranges of the predictor variables (such as different bands of the remote sensing image). When applying a trained machine learning algorithm to a new geographic area, it is unclear whether or not the pixels properties in that area are similar enough to the training data to enable a reliable classification.  
 
 ## Area Of Applicability (AOA)
-\
 The [Area Of Applicability](https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/2041-210X.13650) is a method developed by Meyer and Pebesma (2021) to delineate areas in spatial data (here remote sensing images) that can be assumed to be areas the machine learning model can reliably be applied to. The AOA provides important additional information that should be communicated when applying machine learning methods to spatial prediction tasks, especially when predicting on a large or even global scale when training data are not evenly distributed over the target area. 
 
 ## Aim of the tool
-\
 The tool combines all the steps needed to perform a land use/land cover classification (generation of satellite images, model training and prediction). In particular, it is designed to extend the previous steps by the AOA and adopt this method into the typical workflow of a remote scientist/researcher without having to deal with its concrete implementation. Besides delineating such an area of applicability (AOA), this tool can also be used to point to areas where collecting additional training data is needed to train a more applicable model. 
 
 ## Target group
-\
 Researchers and users of remote sensing methods who want to
 * use machine learning for land use classifications
 * work with sentinel-2 data
