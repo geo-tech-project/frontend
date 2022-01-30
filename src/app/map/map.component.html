@@ -85,10 +85,10 @@ For each algorithm further hyperparameters can be set.
                                             </div>
                                             <div *ngIf="getAlgorithmValue() == 'svmRadial'">
                                                 <label class="label">Standard deviation</label>
-                                                <input formControlName="sigma" class="input" type="number">
+                                                <input formControlName="sigma" class="input" type="number" step="0.1" min="0.1">
                                                 <br>
                                                 <label class="label">Cost</label>
-                                                <input formControlName="cost" class="input" type="number">
+                                                <input formControlName="cost" class="input" type="number" min= "1">
                                             </div>
                                         </div>
                                         <div class="container">
