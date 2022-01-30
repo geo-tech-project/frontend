@@ -282,7 +282,7 @@ export class MapComponent implements AfterViewInit {
 
               this.trainAreasLayer = L.geoJSON( trainAreasGPKG,
                                                 {onEachFeature: function(feature, layer) {
-                                                                  layer.bindPopup('<p>'+feature.properties.Label+'</p>');
+                                                                  layer.bindPopup(feature.properties.Label);
                                                                 }
                                                 }
               );
