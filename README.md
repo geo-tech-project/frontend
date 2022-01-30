@@ -129,62 +129,64 @@ Proceed the following steps.
 
 ## Dependencies
 The following packages are used in this project:
-### Frontend
-As normal dependencies:
--  "@angular/animations": "~12.1.1",
--  "@angular/cdk": "^12.2.12",
--  "@angular/common": "~12.1.1",
--  "@angular/compiler": "~12.1.1",
--  "@angular/core": "~12.1.1",
--  "@angular/forms": "~12.1.1",
--  "@angular/material": "^12.2.12",
--  "@angular/platform-browser": "~12.1.1",
--  "@angular/platform-browser-dynamic": "~12.1.1",
--  "@angular/router": "~12.1.1",
--  "@asymmetrik/ngx-leaflet": "^8.1.0",
--  "@asymmetrik/ngx-leaflet-draw": "^7.0.0",
--  "@creativebulma/bulma-tooltip": "^1.2.0",
--  "@fortawesome/angular-fontawesome": "^0.9.0",
--  "@fortawesome/fontawesome-svg-core": "^1.2.36",
--  "@fortawesome/free-brands-svg-icons": "^5.15.4",
--  "@fortawesome/free-regular-svg-icons": "^5.15.4",
--  "@fortawesome/free-solid-svg-icons": "^5.15.4",
--  "ace-builds": "^1.4.13",
--  "better-docs": "^2.7.1",
--  "bootstrap": "^5.1.3",
--  "bulma": "^0.9.3",
--  "bulma-slider": "^2.0.4",
--  "bulma-toast": "^2.4.1",
--  "chroma-js": "^2.1.2",
--  "font-awesome": "^4.7.0",
--  "geoblaze": "^1.0.3",
--  "georaster": "^1.5.6",
--  "georaster-layer-for-leaflet": "^3.5.0",
--  "leaflet": "^1.7.1",
--  "leaflet-draw": "^1.0.4",
--  "leaflet-geotiff": "^0.2.0",
--  "leaflet-geotiff-2": "^1.1.0",
--  "ng2-file-upload": "^1.4.0",
--  "ngx-markdown": "^13.0.0",
--  "rxjs": "~6.6.0",
--  "tslib": "^2.2.0",
--  "typedoc": "^0.22.11",
--  "zone.js": "~0.11.4"
-As development dependencies:
-- "@angular-devkit/build-angular": "~12.1.1",
-- "@angular/cli": "~12.1.1",
-- "@angular/compiler-cli": "~12.1.1",
-- "@types/jasmine": "~3.6.0",
-- "@types/leaflet": "^1.7.5",
-- "@types/leaflet-draw": "^1.0.5",
-- "@types/node": "^12.11.1",
-- "jasmine-core": "~3.7.0",
-- "karma": "~6.3.0",
-- "karma-chrome-launcher": "~3.1.0",
-- "karma-coverage": "~2.0.3",
-- "karma-jasmine": "~4.0.0",
-- "karma-jasmine-html-reporter": "^1.5.0",
-- "typescript": "~4.3.2"
+## Frontend
+
+- [@angular/animations](https://ghub.io/@angular/animations): Angular - animations integration with web-animations
+- [@angular/cdk](https://ghub.io/@angular/cdk): Angular Material Component Development Kit
+- [@angular/common](https://ghub.io/@angular/common): Angular - commonly needed directives and services
+- [@angular/compiler](https://ghub.io/@angular/compiler): Angular - the compiler library
+- [@angular/core](https://ghub.io/@angular/core): Angular - the core framework
+- [@angular/forms](https://ghub.io/@angular/forms): Angular - directives and services for creating forms
+- [@angular/material](https://ghub.io/@angular/material): Angular Material
+- [@angular/platform-browser](https://ghub.io/@angular/platform-browser): Angular - library for using Angular in a web browser
+- [@angular/platform-browser-dynamic](https://ghub.io/@angular/platform-browser-dynamic): Angular - library for using Angular in a web browser with JIT compilation
+- [@angular/router](https://ghub.io/@angular/router): Angular - the routing library
+- [@asymmetrik/ngx-leaflet](https://ghub.io/@asymmetrik/ngx-leaflet): Angular.io components for Leaflet
+- [@asymmetrik/ngx-leaflet-draw](https://ghub.io/@asymmetrik/ngx-leaflet-draw): Angular.io component for the draw plugin for Leaflet
+- [@creativebulma/bulma-tooltip](https://ghub.io/@creativebulma/bulma-tooltip): Display a tooltip attached to any kind of element, in different position.
+- [@fortawesome/angular-fontawesome](https://ghub.io/@fortawesome/angular-fontawesome): Angular Fontawesome, an Angular library
+- [@fortawesome/fontawesome-svg-core](https://ghub.io/@fortawesome/fontawesome-svg-core): The iconic font, CSS, and SVG framework
+- [@fortawesome/free-brands-svg-icons](https://ghub.io/@fortawesome/free-brands-svg-icons): The iconic font, CSS, and SVG framework
+- [@fortawesome/free-regular-svg-icons](https://ghub.io/@fortawesome/free-regular-svg-icons): The iconic font, CSS, and SVG framework
+- [@fortawesome/free-solid-svg-icons](https://ghub.io/@fortawesome/free-solid-svg-icons): The iconic font, CSS, and SVG framework
+- [ace-builds](https://ghub.io/ace-builds): Ace (Ajax.org Cloud9 Editor)
+- [better-docs](https://ghub.io/better-docs): JSdoc theme
+- [bootstrap](https://ghub.io/bootstrap): The most popular front-end framework for developing responsive, mobile first projects on the web.
+- [bulma](https://ghub.io/bulma): Modern CSS framework based on Flexbox
+- [bulma-slider](https://ghub.io/bulma-slider): Display classic slider more sexy, in different colors, sizes, and states 
+- [bulma-toast](https://ghub.io/bulma-toast): Bulma&#39;s pure JavaScript extension to display toasts
+- [chroma-js](https://ghub.io/chroma-js): JavaScript library for color conversions
+- [font-awesome](https://ghub.io/font-awesome): The iconic font and CSS framework
+- [geoblaze](https://ghub.io/geoblaze): Blazing Fast JavaScript Raster Processing Engine
+- [georaster](https://ghub.io/georaster): Wrapper around Georeferenced Rasters like GeoTIFF, NetCDF, JPG, and PNG that provides a standard interface
+- [georaster-layer-for-leaflet](https://ghub.io/georaster-layer-for-leaflet): Display GeoTIFFs and soon other types of raster on your Leaflet Map
+- [leaflet](https://ghub.io/leaflet): JavaScript library for mobile-friendly interactive maps
+- [leaflet-draw](https://ghub.io/leaflet-draw): Vector drawing plugin for Leaflet
+- [leaflet-geotiff](https://ghub.io/leaflet-geotiff): A LeafletJS plugin for displaying geoTIFF raster data.
+- [leaflet-geotiff-2](https://ghub.io/leaflet-geotiff-2): A LeafletJS plugin for displaying geoTIFF raster data.
+- [ng2-file-upload](https://ghub.io/ng2-file-upload): 
+- [ngx-markdown](https://ghub.io/ngx-markdown): Angular library that uses marked to parse markdown to html combined with Prism.js for synthax highlights
+- [rxjs](https://ghub.io/rxjs): Reactive Extensions for modern JavaScript
+- [tslib](https://ghub.io/tslib): Runtime library for TypeScript helper functions
+- [typedoc](https://ghub.io/typedoc): Create api documentation for TypeScript projects.
+- [zone.js](https://ghub.io/zone.js): Zones for JavaScript
+
+## Dev Dependencies
+
+- [@angular-devkit/build-angular](https://ghub.io/@angular-devkit/build-angular): Angular Webpack Build Facade
+- [@angular/cli](https://ghub.io/@angular/cli): CLI tool for Angular
+- [@angular/compiler-cli](https://ghub.io/@angular/compiler-cli): Angular - the compiler CLI for Node.js
+- [@types/jasmine](https://ghub.io/@types/jasmine): TypeScript definitions for Jasmine
+- [@types/leaflet](https://ghub.io/@types/leaflet): TypeScript definitions for Leaflet.js
+- [@types/leaflet-draw](https://ghub.io/@types/leaflet-draw): TypeScript definitions for leaflet-draw
+- [@types/node](https://ghub.io/@types/node): TypeScript definitions for Node.js
+- [jasmine-core](https://ghub.io/jasmine-core): Official packaging of Jasmine&#39;s core files for use by Node.js projects.
+- [karma](https://ghub.io/karma): Spectacular Test Runner for JavaScript.
+- [karma-chrome-launcher](https://ghub.io/karma-chrome-launcher): A Karma plugin. Launcher for Chrome and Chrome Canary.
+- [karma-coverage](https://ghub.io/karma-coverage): A Karma plugin. Generate code coverage.
+- [karma-jasmine](https://ghub.io/karma-jasmine): A Karma plugin - adapter for Jasmine testing framework.
+- [karma-jasmine-html-reporter](https://ghub.io/karma-jasmine-html-reporter): A Karma plugin. Dynamically displays tests results at debug.html page
+- [typescript](https://ghub.io/typescript): TypeScript is a language for application scale JavaScript development
 
 ### Backend
 Javascript packages:
