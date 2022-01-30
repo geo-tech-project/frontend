@@ -6,11 +6,11 @@
 }
 
 .navbar {
-  min-height: 3.5rem;
+  min-height: 3rem;
 }
 
 .footer {
-  padding: 2rem 1.5rem 2rem;
+  padding: 2rem 1rem 1rem;
   background-color: #363636;
 }
 
@@ -97,7 +97,8 @@ ul.leaflet-draw-actions.leaflet-draw-actions-bottom
 }
 
 .ichbindaslogo {
-  background: url(/assets/logo.png) no-repeat center center;
+  background: url(/assets/logo_2.png);
   background-size: cover;
-  width: 64px;
+  height: 66px;
+  width: 66px;
 }

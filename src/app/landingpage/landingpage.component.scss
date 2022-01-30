@@ -53,54 +53,10 @@ hr.content-divider {
 }
 
 #parallax-1 {
-  background: url(../../assets/satellite_3.jpg);
-  background-attachment: fixed;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  border-top: 10px solid rgb(66, 66, 66);
-}
-
-#parallax-1 hr {
-  background: rgb(0, 0, 0);
-}
-
-#parallax-2 {
   background: url(../../assets/satellite2.jpg);
   background-attachment: fixed;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  border-top: 10px solid rgb(0, 0, 0);
-}
-
-#parallax-2 hr {
-  background: rgb(0, 0, 0);
-}
-
-// #parallax-3 {
-//   background: url(https://source.unsplash.com/featured/?city);
-//   background-attachment: fixed;
-//   background-position: center;
-//   background-repeat: no-repeat;
-//   background-size: cover;
-//   border-top: 10px solid hotpink;
-// }
-
-// #parallax-3 hr {
-//   background: hotpink;
-// }
-
-.label {
-  color: white;
-}
-
-input {
-  background: transparent !important;
-  border: 1px solid turquoise !important;
-  color: white !important;
-}
-
-input::placeholder {
-  color: white !important;
+  border-top: 10px solid rgb(66, 66, 66);
 }
