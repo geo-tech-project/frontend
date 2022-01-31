@@ -127,6 +127,8 @@ export class MapComponent implements AfterViewInit {
     private router: Router,
   ) {}
 
+  aoiLayer = null;
+
   /**
    * @description
    * The URL where the training data file can be found.
@@ -202,10 +204,10 @@ export class MapComponent implements AfterViewInit {
     //  what sould happen after a file was selected
     this.uploader.onAfterAddingFile = async (file) => {
       console.log(this.formArray);
-
+      this.trainAreasLayer = null;
       await this.trainLayerGroup.clearLayers();
 
-      file.withCredentials = false;
+      file.withCredentials = false; 
       this.uploader.uploadAll();
     };
 
@@ -384,8 +386,8 @@ export class MapComponent implements AfterViewInit {
     });
     // event when something is drawn on map
     this.map.on('draw:created', (e) => {
-      var type = e.layerType,
-        layer = e.layer;
+      var type = e.layerType
+      this.aoiLayer = e.layer;
       // disable option to draw another item
       this.map.removeControl(drawControl);
       // add option to delete item
@@ -393,14 +395,14 @@ export class MapComponent implements AfterViewInit {
       // rectagle drawn?
       if (type === 'rectangle') {
         //call function to set aoi
-        this.setAoi(layer.getLatLngs());
+        this.setAoi(this.aoiLayer.getLatLngs());
         // check checkbox
         document.getElementById('checkbox').click();
         // go to next step in stepper form when aoi was selected
         this.stepperIndex = 1;
       }
       //add drawn layer to map
-      this.drawnItems.addLayer(layer);
+      this.drawnItems.addLayer(this.aoiLayer);
     });
 
     // event when something was deleted from map
@@ -512,6 +514,16 @@ export class MapComponent implements AfterViewInit {
         additionalIndices: array
       })
     }
+  }
+
+  stepperfunction(event) {
+    if(event.selectedIndex === 0 && this.aoiLayer !== null) {
+      var bounds = this.aoiLayer.getBounds();
+      this.map.flyToBounds(bounds);
+    } else if(event.selectedIndex === 2 && this.trainAreasLayer !== null) {
+      var bounds = this.trainAreasLayer.getBounds();
+      this.map.flyToBounds(bounds);
+    } 
   }
   
 

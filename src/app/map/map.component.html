@@ -7,7 +7,7 @@
                         <div>
                             <form [formGroup]="submitForm">
                                 <mat-stepper id="stepper" formArrayName="formArray" orientation="vertical"
-                                    [selectedIndex]="stepperIndex" linear #stepper>
+                                    [selectedIndex]="stepperIndex" linear #stepper (selectionChange)=stepperfunction($event)>
                                     <mat-step formGroupName="0" [stepControl]="formArray?.get([0])">
                                         <ng-template matStepLabel>
                                             <div>
@@ -150,7 +150,7 @@ For each algorithm further hyperparameters can be set.
                                                 <label class="file-label">
                                                     <input class="file-input" type="file"
                                                         (change)="fileSelected($event)" name="file" ng2FileSelect
-                                                        [uploader]="uploader" accept=".rds" formControlName="file">
+                                                        [uploader]="uploader" accept=".RDS" formControlName="file">
                                                     <span class="file-cta">
                                                         <span class="file-icon">
                                                             <i class="fa fa-upload"></i>
@@ -212,7 +212,12 @@ or other artifacts), try to rerun the program with a larger time period.">
                                                 <span *ngIf="getStep(stepper) == 4"
                                                     class="has-tooltip-arrow has-tooltip-bottom has-text-info"
                                                     data-tooltip="The bands in our program are the possible predictors. The more predictors are selected, the more computational 
-effort is required. Please choose your predictors carefully, depending on the goal of the calculations.">
+effort is required. Please choose your predictors carefully, depending on the goal of the calculations. 
+The additional inidices are only selectable when the underlying bands are selected.
+• Indices:
+    o NDVI, NDVI_SD (3x3), NDVI_SD (5x5): B04, B08
+    o BSI: B02, B04, B08, B11
+    o BAEI: B03, B04, B11">
                                                     <i class="fa fa-info-circle"></i>
                                                 </span>
                                             </div>
