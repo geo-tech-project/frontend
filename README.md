@@ -115,7 +115,7 @@ To test this app you can proceed as follows:
 **Backend:**  
 With your CLI go into your `backend` folder and run `npm test`.  
 **Frontend:**  
-With your CLI go into your `frontend` folder and run `ng test`. 
+With your CLI go into your `frontend` folder and run `ng test`.
 **R:**  
 The tests are written in the R package [testthat](https://testthat.r-lib.org/). 
 Requirements:
