@@ -461,7 +461,9 @@ export class MapComponent implements AfterViewInit {
     if(selectedBands.includes("B04") && selectedBands.includes("B08")) {
       this.NDVI["_disabled"] = false;
     } else {
-      this.NDVI["_disabled"] = true;
+      this.NDVI["_disabled"] = true
+      this.NDVI_SD_3x3["_disabled"] = true;
+      this.NDVI_SD_5x5["_disabled"] = true;
       //this.NDVI["_selected"] = false;
       
       let array = _.remove(this.formArray?.get([5]).value.additionalIndices, function(string) {return (string =='BSI' || string == 'BAEI')})
