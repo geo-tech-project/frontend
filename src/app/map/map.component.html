@@ -7,7 +7,7 @@
                         <div>
                             <form [formGroup]="submitForm">
                                 <mat-stepper id="stepper" formArrayName="formArray" orientation="vertical"
-                                    [selectedIndex]="stepperIndex" linear #stepper>
+                                    [selectedIndex]="stepperIndex" linear #stepper (selectionChange)=stepperfunction($event)>
                                     <mat-step formGroupName="0" [stepControl]="formArray?.get([0])">
                                         <ng-template matStepLabel>
                                             <div>
@@ -59,7 +59,7 @@ For each algorithm further hyperparameters can be set.
                                                 </span>
                                             </div>
                                         </ng-template>
-                                        <div class="control">
+                                        <div class="control" style="margin-bottom: 20px">
                                             <label class="radio">
                                                 <input type="radio" [value]="'model'" name="option"
                                                     formControlName="option">
@@ -81,14 +81,14 @@ For each algorithm further hyperparameters can be set.
                                             </mat-form-field>
                                             <div *ngIf="getAlgorithmValue() == 'rf'">
                                                 <label class="label">mtry</label>
-                                                <input formControlName="mtry" class="input" type="number" min="2">
+                                                <input formControlName="mtry" class="input" type="number" min="2" style="width: 32%">
                                             </div>
                                             <div *ngIf="getAlgorithmValue() == 'svmRadial'">
                                                 <label class="label">Standard deviation</label>
-                                                <input formControlName="sigma" class="input" type="number" step="0.1" min="0.1">
+                                                <input formControlName="sigma" class="input" type="number" step="0.1" min="0.1" style="width: 32%">
                                                 <br>
                                                 <label class="label">Cost</label>
-                                                <input formControlName="cost" class="input" type="number" min= "1">
+                                                <input formControlName="cost" class="input" type="number" min= "1" style="width: 32%">
                                             </div>
                                         </div>
                                         <div class="container">
@@ -125,7 +125,7 @@ For each algorithm further hyperparameters can be set.
                                                     <input class="file-input" type="file"
                                                         (change)="fileSelected($event)" name="file" ng2FileSelect
                                                         [uploader]="uploader" accept=".geojson,.gpkg"
-                                                        formControlName="file">
+                                                        formControlName="file" style="padding-top: 20px;">
                                                     <span class="file-cta">
                                                         <span class="file-icon">
                                                             <i class="fa fa-upload"></i>
@@ -150,7 +150,7 @@ For each algorithm further hyperparameters can be set.
                                                 <label class="file-label">
                                                     <input class="file-input" type="file"
                                                         (change)="fileSelected($event)" name="file" ng2FileSelect
-                                                        [uploader]="uploader" accept=".rds" formControlName="file">
+                                                        [uploader]="uploader" accept=".RDS" formControlName="file">
                                                     <span class="file-cta">
                                                         <span class="file-icon">
                                                             <i class="fa fa-upload"></i>
@@ -212,14 +212,19 @@ or other artifacts), try to rerun the program with a larger time period.">
                                                 <span *ngIf="getStep(stepper) == 4"
                                                     class="has-tooltip-arrow has-tooltip-bottom has-text-info"
                                                     data-tooltip="The bands in our program are the possible predictors. The more predictors are selected, the more computational 
-effort is required. Please choose your predictors carefully, depending on the goal of the calculations.">
+effort is required. Please choose your predictors carefully, depending on the goal of the calculations. 
+The additional inidices are only selectable when the underlying bands are selected.
+• Indices:
+    o NDVI, NDVI_SD (3x3), NDVI_SD (5x5): B04, B08
+    o BSI: B02, B04, B08, B11
+    o BAEI: B03, B04, B11">
                                                     <i class="fa fa-info-circle"></i>
                                                 </span>
                                             </div>
                                         </ng-template>
                                         <mat-form-field appearance="fill">
                                             <mat-label>Bands/predictors</mat-label>
-                                            <mat-select formControlName="channels" multiple>
+                                            <mat-select formControlName="channels" multiple (selectionChange)="addIndex($event)">
                                                 <mat-option value="B01">B01</mat-option>
                                                 <mat-option value="B02">B02</mat-option>
                                                 <mat-option value="B03">B03</mat-option>
@@ -232,6 +237,16 @@ effort is required. Please choose your predictors carefully, depending on the go
                                                 <mat-option value="B09">B09</mat-option>
                                                 <mat-option value="B11">B11</mat-option>
                                                 <mat-option value="B12">B12</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                        <mat-form-field appearance="fill">
+                                            <mat-label>Additional Indices</mat-label>
+                                            <mat-select formControlName="additionalIndices" multiple (selectionChange)="addNDVI_SD($event)">
+                                                <mat-option #NDVI id="NDVI" value="NDVI" disabled>NDVI</mat-option>
+                                                <mat-option #NDVI_SD_3x3 value="NDVI_SD_3x3" disabled>NDVI_SD (3x3)</mat-option>
+                                                <mat-option #NDVI_SD_5x5 value="NDVI_SD_5x5" disabled>NDVI_SD (5x5)</mat-option>
+                                                <mat-option #BSI value="BSI" disabled>BSI</mat-option>
+                                                <mat-option #BAEI value="BAEI" disabled>BAEI</mat-option>
                                             </mat-select>
                                         </mat-form-field>
                                         <div class="container">
