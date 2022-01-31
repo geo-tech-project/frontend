@@ -43,6 +43,7 @@ export class DemoComponent implements AfterViewInit {
     filename: 'model.RDS',
     resolution: '10',
     channels: ['B02', 'B03', 'B04', 'SCL'],
+    additionalIndices: [],
     coverage: 20,
     mtry: 2,
   };
