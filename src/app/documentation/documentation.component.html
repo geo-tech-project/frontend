@@ -5,8 +5,267 @@
                 <div class="columns" style="min-height : 100%;">
                     <div class="column is-10 is-offset-1">
                         <div>
-                            <markdown [src]="'https://raw.githubusercontent.com/geo-tech-project/frontend/main/README.md'">
-                            </markdown>
+                            <p>For a better rendering of the documentation please click <a href="https://github.com/geo-tech-project/geotech/blob/main/README.md">here</a>!
+                            <h1 id="estimation-tool-for-spatial-prediction-models">Estimation Tool for Spatial Prediction Models</h1>
+                            <h2 id="table-of-contents">Table of contents</h2>
+                            <ul>
+                            <li><a href="#authors">Authors</a></li>
+                            <li><a href="#abstract">Abstract</a></li>
+                            <li><a href="#area-of-applicability-aoa">Area Of Applicability (AOA)</a></li>
+                            <li><a href="#aim-of-the-tool">Aim of the tool</a></li>
+                            <li><a href="#target-group">Target group</a></li>
+                            <li><a href="#how-does-the-software-work">How does the software work?</a><ul>
+                            <li><a href="#input">Input</a></li>
+                            <li><a href="#part-1-satellite-image-generation-with-r">Part 1: Satellite image generation (with R)</a><ul>
+                            <li><a href="#generation-of-a-sentinel-2-satellite-image-for-the-area-of-interest-sentinel-image-aoi">Generation of a Sentinel-2 satellite image for the area of interest (Sentinel Image (AOI))</a></li>
+                            <li><a href="#generation-of-a-sentinel-2-satellite-image-for-the-areas-where-the-training-data-is-located-sentinel-image-training-area">Generation of a Sentinel-2 satellite image for the areas where the training data is located (Sentinel Image (training area))</a></li>
+                            </ul>
+                            </li>
+                            <li><a href="#part-2-calculation-of-indices-with-r">Part 2: Calculation of indices (with R)</a></li>
+                            <li><a href="#part-3-model-training-with-r">Part 3: Model training (with R)</a></li>
+                            <li><a href="#part-4-prediction-and-aoa-with-r">Part 4: Prediction and AOA (with R)</a></li>
+                            </ul>
+                            </li>
+                            <li><a href="#how-to-install-and-run-the-app">How to install and run the app</a></li>
+                            <li><a href="#how-to-use-the-app">How to use the app</a><ul>
+                            <li><a href="#main-tool">Main tool</a></li>
+                            <li><a href="#demo">Demo</a></li>
+                            <li><a href="#output-of-the-results">Output of the results</a></li>
+                            </ul>
+                            </li>
+                            <li><a href="#how-to-test">How to test</a></li>
+                            <li><a href="#dependencies">Dependencies</a><ul>
+                            <li><a href="#frontend">Frontend</a><ul>
+                            <li><a href="#dev-dependencies">Dev dependencies</a></li>
+                            </ul>
+                            </li>
+                            <li><a href="#backend">Backend</a></li>
+                            <li><a href="#r">R</a></li>
+                            </ul>
+                            </li>
+                            <li><a href="#further-documentation">Further documentation</a><ul>
+                            <li><a href="#frontend-1">Frontend</a></li>
+                            <li><a href="#backend-1">Backend</a></li>
+                            </ul>
+                            </li>
+                            <li><a href="#license">License</a></li>
+                            </ul>
+                            <h2 id="authors">Authors</h2>
+                            <p>Project of the course Geosoftware 2 at the <a href="https://www.uni-muenster.de/Geoinformatics/en/">Institute of Geoinformatics</a> by <a href="https://github.com/jakobdanel">Jakob Danel</a>, 
+                            <a href="https://github.com/fab-scm">Fabian Schumacher</a>, 
+                            <a href="https://github.com/thalisgold">Thalis Goldschmidt</a>, 
+                            <a href="https://github.com/Hes097">Henning Sander</a> and 
+                            <a href="https://github.com/fbruc03">Frederick Bruch</a> </p>
+                            <h2 id="abstract">Abstract</h2>
+                            <p>Machine learning methods have become very popular for spatial prediction efforts such as classifying remote sensing images, especially because of their ability to learn non-linear relationships and thereby solve more complex classifications tasks. A underestimated issue is that machine learning algorithms can only provide meaningful predictions when applied to data that is similar to the data they were trained on (Meyer and Pebesma, 2021). ”Similar” here refers to the value ranges of the predictor variables (such as different bands of the remote sensing image). When applying a trained machine learning algorithm to a new geographic area, it is unclear whether or not the pixels properties in that area are similar enough to the training data to enable a reliable classification.  </p>
+                            <h2 id="area-of-applicability-aoa-">Area Of Applicability (AOA)</h2>
+                            <p>The <a href="https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/2041-210X.13650">Area Of Applicability</a> is a method developed by Meyer and Pebesma (2021) to delineate areas in spatial data (here remote sensing images) that can be assumed to be areas the machine learning model can reliably be applied to. The AOA provides important additional information that should be communicated when applying machine learning methods to spatial prediction tasks, especially when predicting on a large or even global scale when training data are not evenly distributed over the target area. </p>
+                            <h2 id="aim-of-the-tool">Aim of the tool</h2>
+                            <p>The tool combines all the steps needed to perform a land use/land cover classification (generation of satellite images, model training and prediction). In particular, it is designed to extend the previous steps by the AOA and adopt this method into the typical workflow of a remote scientist/researcher without having to deal with its concrete implementation. Besides delineating such an area of applicability (AOA), this tool can also be used to point to areas where collecting additional training data is needed to train a more applicable model. </p>
+                            <h2 id="target-group">Target group</h2>
+                            <p>Researchers and users of remote sensing methods who want to</p>
+                            <ul>
+                            <li>use machine learning for land use classifications</li>
+                            <li>work with sentinel-2 data</li>
+                            <li>know how to train and apply machine learning models, but are unable or unwilling to focus on understanding and implementing the Area of Applicability</li>
+                            <li>work with large-scale mapping/modeling applications, but lack the necessary hardware to perform machine learning</li>
+                            </ul>
+                            <h2 id="how-does-the-software-work-">How does the software work?</h2>
+                            <p>The user has the possibility to select a model to work with. He can either upload his own model via an upload button or create a new model in order to train it with a selectable machine-learning algorithm. Depending on his choice, only specific parts of the software will be executed.</p>
+                            <h3 id="input">Input</h3>
+                            <ul>
+                            <li>Area of interest: The area for which the land use classification and the aoa are to be calculated.</li>
+                            <li>Training data or model: If a new model should be created, training data must be uploaded. Otherwise a model has to be uploaoded by the user.</li>
+                            <li>Machine learning algorithm and hyperparameters: The new model must be trained. For this, the user can choose between two machine-learning algorithms and, if desired, also pass hyperparameters.</li>
+                            <li>Time period: In that period, a search is made for available sentinel-2 images.</li>
+                            <li>Bands/ predictors: All bands/predictors to be included in the sentinel images.</li>
+                            <li>Resolution: Resolution of the sentinel images to be generated.</li>
+                            <li>Maximum cloud cover: The satellite imagery search is filtered by maximum cloud cover.</li>
+                            </ul>
+                            <h3 id="part-1-satellite-image-generation-with-r-">Part 1: Satellite image generation (with R)</h3>
+                            <h4 id="generation-of-a-sentinel-2-satellite-image-for-the-area-of-interest-sentinel-image-aoi-">Generation of a Sentinel-2 satellite image for the area of interest (Sentinel Image (AOI))</h4>
+                            <ul>
+                            <li>Based on the user inputs (area of interest (AOI) , time period and cloud cover), the Spatial Temporal Asset Catalog (STAC) is searched for matching Sentinel-2 satellite images.</li>
+                            <li>For each Sentinel-2 image found, all bands (except <code>B10</code>) are available for download. We only continue to work with those that have been pre-selected by the user. </li>
+                            <li>If many images are found, we limit ourselves to 400 for further calculations.</li>
+                            <li>All images (max 400) are now superimposed and for each pixel the median is calculated over all images for each band.</li>
+                            <li>This can be helpful to avoid the problem of cloud cover and other interfering factors. In other words, the more images that can be found, the more likely it is to get a good image for model training and LULC classification.</li>
+                            </ul>
+                            <h4 id="generation-of-a-sentinel-2-satellite-image-for-the-areas-where-the-training-data-is-located-sentinel-image-training-area-">Generation of a Sentinel-2 satellite image for the areas where the training data is located (Sentinel Image (training area))</h4>
+                            <ul>
+                            <li>The generation of a Sentinel-2 satellite image for the areas where the training data is located is only done if the user chose to create a new model and therefore has uploaded training data.</li>
+                            <li>It works analogously to the generation of the Sentinel-2 image for the AOI. Instead of filtering by the AOI, it filters by the geometry of the training polygons. Pixels outside the polygons are set to NA.</li>
+                            </ul>
+                            <h3 id="part-2-calculation-of-indices-with-r-">Part 2: Calculation of indices (with R)</h3>
+                            <p>Additional indices can only be checked if the necessary bands for the calculations have also been selected. Then they are calculated and also used as predictors for further model training.</p>
+                            <ul>
+                            <li>Available indices: <ul>
+                            <li>NDVI, NDVI_sd_3x3, NDVI_sd_5x5</li>
+                            <li>BSI</li>
+                            <li>BAEI </li>
+                            </ul>
+                            </li>
+                            </ul>
+                            <h3 id="part-3-model-training-with-r-">Part 3: Model training (with R)</h3>
+                            <p>If the user selects to work with his own model, no further model training is needed. If the user selects to create a new model, some additional steps must be performed to obtain valid training data. The generated sentinel image of the training areas (consisting of all selected bands) is now combined with the information from the uploaded training data. Each pixel completely covered by a training polygon is assigned the class of the polygon. As a result we get a dataset of all overlaid pixels, their assigned class and spectral information that we can now use to train the model. </p>
+                            <p>The user can choose whether he wants to train the model with an random forest algorithm or with a support vector machine. For both, hyperparameters can be set. The models performance is validated with a spatial cross validation method, omitting whole training polygons.</p>
+                            <h3 id="part-4-prediction-and-aoa-with-r-">Part 4: Prediction and AOA (with R)</h3>
+                            <p>With the help of the trained model and the generated sentinel image for the AOI, a prediction is now calculated. In order to be able to make statements about the applicability of the model especially on unknown areas, the AOA is computed. In the areas where the model is not applicable according to the AOA, random points are generated that are suggested to the user as potential new locations for generating new training data. If this data is acquired in these areas and incorporated into the model, better results could be obtained.</p>
+                            <h2 id="how-to-install-and-run-the-app">How to install and run the app</h2>
+                            <p>To make it as simple as possible we used <a href="https://www.docker.com">Docker</a> for the development. The only thing necessary to run this software, is to download this repository with <code>git clone --recursive https://github.com/geo-tech-project/geotech.git</code> and then run <code>sudo docker-compsoe up --build</code>in the command line interface. This installs all dependencies for the front- and backend including all <a href="https://www.r-project.org">R</a> packages. As these packages are not that small, this step could take up to one hour of building time (depending on your hardware). After building, the application will start automatically and you can access the webtool at <code>http://localhost:8780</code>. If you have terminated the application and want to restart it another time you can just leave out the <code>--build</code> tag of the <code>docker-compose up</code> command to start the app again.  </p>
+                            <h2 id="how-to-use-the-app">How to use the app</h2>
+                            <h3 id="main-tool">Main tool</h3>
+                            <p>The main tool is designed in such a way that the user can use it very easily. The user is guided step by step and can only proceed to the next step if the previous one has been carried out correctly. For each step there is an additional info button that displays important information as soon as you hover over it. When everything has been entered successfully, the calculations can be started. After the calculations have been executed and no errors have occurred, the user will be directed to the results page.
+                            <img src="https://github.com/geo-tech-project/frontend/raw/main/src/assets/main-tool.jpg" alt="Main Tool page"></p>
+                            <h3 id="demo">Demo</h3>
+                            <p>The demo page is structured exactly like the actual tool. However, all inputs have already been entered with default values. The user can view these entries, but not change them. He is only able to start the calculations by clicking on the <code>Run demo</code> button. The user should be redirected to the results page in less than 20 seconds.
+                            <img src="https://github.com/geo-tech-project/frontend/raw/main/src/assets/demo.jpg" alt="Demo page"></p>
+                            <h3 id="output-of-the-results">Output of the results</h3>
+                            <p>On a new route, the following three results are visualised on a map: </p>
+                            <ul>
+                            <li>Prediction: Land use/ land cover classification</li>
+                            <li>Area of Applicabilty (AOA)</li>
+                            <li>Further train areas</li>
+                            </ul>
+                            <p>It is possible to show and hide the individual results using a checkbox and even to adjust their transparency. The underlying satellite images on which the calculations are based are not displayed on the map but can be downloaded in the same way as the other results via a download button. Please note that the sentinel image of the training areas can only be downloaded if training data has been submitted.
+                            <img src="https://github.com/geo-tech-project/frontend/raw/main/src/assets/results_complete.jpg" alt="Result page"></p>
+                            <h2 id="how-to-test">How to test</h2>
+                            <p>To test this app you can proceed as follows:<br><strong>Backend:</strong><br>With your CLI go into your <code>backend</code> folder and run <code>npm test</code>.<br><strong>Frontend:</strong><br>With your CLI go into your <code>frontend</code> folder and run <code>ng test</code>.\
+                            <strong>R:</strong> The tests are written in the R package <a href="https://testthat.r-lib.org/">testthat</a>.\
+                            Requirements:</p>
+                            <ul>
+                            <li>Installation of R</li>
+                            <li>Installation all R packages used in this project</li>
+                            <li>Installation of Node.js</li>
+                            </ul>
+                            <p>Proceed the following steps.</p>
+                            <ol>
+                            <li>Make a clone of the backend repository</li>
+                            <li>Navigate into the <code>backend/test</code> folder</li>
+                            <li>Run <code>node testR.js</code>  </li>
+                            </ol>
+                            <h2 id="dependencies">Dependencies</h2>
+                            <p>The following packages are used in this project:</p>
+                            <h3 id="frontend">Frontend</h3>
+                            <ul>
+                            <li><a href="https://ghub.io/@angular/animations">@angular/animations</a>: Angular - animations integration with web-animations</li>
+                            <li><a href="https://ghub.io/@angular/cdk">@angular/cdk</a>: Angular Material Component Development Kit</li>
+                            <li><a href="https://ghub.io/@angular/common">@angular/common</a>: Angular - commonly needed directives and services</li>
+                            <li><a href="https://ghub.io/@angular/compiler">@angular/compiler</a>: Angular - the compiler library</li>
+                            <li><a href="https://ghub.io/@angular/core">@angular/core</a>: Angular - the core framework</li>
+                            <li><a href="https://ghub.io/@angular/forms">@angular/forms</a>: Angular - directives and services for creating forms</li>
+                            <li><a href="https://ghub.io/@angular/material">@angular/material</a>: Angular Material</li>
+                            <li><a href="https://ghub.io/@angular/platform-browser">@angular/platform-browser</a>: Angular - library for using Angular in a web browser</li>
+                            <li><a href="https://ghub.io/@angular/platform-browser-dynamic">@angular/platform-browser-dynamic</a>: Angular - library for using Angular in a web browser with JIT compilation</li>
+                            <li><a href="https://ghub.io/@angular/router">@angular/router</a>: Angular - the routing library</li>
+                            <li><a href="https://ghub.io/@asymmetrik/ngx-leaflet">@asymmetrik/ngx-leaflet</a>: Angular.io components for Leaflet</li>
+                            <li><a href="https://ghub.io/@asymmetrik/ngx-leaflet-draw">@asymmetrik/ngx-leaflet-draw</a>: Angular.io component for the draw plugin for Leaflet</li>
+                            <li><a href="https://ghub.io/@creativebulma/bulma-tooltip">@creativebulma/bulma-tooltip</a>: Display a tooltip attached to any kind of element, in different position.</li>
+                            <li><a href="https://ghub.io/@fortawesome/angular-fontawesome">@fortawesome/angular-fontawesome</a>: Angular Fontawesome, an Angular library</li>
+                            <li><a href="https://ghub.io/@fortawesome/fontawesome-svg-core">@fortawesome/fontawesome-svg-core</a>: The iconic font, CSS, and SVG framework</li>
+                            <li><a href="https://ghub.io/@fortawesome/free-brands-svg-icons">@fortawesome/free-brands-svg-icons</a>: The iconic font, CSS, and SVG framework</li>
+                            <li><a href="https://ghub.io/@fortawesome/free-regular-svg-icons">@fortawesome/free-regular-svg-icons</a>: The iconic font, CSS, and SVG framework</li>
+                            <li><a href="https://ghub.io/@fortawesome/free-solid-svg-icons">@fortawesome/free-solid-svg-icons</a>: The iconic font, CSS, and SVG framework</li>
+                            <li><a href="https://ghub.io/ace-builds">ace-builds</a>: Ace (Ajax.org Cloud9 Editor)</li>
+                            <li><a href="https://ghub.io/better-docs">better-docs</a>: JSdoc theme</li>
+                            <li><a href="https://ghub.io/bootstrap">bootstrap</a>: The most popular front-end framework for developing responsive, mobile first projects on the web.</li>
+                            <li><a href="https://ghub.io/bulma">bulma</a>: Modern CSS framework based on Flexbox</li>
+                            <li><a href="https://ghub.io/bulma-slider">bulma-slider</a>: Display classic slider more sexy, in different colors, sizes, and states </li>
+                            <li><a href="https://ghub.io/bulma-toast">bulma-toast</a>: Bulma&#39;s pure JavaScript extension to display toasts</li>
+                            <li><a href="https://ghub.io/chroma-js">chroma-js</a>: JavaScript library for color conversions</li>
+                            <li><a href="https://ghub.io/font-awesome">font-awesome</a>: The iconic font and CSS framework</li>
+                            <li><a href="https://ghub.io/geoblaze">geoblaze</a>: Blazing Fast JavaScript Raster Processing Engine</li>
+                            <li><a href="https://ghub.io/georaster">georaster</a>: Wrapper around Georeferenced Rasters like GeoTIFF, NetCDF, JPG, and PNG that provides a standard interface</li>
+                            <li><a href="https://ghub.io/georaster-layer-for-leaflet">georaster-layer-for-leaflet</a>: Display GeoTIFFs and soon other types of raster on your Leaflet Map</li>
+                            <li><a href="https://ghub.io/leaflet">leaflet</a>: JavaScript library for mobile-friendly interactive maps</li>
+                            <li><a href="https://ghub.io/leaflet-draw">leaflet-draw</a>: Vector drawing plugin for Leaflet</li>
+                            <li><a href="https://ghub.io/leaflet-geotiff">leaflet-geotiff</a>: A LeafletJS plugin for displaying geoTIFF raster data.</li>
+                            <li><a href="https://ghub.io/leaflet-geotiff-2">leaflet-geotiff-2</a>: A LeafletJS plugin for displaying geoTIFF raster data.</li>
+                            <li><a href="https://ghub.io/ng2-file-upload">ng2-file-upload</a>: </li>
+                            <li><a href="https://ghub.io/ngx-markdown">ngx-markdown</a>: Angular library that uses marked to parse markdown to html combined with Prism.js for synthax highlights</li>
+                            <li><a href="https://ghub.io/rxjs">rxjs</a>: Reactive Extensions for modern JavaScript</li>
+                            <li><a href="https://ghub.io/tslib">tslib</a>: Runtime library for TypeScript helper functions</li>
+                            <li><a href="https://ghub.io/typedoc">typedoc</a>: Create api documentation for TypeScript projects.</li>
+                            <li><a href="https://ghub.io/zone.js">zone.js</a>: Zones for JavaScript</li>
+                            </ul>
+                            <h4 id="dev-dependencies">Dev dependencies</h4>
+                            <ul>
+                            <li><a href="https://ghub.io/@angular-devkit/build-angular">@angular-devkit/build-angular</a>: Angular Webpack Build Facade</li>
+                            <li><a href="https://ghub.io/@angular/cli">@angular/cli</a>: CLI tool for Angular</li>
+                            <li><a href="https://ghub.io/@angular/compiler-cli">@angular/compiler-cli</a>: Angular - the compiler CLI for Node.js</li>
+                            <li><a href="https://ghub.io/@types/jasmine">@types/jasmine</a>: TypeScript definitions for Jasmine</li>
+                            <li><a href="https://ghub.io/@types/leaflet">@types/leaflet</a>: TypeScript definitions for Leaflet.js</li>
+                            <li><a href="https://ghub.io/@types/leaflet-draw">@types/leaflet-draw</a>: TypeScript definitions for leaflet-draw</li>
+                            <li><a href="https://ghub.io/@types/node">@types/node</a>: TypeScript definitions for Node.js</li>
+                            <li><a href="https://ghub.io/jasmine-core">jasmine-core</a>: Official packaging of Jasmine&#39;s core files for use by Node.js projects.</li>
+                            <li><a href="https://ghub.io/karma">karma</a>: Spectacular Test Runner for JavaScript.</li>
+                            <li><a href="https://ghub.io/karma-chrome-launcher">karma-chrome-launcher</a>: A Karma plugin. Launcher for Chrome and Chrome Canary.</li>
+                            <li><a href="https://ghub.io/karma-coverage">karma-coverage</a>: A Karma plugin. Generate code coverage.</li>
+                            <li><a href="https://ghub.io/karma-jasmine">karma-jasmine</a>: A Karma plugin - adapter for Jasmine testing framework.</li>
+                            <li><a href="https://ghub.io/karma-jasmine-html-reporter">karma-jasmine-html-reporter</a>: A Karma plugin. Dynamically displays tests results at debug.html page</li>
+                            <li><a href="https://ghub.io/typescript">typescript</a>: TypeScript is a language for application scale JavaScript development</li>
+                            </ul>
+                            <h3 id="backend">Backend</h3>
+                            <ul>
+                            <li><a href="https://ghub.io/axios">axios</a>: Promise based HTTP client for the browser and node.js</li>
+                            <li><a href="https://ghub.io/body-parser">body-parser</a>: Node.js body parsing middleware</li>
+                            <li><a href="https://ghub.io/chai">chai</a>: BDD/TDD assertion library for node.js and the browser. Test framework agnostic.</li>
+                            <li><a href="https://ghub.io/cors">cors</a>: Node.js CORS middleware</li>
+                            <li><a href="https://ghub.io/dotenv">dotenv</a>: Loads environment variables from .env file</li>
+                            <li><a href="https://ghub.io/express">express</a>: Fast, unopinionated, minimalist web framework</li>
+                            <li><a href="https://ghub.io/mocha">mocha</a>: simple, flexible, fun test framework</li>
+                            <li><a href="https://ghub.io/multer">multer</a>: Middleware for handling <code>multipart/form-data</code>.</li>
+                            <li><a href="https://ghub.io/ng2-file-upload">ng2-file-upload</a>: extension for multer to upload files to the server</li>
+                            <li><a href="https://ghub.io/nodemon">nodemon</a>: Simple monitor script for use during development of a node.js app.</li>
+                            <li><a href="https://ghub.io/r-integration">r-integration</a>: Simple portable library used to interact with pre-installed R compiler by running commands or scripts(files)</li>
+                            <li><a href="https://ghub.io/supertest">supertest</a>: SuperAgent driven library for testing HTTP servers</li>
+                            <li><a href="https://ghub.io/swagger-ui-express">swagger-ui-express</a>: Swagger UI Express</li>
+                            </ul>
+                            <h3 id="r">R</h3>
+                            <ul>
+                            <li><a href="https://cran.r-project.org/web/packages/terra/index.html">terra</a>: Spatial Data Analysis</li>
+                            <li><a href="https://cran.r-project.org/web/packages/rgdal/index.html">rgdal</a>: Bindings for the &#39;Geospatial&#39; Data Abstraction Library</li>
+                            <li><a href="https://cran.r-project.org/web/packages/rgeos/index.html">rgeos</a>: Interface to Geometry Engine - Open Source (&#39;GEOS&#39;)</li>
+                            <li><a href="https://cran.r-project.org/web/packages/rstac/index.html">rstac</a>: Client Library for SpatioTemporal Asset Catalog</li>
+                            <li><a href="https://cran.r-project.org/web/packages/gdalcubes/index.html">gdalcubes</a>: Earth Observation Data Cubes from Satellite Image Collections</li>
+                            <li><a href="https://cran.r-project.org/web/packages/raster/index.html">raster</a>: Geographic Data Analysis and Modeling</li>
+                            <li><a href="https://cran.r-project.org/web/packages/caret/index.html">caret</a>: Classification and Regression Training</li>
+                            <li><a href="https://cran.r-project.org/web/packages/CAST/index.html">CAST</a>: &#39;caret&#39; Applications for Spatial-Temporal Models</li>
+                            <li><a href="https://cran.r-project.org/web/packages/lattice/index.html">lattice</a>: Trellis Graphics for R</li>
+                            <li><a href="https://cran.r-project.org/web/packages/Orcs/index.html">Orcs</a>: Omnidirectional R Code Snippets</li>
+                            <li><a href="https://cran.r-project.org/web/packages/jsonlite/index.html">jsonlite</a>: A Simple and Robust JSON Parser and Generator for R</li>
+                            <li><a href="https://cran.r-project.org/web/packages/tmap/index.html">tmap</a>: Thematic Maps</li>
+                            <li><a href="https://cran.r-project.org/web/packages/latticeExtra/index.html">latticeExtra</a>: Extra Graphical Utilities Based on Lattice</li>
+                            <li><a href="https://cran.r-project.org/web/packages/doParallel/index.html">doParallel</a>: Foreach Parallel Adaptor for the &#39;parallel&#39; Package</li>
+                            <li>parallel</li>
+                            <li><a href="https://cran.r-project.org/web/packages/sp/index.html">sp</a>: Classes and Methods for Spatial Data</li>
+                            <li><a href="https://cran.r-project.org/web/packages/geojson/index.html">geojson</a>: Classes for &#39;GeoJSON&#39;</li>
+                            <li><a href="https://cran.r-project.org/web/packages/rjson/index.html">rjson</a>: JSON for R</li>
+                            <li><a href="https://cran.r-project.org/web/packages/randomForest/index.html">randomForest</a>: Breiman and Cutler&#39;s Random Forests for Classification and Regression</li>
+                            </ul>
+                            <h2 id="further-documentation">Further documentation</h2>
+                            <p>The software can be split into two essential parts. The frontend was developed with the web framework <a href="https://angular.io">Angular</a>.
+                            The backend is setup as a Node.js application using the <a href="https://expressjs.com/">Express</a> framework. </p>
+                            <h3 id="frontend">Frontend</h3>
+                            <p>Documentation of the frontend written in Angular, with HTML, CSS and TypeScript: <a href="http://35.80.3.64:8781/frontend">Frontend</a></p>
+                            <h3 id="backend">Backend</h3>
+                            <p>The backend can be devided into three parts. The first part are the R scripts that are used to perform the actual operations, e.g. generating the sentinel images or calculating the AOA. The second part is the API that establishes the connection between the back- and frontend. The last part is the Javascript code that sets up the API and connects to the R-part. Please note that the following links can only be used from the internet network of the University of Münster.</p>
+                            <ul>
+                            <li>R-Scripts<ul>
+                            <li><a href="http://35.80.3.64:8781/R/GetSatelliteImages.html">GetSatelliteImages.R</a></li>
+                            <li><a href="http://35.80.3.64:8781/R/CheckTrainingData.html">CheckTrainingData.R</a></li>
+                            <li><a href="http://35.80.3.64:8781/R/ML_AOA.html">ML_AOA.R</a></li>
+                            </ul>
+                            </li>
+                            <li><a href="http://35.80.3.64:8781/api">API</a></li>
+                            <li><a href="http://35.80.3.64:8781/js">Javascript</a></li>
+                            </ul>
+                            <h2 id="license">License</h2>
+                            <p>Copyright (C) 2022  Henning Sander, Frederick Bruch, Jakob Danel, Fabian Schumacher, Thalis Goldschmidt</p>
+                            <p>This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.</p>
+                            <p>This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.</p>
+                            <p>You should have received a copy of the GNU General Public License along with this program.  If not, see <a href="https://www.gnu.org/licenses/">https://www.gnu.org/licenses/</a>.</p>
+                            
                         </div>
                     </div>
                 </div>
