@@ -1,1 +1,1 @@
-For the full readme file please visit: https://github.com/geo-tech-project/geotech/blob/main/README.md
+For full README please click [here](https://github.com/geo-tech-project/geotech)
