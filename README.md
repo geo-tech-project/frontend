@@ -91,7 +91,7 @@ If the user selects to work with his own model, no further model training is nee
 
 The user can choose whether he wants to train the model with an random forest algorithm or with a support vector machine. For both, hyperparameters can be set. The models performance is validated with a spatial cross validation method, omitting whole training polygons.
 
-### Part 3: Prediction and AOA (with R)
+### Part 4: Prediction and AOA (with R)
 With the help of the trained model and the generated sentinel image for the AOI, a prediction is now calculated. In order to be able to make statements about the applicability of the model especially on unknown areas, the AOA is computed. In the areas where the model is not applicable according to the AOA, random points are generated that are suggested to the user as potential new locations for generating new training data. If this data is acquired in these areas and incorporated into the model, better results could be obtained.
 
 ## How to install and run the app
