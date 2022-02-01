@@ -13,7 +13,8 @@
     - [Part 1: Satellite image generation (with R)](#part-1-satellite-image-generation-with-r)
       - [Generation of a Sentinel-2 satellite image for the area of interest (Sentinel Image (AOI))](#generation-of-a-sentinel-2-satellite-image-for-the-area-of-interest-sentinel-image-aoi)
       - [Generation of a Sentinel-2 satellite image for the areas where the training data is located (Sentinel Image (training area))](#generation-of-a-sentinel-2-satellite-image-for-the-areas-where-the-training-data-is-located-sentinel-image-training-area)
-    - [Part 2: Model training (with R)](#part-2-model-training-with-r)
+    - [Part 2: Calculate Indices](#part-2-calculate-indices)
+    - [Part 3: Model training (with R)](#part-3-model-training-with-r)
     - [Part 3: Prediction and AOA (with R)](#part-3-prediction-and-aoa-with-r)
   - [How to install and run the app](#how-to-install-and-run-the-app)
   - [How to use the app](#how-to-use-the-app)
@@ -78,7 +79,14 @@ The user has the possibility to select a model to work with. He can either uploa
 * The generation of a Sentinel-2 satellite image for the areas where the training data is located is only done if the user chose to create a new model and therefore has uploaded training data.
 * It works analogously to the generation of the Sentinel-2 image for the AOI. Instead of filtering by the AOI, it filters by the geometry of the training polygons. Pixels outside the polygons are set to NA.
 
-### Part 2: Model training (with R)
+### Part 2: Calculate Indices
+Additional indices can only be checked if the necessary bands for the calculations have also been checked. Then they are calculated with the following formulas and also used as predictors for further model training.
+* Available indices: 
+  * NDVI, NDVI_sd_3x3, NDVI_sd_5x5
+  * BSI
+  * BAEI 
+
+### Part 3: Model training (with R)
 If the user selects to work with his own model, no further model training is needed. If the user selects to create a new model, some additional steps must be performed to obtain valid training data. The generated sentinel image of the training areas (consisting of all selected bands) is now combined with the information from the uploaded training data. Each pixel completely covered by a training polygon is assigned the class of the polygon. As a result we get a dataset of all overlaid pixels, their assigned class and spectral information that we can now use to train the model. 
 
 The user can choose whether he wants to train the model with an random forest algorithm or with a support vector machine. For both, hyperparameters can be set. The models performance is validated with a spatial cross validation method, omitting whole training polygons.
