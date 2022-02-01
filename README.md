@@ -1,5 +1,3 @@
-# Estimation Tool for Spatial Prediction Models
-
 ## Table of contents
   - [Authors](#authors)
   - [Abstract](#abstract)
@@ -11,7 +9,7 @@
     - [Part 1: Satellite image generation (with R)](#part-1-satellite-image-generation-with-r)
       - [Generation of a Sentinel-2 satellite image for the area of interest (Sentinel Image (AOI))](#generation-of-a-sentinel-2-satellite-image-for-the-area-of-interest-sentinel-image-aoi)
       - [Generation of a Sentinel-2 satellite image for the areas where the training data is located (Sentinel Image (training area))](#generation-of-a-sentinel-2-satellite-image-for-the-areas-where-the-training-data-is-located-sentinel-image-training-area)
-    - [Part 2: Calculate Indices](#part-2-calculate-indices)
+    - [Part 2: Calculation of indices (with R)](#part-2-calculation-of-indices-with-r)
     - [Part 3: Model training (with R)](#part-3-model-training-with-r)
     - [Part 4: Prediction and AOA (with R)](#part-4-prediction-and-aoa-with-r)
   - [How to install and run the app](#how-to-install-and-run-the-app)
@@ -77,7 +75,7 @@ The user has the possibility to select a model to work with. He can either uploa
 * The generation of a Sentinel-2 satellite image for the areas where the training data is located is only done if the user chose to create a new model and therefore has uploaded training data.
 * It works analogously to the generation of the Sentinel-2 image for the AOI. Instead of filtering by the AOI, it filters by the geometry of the training polygons. Pixels outside the polygons are set to NA.
 
-### Part 2: Calculate Indices
+### Part 2: Calculation of indices (with R)
 Additional indices can only be checked if the necessary bands for the calculations have also been selected. Then they are calculated and also used as predictors for further model training.
 * Available indices: 
   * NDVI, NDVI_sd_3x3, NDVI_sd_5x5
