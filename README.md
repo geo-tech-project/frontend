@@ -14,13 +14,13 @@
     - [Part 4: Prediction and AOA (with R)](#part-4-prediction-and-aoa-with-r)
   - [How to install and run the app](#how-to-install-and-run-the-app)
   - [How to use the app](#how-to-use-the-app)
-    - [Main Tool](#main-tool)
+    - [Main tool](#main-tool)
     - [Demo](#demo)
     - [Output of the results](#output-of-the-results)
   - [How to test](#how-to-test)
   - [Dependencies](#dependencies)
     - [Frontend](#frontend)
-      - [Dev Dependencies](#dev-dependencies)
+      - [Dev dependencies](#dev-dependencies)
     - [Backend](#backend)
     - [R](#r)
   - [Further documentation](#further-documentation)
@@ -96,7 +96,7 @@ To make it as simple as possible we used [Docker](https://www.docker.com) for th
 
 ## How to use the app
 
-### Main Tool
+### Main tool
 The main tool is designed in such a way that the user can use it very easily. The user is guided step by step and can only proceed to the next step if the previous one has been carried out correctly. For each step there is an additional info button that displays important information as soon as you hover over it. When everything has been entered successfully, the calculations can be started. After the calculations have been executed and no errors have occurred, the user will be directed to the results page.
 ![Main Tool page](https://github.com/geo-tech-project/frontend/raw/main/src/assets/main-tool.jpg)
 
@@ -175,7 +175,7 @@ The following packages are used in this project:
 - [typedoc](https://ghub.io/typedoc): Create api documentation for TypeScript projects.
 - [zone.js](https://ghub.io/zone.js): Zones for JavaScript
 
-#### Dev Dependencies
+#### Dev dependencies
 
 - [@angular-devkit/build-angular](https://ghub.io/@angular-devkit/build-angular): Angular Webpack Build Facade
 - [@angular/cli](https://ghub.io/@angular/cli): CLI tool for Angular
