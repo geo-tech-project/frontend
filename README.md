@@ -1,7 +1,6 @@
 # Estimation Tool for Spatial Prediction Models
 
-## Table of contents
-- [Estimation Tool for Spatial Prediction Models](#estimation-tool-for-spatial-prediction-models)
+## Table of contents- [Estimation Tool for Spatial Prediction Models](#estimation-tool-for-spatial-prediction-models)
   - [Table of contents](#table-of-contents)
   - [Authors](#authors)
   - [Abstract](#abstract)
@@ -15,7 +14,7 @@
       - [Generation of a Sentinel-2 satellite image for the areas where the training data is located (Sentinel Image (training area))](#generation-of-a-sentinel-2-satellite-image-for-the-areas-where-the-training-data-is-located-sentinel-image-training-area)
     - [Part 2: Calculate Indices](#part-2-calculate-indices)
     - [Part 3: Model training (with R)](#part-3-model-training-with-r)
-    - [Part 3: Prediction and AOA (with R)](#part-3-prediction-and-aoa-with-r)
+    - [Part 4: Prediction and AOA (with R)](#part-4-prediction-and-aoa-with-r)
   - [How to install and run the app](#how-to-install-and-run-the-app)
   - [How to use the app](#how-to-use-the-app)
     - [Main Tool](#main-tool)
@@ -80,7 +79,7 @@ The user has the possibility to select a model to work with. He can either uploa
 * It works analogously to the generation of the Sentinel-2 image for the AOI. Instead of filtering by the AOI, it filters by the geometry of the training polygons. Pixels outside the polygons are set to NA.
 
 ### Part 2: Calculate Indices
-Additional indices can only be checked if the necessary bands for the calculations have also been checked. Then they are calculated with the following formulas and also used as predictors for further model training.
+Additional indices can only be checked if the necessary bands for the calculations have also been selected. Then they are calculated and also used as predictors for further model training.
 * Available indices: 
   * NDVI, NDVI_sd_3x3, NDVI_sd_5x5
   * BSI
@@ -97,7 +96,6 @@ With the help of the trained model and the generated sentinel image for the AOI,
 ## How to install and run the app
 
 To make it as simple as possible we used [Docker](https://www.docker.com) for the development. The only thing necessary to run this software, is to download this repository with `git clone --recursive https://github.com/geo-tech-project/geotech.git` and then run `sudo docker-compsoe up --build`in the command line interface. This installs all dependencies for the front- and backend including all [R](https://www.r-project.org) packages. As these packages are not that small, this step could take up to one hour of building time (depending on your hardware). After building, the application will start automatically and you can access the webtool at `http://localhost:8780`. If you have terminated the application and want to restart it another time you can just leave out the `--build` tag of the `docker-compose up` command to start the app again.  
-
 
 ## How to use the app
 
@@ -137,6 +135,7 @@ Proceed the following steps.
 
 ## Dependencies
 The following packages are used in this project:
+
 ### Frontend
 
 - [@angular/animations](https://ghub.io/@angular/animations): Angular - animations integration with web-animations
@@ -212,7 +211,6 @@ The following packages are used in this project:
 - [supertest](https://ghub.io/supertest): SuperAgent driven library for testing HTTP servers
 - [swagger-ui-express](https://ghub.io/swagger-ui-express): Swagger UI Express
 
-
 ### R
 - [terra](https://cran.r-project.org/web/packages/terra/index.html): Spatial Data Analysis
 - [rgdal](https://cran.r-project.org/web/packages/rgdal/index.html): Bindings for the 'Geospatial' Data Abstraction Library
@@ -233,7 +231,6 @@ The following packages are used in this project:
 - [geojson](https://cran.r-project.org/web/packages/geojson/index.html): Classes for 'GeoJSON'
 - [rjson](https://cran.r-project.org/web/packages/rjson/index.html): JSON for R
 - [randomForest](https://cran.r-project.org/web/packages/randomForest/index.html): Breiman and Cutler's Random Forests for Classification and Regression
-
 
 ## Further documentation
 
