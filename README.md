@@ -1,6 +1,7 @@
 # Estimation Tool for Spatial Prediction Models
 
-## Table of contents- [Estimation Tool for Spatial Prediction Models](#estimation-tool-for-spatial-prediction-models)
+## Table of contents
+  - [Estimation Tool for Spatial Prediction Models](#estimation-tool-for-spatial-prediction-models)
   - [Table of contents](#table-of-contents)
   - [Authors](#authors)
   - [Abstract](#abstract)
